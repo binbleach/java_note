@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <!--name属性：实体类全路径；table属性：数据库中表名称-->
+    <class name="com.huangjiabin.hibernate.model.User" table="user">
+        <!--必须要有id
+        name属性：实体类里面的id属性名称；column属性：生成的表字段名称-->
+        <id name="id" column="id">
+            <!--generator：增长策略；native：自动增长-->
+            <generator class="native"></generator>
+        </id>
+        <!--配置其他属性-->
+        <property name="username" column="username"/>
+        <property name="password" column="password"/>
+        <property name="address" column="address"/>
+    </class>
+</hibernate-mapping>

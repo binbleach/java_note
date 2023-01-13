@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd"><!--在头部的约束文件-->
+
+<configuration>
+
+    <!--读取配置属性-->
+    <properties resource="jdbc.properties"/>
+
+    <!--这里配置的是日志-->
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+    <!--设置resultType别名，得在setting下面-->
+    <typeAliases>
+        <!--第一种指定类，直接指定类名-->
+        <typeAlias type="com.com.com.huangjiabin.entity.Student" alias="student"/>
+
+        <!--第二种指定包,制定了这个包下的类名就是别名，用的多-->
+        <package name="com.com.com.huangjiabin.entity"/>
+    </typeAliases>
+
+    <!--加pageHelper插件-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor" />
+    </plugins>
+
+    <environments default="online">
+
+        <environment id="online">
+            <transactionManager type="JDBC"/><!--用的是jdbc里的connection的commit和rollback处理事物-->
+            <dataSource type="POOLED">
+                <!--Mybatis 将数据源分为三类：
+                UNPOOLED 不使用连接池的数据源
+                POOLED 使用连接池的数据源，
+                JNDI 使用 JNDI 实现的数据源
+                UNPOOLED ,POOLED 数据源实现了 javax.sq.DataSource
+
+                MyBatis 在初始化时，根据<dataSource>的 type 属性来创建相应类型的的数据源 DataSource，即：
+                type=”POOLED”：MyBatis 会创建 PooledDataSource 实例
+                type=”UNPOOLED” ： MyBatis 会创建 UnpooledDataSource 实例
+                type=”JNDI”：MyBatis 会从 JNDI 服务上查找 DataSource 实例，然后返回使用
+                -->
+
+                <!--<property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>
+                <property name="username" value="root"/>
+                <property name="password" value="root"/>-->
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+
+        </environment>
+    </environments>
+
+    <!--指定mapper文件有两种方法-->
+    <mappers>
+        <!--第一种直接指定文件-->
+        <mapper resource="com/huangjiabin/dao/StudnetDao.xml"/>
+
+        <!--第二种指定包
+        注意：此种方法要求 Dao 接口名称和 mapper 映射文件名称相同，且在同一个目录中。
+        注意：方法名不能加 public;
+        -->
+        <!--<package name="com.huangjiabin.dao"/>--> <!--这个地方无解错误-->
+    </mappers>
+
+</configuration>

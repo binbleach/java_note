@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="jquery-3.4.1.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("button:first").click(function () {
+                var obj = $(":text:disabled");
+                alert(obj.val());
+            })
+            $("button:eq(1)").click(function () {
+                var obj = $(":text:enabled");
+                obj.val("hello");
+            })
+            $("button:eq(2)").click(function () {
+                var obj = $("select:eq(0)>option:checked");
+                alert(obj.val())
+            })
+            $("button:eq(3)").click(function () {
+                var obj = $(":checkbox:checked");  //宾哥理解jquery数组直接下标取就是dom，得转成jquery
+                for(var i=0;i<obj.length;i++){
+                    /*alert(obj[i].value);*/
+                    alert($(obj[i]).val());
+                }
+                var obj = $("input[name=aa]");
+            })
+
+        })
+    </script>
+</head>
+<body>
+<!--根据表单中dom对象状态来定位 如 enabled , disabled , checked , -->
+<input type="text" value="我是可用的"><br>
+<input type="text" value="我是disabled" disabled><br>
+<input type="text" value="我是enbled"><br>
+<input type="text" value="我是第四个text" disabled><br>
+
+<select>
+    <option value="抽烟">抽烟</option>
+    <option value="喝酒">喝酒</option>
+    <option value="烫头">烫头</option>
+</select><br>
+<input name="aa" type="checkbox" value="java">java
+<input name="aa" type="checkbox" value="python">python
+<input name="aa" type="checkbox" value="c++">c++
+<br>
+
+<button>不可用的表单属性过滤器</button><br>
+<button>可用的表单属性过滤器</button><br>
+<button>下拉选中的表单属性过滤器</button><br>
+<button>多选选中的表单属性过滤器</button><br>
+</body>
+</html>

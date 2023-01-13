@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--读取jdbc.properties属性文件-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!--创建数据源-->
+    <bean id="datasource" class="com.alibaba.druid.pool.DruidDataSource">
+        <!--druid可以不声明驱动,加jdbc原因是直接取username会取到计算机的username-->
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="maxActive" value="${jdbc.maxActive}"/>
+    </bean>
+    <!--创建SqlSessionFactoryBean-->
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--配置数据源-->
+        <property name="dataSource" ref="datasource"></property>
+        <!--配置mybatis核心文件-->
+        <property name="configLocation" value="classpath:mybatis.xml"/>
+        <!--配置实体类，我在mybatis配置文件配置了-->
+        <!--<property name="typeAliasesPackage" value="com.huangjiabin.mimissm.pojo"></property>-->
+    </bean>
+
+    <!--创建mapper文件扫描器-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+         <property name="basePackage" value="com.com.huangjiabin.mimissm.mapper"></property>
+    </bean>
+
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+    <!--包扫描器,扫描service所有类到spring容器-->
+    <context:component-scan base-package="com.huangjiabin.mimissm.service"></context:component-scan>
+
+    <!--声明事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="datasource"> </property>
+    </bean>
+
+    <!--添加事务切面-->
+    <tx:advice id="myadive" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*select*" read-only="true"/>
+            <tx:method name="*get*" read-only="true"/>
+            <tx:method name="*find*" read-only="true"/>
+            <tx:method name="*search*" read-only="true"/>
+            <tx:method name="*insert*" propagation="REQUIRED"/>
+            <tx:method name="*save*" propagation="REQUIRED"/>
+            <tx:method name="*add*" propagation="REQUIRED"/>
+            <tx:method name="*delete*" propagation="REQUIRED"/>
+            <tx:method name="*remove*" propagation="REQUIRED"/>
+            <tx:method name="*clear*" propagation="REQUIRED"/>
+            <tx:method name="*update*" propagation="REQUIRED"/>
+            <tx:method name="*modify*" propagation="REQUIRED"/>
+            <tx:method name="*change*" propagation="REQUIRED"/>
+            <tx:method name="*set*" propagation="REQUIRED"/>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!--设置切入点-->
+    <aop:config>
+        <!--service所有包下的所有类下的所有方法可用 -->
+        <aop:pointcut id="mypointcut" expression="execution(* com.huangjiabin.mimissm.service.*.*(..))"/>
+        <!--绑定切切面和切入点-->
+        <aop:advisor advice-ref="myadive" pointcut-ref="mypointcut"></aop:advisor>
+    </aop:config>
+
+</beans>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.com.huangjiabin.fastdfs.mapper.CreditorInfoMapper">
+  <resultMap id="BaseResultMap" type="com.com.huangjiabin.fastdfs.com.huangjiabin.hibernate.model.CreditorInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <!--
+        聚合数据，用于多对一或者一对一封装数据
+    -->
+    <association property="creditorFile" javaType="com.com.huangjiabin.fastdfs.com.huangjiabin.hibernate.model.CreditorFile">
+      <id column="cfid"  property="id" />
+      <result column="group_name" property="groupName" />
+      <result column="remote_file_name"  property="remoteFileName" />
+      <result column="old_filename" property="oldFilename" />
+      <result column="file_size" property="fileSize" />
+      <result column="file_type"  property="fileType" />
+      <result column="ci_id"  property="ciId" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, real_name, id_card, address, sex, phone, money
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from creditor_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from creditor_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.com.huangjiabin.fastdfs.com.huangjiabin.hibernate.model.CreditorInfo">
+    insert into creditor_info (id, real_name, id_card, 
+      address, sex, phone, 
+      money)
+    values (#{id,jdbcType=INTEGER}, #{realName,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
+      #{money,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.com.huangjiabin.fastdfs.com.huangjiabin.hibernate.model.CreditorInfo">
+    insert into creditor_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="realName != null">
+        real_name,
+      </if>
+      <if test="idCard != null">
+        id_card,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.com.huangjiabin.fastdfs.com.huangjiabin.hibernate.model.CreditorInfo">
+    update creditor_info
+    <set>
+      <if test="realName != null">
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        id_card = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.com.huangjiabin.fastdfs.com.huangjiabin.hibernate.model.CreditorInfo">
+    update creditor_info
+    set real_name = #{realName,jdbcType=VARCHAR},
+      id_card = #{idCard,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      money = #{money,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--左外连接-->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    ci.*,
+    cf.id cfid,cf.group_name,cf.remote_file_name,cf.old_filename,cf.file_size,cf.file_type,cf.ci_id
+    from
+    creditor_info ci
+    left join
+    creditor_file cf
+    on
+    ci.id=cf.ci_id
+  </select>
+
+</mapper>

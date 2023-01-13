@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        /*
+          ES6引入了一种新的原始数据类型Symbol,表示独一无二的值
+          1)Symbol的值是唯一的,用来解决命名冲突的问题
+          2)Symbol值不能与其他数据进行运算
+          3)Symbol定义的对象属性不能使用for...in循环遍历,但是可以使用Reflect.wonKeys来获取对象所有的键名
+        */
+        //创建Symbol
+        let s = Symbol();
+        console.log(s);
+
+        let s1 = Symbol('黄家宾');//黄家宾相当于注释
+        let s2= Symbol('黄家宾');
+        console.log('s1的类型是:'+typeof s1);
+        console.log(s1===s2); //false不相等
+
+        //函数对象
+        let s3 = Symbol.for('陈奕迅');
+        let s4 = Symbol.for('陈奕迅');
+        console.log('s3的类型是'+typeof s3);
+        console.log(s3===s4); //true相等
+
+        //Symbol的应用场景一,给对象加属性
+        let game = {
+            up:function (){
+                console.log('我是game原有的up方法');
+            }
+        }
+        //当你不知道game的属性，想给它添加新的属性时为了避免冲突就可以用Symbol;
+        let methods ={
+            up:Symbol(),
+            down:Symbol()
+        }
+
+        //为什么不直接game[Symbol()]呢因为这样创建的属性你无法再调用，所以需要methods对象
+        game[methods.up]=function (){
+            console.log('我可以改变形状');
+        }
+        game[methods.down]=function () {
+            console.log('我可以快速下降');
+        }
+        game[Symbol()]=function () {
+            console.log('我能做啥呢');
+        }
+        game.up();
+        game[methods.up](); //添加的属性可以通过这样调用
+
+        //Symbol的内置属性 Symbol.hasInstance 作用：当与对象instanceof比较时会调用这个方法
+        class dog{
+            static [Symbol.hasInstance](param){
+                console.log('我被调用了');
+            }
+        }
+        let bird={};
+        console.log(bird instanceof dog);   //fasle
+
+        //Symbol的内置属性2 Symbol.isConcatSpreadable 表示数组concat连接时是否可展开
+        const arr = [1,2,3];
+        const arr2 = [4,5,6];
+        arr2[Symbol.isConcatSpreadable]=false; //设置为false则不展开
+        console.log(arr.concat(arr2)); //1,2,3,array(3)
+
+        //还有很多属性，可以通过设置Symbol来设置对象的属性，自己查文档
+
+    </script>
+
+</body>
+</html>

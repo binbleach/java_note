@@ -1,0 +1,57 @@
+一、软件安装：
+    1）yum install gcc libevent libevent-devel -y ：检查是否安装了：gcc、libevent、libevent-devel
+    2）软件下载、地址：gcc、libevent、libevent-devel，
+       点需下载fastdfs、libfastcommon、fastdfs-client-java、fastdfs-nginx-module，再点tags
+    3）在linux下解压，编译(./make.sh),安装(./make.sh install).
+    4）安装后在usr/bin下会有fdfs_的文件，使无论在哪目录都可以运行这些命令，不需要配置环境
+    5）在/etc/fdfs目录使存放所有fdfs配置相关的文件
+    6）在conf目录下拷贝两个文件http.conf、mime.types到/etc/fdfs
+    7）配置tracker.conf.sample文件成tracker.conf,改base_path = /opt/azb/fastdfs/tracker 设置日志文件logs路径
+    8）配置storage.conf.sample成storage.conf:
+        a）base_path = /opt/azb/fastdfs/storage 设置logs位置
+        b）store_path0 = /opt/azb/fastdfs/storage/files
+        c）tracker_server = 192.168.8.128:22122
+    9）配置client:
+        base_path = /opt/azb/fastdfs/client
+        tracker_server = 192.168.8.128:22122
+二、启动：
+        启动FastDFS的tracker服务：fdfs_storaged /etc/fdfs/storage.conf
+        启动FastDFS的storage服务：fdfs_trackerd /etc/fdfs/tracker.conf
+        重启在后面加restart，关闭在后面加stop,或者 kill(不建议)
+
+三、测试：
+    测试上传：
+        1、在/root下创建文件aa.txt，
+        2、执行fdfs_test /etc/fdfs/client.conf upload /root/aa.txt
+        3、上传成功后会有信息（以解释在目录文件里）
+
+    测试下载：需要组名和远程文件名，下载是到当前目录。
+        1、fdfs_test /etc/fdfs/client.conf download group1 +文件名(不是aa.txt是上传生成的名字)
+        2、删除同理 download 换成 delete
+
+四、FastFDS的Http访问：
+        1、借助nginx原理里是借助nginx不走proxy不走root走nginx扩展模块，模块通过fdfs的io流上传下载文件
+        2、安装扩展模块:fastdfs-nginx-module
+            a）解压，拷贝src路径：/opt/azb/fastdfs-nginx-module-1.22/src
+        3、安装nginx:在nginx主目录下提前配置：
+            ./configure --prefix=/usr/local/nginx_fdfs --add-module=/opt/azb/fastdfs-nginx-module-1.22/src
+            --add-module：添加扩展模块，后面是模块的src路径
+        4、配置mod_fastdfs.conf:
+            base_path=/opt/azb/fastdfs/nginx_mod(需要手动创建文件目录)
+            tracker_server=192.168.8.128:22122 #指定地址
+            url_have_group_name = true （表示请求中需要包含组名）
+            store_path0=/opt/azb/fastdfs/storage/files （文件存放路径）
+        5、配置nginx.conf:
+            location ~ /group[1-9]/M0[0-9] {
+                 ngx_fastdfs_module;
+            }
+        6、启动nginx。
+        7、OK,可以根据example file url访问了
+        8、流程：浏览器传递组名和远程文件，到nginx,执行扩展模块解析文件路径解析到的组名传给TrackerServer,
+                TrackerServer(跟踪服务器存的是storage的信息)返回ip和端口,扩展模块拿storage的地址，就会自动的
+                使用fastfds的命令到指定的机器中获取文件流，StorageServer(存储服务器)返回文件流
+
+五、01项目演示了上传下载删除文件。
+
+六、02项目springboot集成了
+

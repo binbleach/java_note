@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        /*ajax*/
+        function fun() {
+            //第一步创建异步对象（脚本对象）
+            var xmlHttp=new XMLHttpRequest();
+            //第二步绑定监听器
+            xmlHttp.onreadystatechange=function(){
+                if(xmlHttp.readyState==4&&xmlHttp.status==200){
+                    var data = xmlHttp.responseText;
+                    alert("得到的数据"+data);
+                    callBack(data)
+                }
+            }
+            //第三步初始化异步对象
+            var name=document.getElementById("one").value;
+            xmlHttp.open("get","/myweb/namecheck?name="+name,true);
+            //第四步通知命令对象代替浏览器发送请求
+            xmlHttp.send();
+
+        }
+        function fun1() {
+            var username=document.getElementById("one");
+            if(username.value==""){
+                //获得光标焦点
+                username.focus();
+                document.getElementById("one_*").innerHTML="姓名不能为空";
+            }else {
+                document.getElementById("one_*").innerHTML = "*";
+            }
+        }
+        function fun2() {
+            //用ByName的话返回的是一个数组
+            var password = document.getElementsByName("password");
+            if(password[0].value==""){
+                password[0].focus();
+                document.getElementById("two_*").innerHTML = "密码不能为空";
+                return false;
+            }else{
+                document.getElementById("two_*").innerHTML="*";
+            }
+        }
+    </script>
+</head>
+<body>
+<form action="/myweb/addemp">
+    <table border="2px" align="center">
+        <tr>
+            <td>姓名</td>
+            <td><input type="text" name="username" id="one" onblur="fun()">
+                <font id="one_*" color="red"></font></td>
+        </tr>
+        <tr>
+            <td>密码</td>
+            <td><input type="password" name="password" onfocus="fun1()">
+                <font id="two_*" color="red"></font></td>
+        </tr>
+        <tr>
+            <td>年龄</td>
+            <td><input type="text" name="age" onfocus="fun1()">
+                <font id="three_*" color="red"></font></td>
+        </tr>
+        <tr>
+            <td>工作</td>
+            <td><input type="text" name="job" onfocus="fun1()">
+                <font id="four_*" color="red"></font></td>
+        </tr>
+        <tr>
+            <td>工资</td>
+            <td><input type="text" name="sal" onfocus="fun1()">
+                <font id="five_*" color="red"></font></td>
+        </tr>
+        <tr>
+            <!-- return 若返回的是false表单不提交-->
+            <td><input type="submit" onclick="return fun2()" value="注册"></td>
+            <td><input type="reset"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

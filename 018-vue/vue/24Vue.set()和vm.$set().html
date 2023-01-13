@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <!--
+        后期給vm增加一个响应式的属性：
+        Vue.set(vm._data.student,"sex","男");
+        Vue.set(vm.student,"sex","男”);
+        vm.$set(vm._data.student,"sex","nan");
+        注：不能给vue或者vue根属性加属性。如在data里加name不行，只能在data里的student里加name
+    -->
+    <h2>你好呀沙雕</h2>
+    <div id="root">
+        你好我是：
+    <template v-if="student.name">  <!--可以不改变样式-->
+        {{student.name}}
+    </template>
+    <button @click="addName()">点击增加名字</button>
+    </div>
+    <script>
+        Vue.config.productionTip=false;
+        const vm = new Vue({
+            el:"#root",
+            data:{
+                student:{
+                    num:600
+                }
+            },
+            methods:{
+                addName(){
+                    //Vue.set(this.student,'name',"雪中悍刀行");
+                    this.$set(this.student,'name',"中华小子");
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.min.js"></script>
+</head>
+<body>
+    <!--
+        vue的生命周期
+            1、又名：生命周期回调函数、生命周期函数、生命周期钩子
+            2、又是什么：vue在关键时刻帮我们调用的一些特殊名称的函数
+            3、生命周期函数的名字不可更改，但是函数的具体内容是程序员根据需求编写的
+    -->
+    <!--需求实现文字的渐变效果-->
+    <div id="root">
+        <h2 :style="{opacity}" >欢迎学习vue</h2>
+        <button @click="stop">停止透明度转换</button>
+    </div>
+
+    <script>
+        new Vue({
+            el:"#root",
+            data:{
+                opacity:1,
+            },
+            methods:{
+              stop(){
+                  this.$destroy();
+              }
+            },
+            //挂载函数mounted，vue完成模板的解析并把真实的DOM元素放入页面后（挂载完毕）调用的函数
+            mounted(){
+                console.log("你好");
+                //debugger; //可以这样打断点
+                this.timer=setInterval(()=>{
+                    this.opacity -= 0.01;
+                    if(this.opacity <= 0) this.opacity =1;
+                },16)
+
+            },
+            beforeDestroy() {
+                console.log("vue即将被销毁");
+                clearInterval(this.timer);
+            }
+        })
+        /*
+            也可以将定时器写在外面，不过不推荐
+            setInterval(()=>{
+            vm.opacity -= 0.01;
+            if(vm.opacity <= 0) vm.opacity =1;
+            },16)
+        */
+
+    </script>
+
+</body>
+</html>

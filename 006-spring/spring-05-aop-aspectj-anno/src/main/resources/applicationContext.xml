@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="SomeServiceImpl" class="com.huangjiabin.Before.SomeServiceImpl"/>
+    <bean id="MyAspect" class="com.huangjiabin.Before.MyBefore"/>
+
+    <bean id="SomeServiceImpl2" class="com.huangjiabin.AfterReturning.SomeServiceImpl"/>
+    <bean id="MyAfterReturning" class="com.huangjiabin.AfterReturning.MyAfterReturning"/>
+
+    <bean id="SomeServiceImpl3" class="com.huangjiabin.Around.SomeServiceImpl"/>
+    <bean id="MyAround" class="com.huangjiabin.Around.MyAround"/>
+
+    <bean id="SomeServiceImpl4" class="com.huangjiabin.AfterThrowing.SomeServiceImpl"/>
+    <bean id="MyAfterThrowing" class="com.huangjiabin.AfterThrowing.MyAfterThrowing"/>
+
+    <bean id="SomeServiceImpl5" class="com.huangjiabin.After.SomeServiceImpl"/>
+    <bean id="MyAfter" class="com.huangjiabin.After.MyAfter"/>
+
+    <!--注册AspectJ自动代理-->
+    <aop:aspectj-autoproxy/>
+
+    <!--有接口也用cglib-->
+    <!--<aop:aspectj-autoproxy proxy-target-class="true"/>-->
+
+</beans>

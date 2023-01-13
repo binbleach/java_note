@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.com.com.huangjiabin.dao.StudentDao">
+<!--
+    设置parameterType 参数类型,有没有mybatis也能知道，一般不写
+    得用全限定名，也可以用mybatis定义的简称，如 java.lang.Integer->int
+-->
+    <!--传一个参数 #{任意值}-->
+    <select id="selectStudentById" parameterType="java.lang.Integer" resultType="com.com.com.huangjiabin.entity.Student">
+       select * from student where id=#{爱啥啥}
+    </select>
+
+    <!--传多个参数Param #{Param自定义名}-->
+    <select id="selectStudentByParams" resultType="com.com.com.huangjiabin.entity.Student">
+        select * from student where name=#{name} or age=#{age}
+    </select>
+
+    <!--通过对象传参 #{对象属性名}-->
+    <!--语法格式： #{ name,javaType=java中数据类型名,jdbcType=数据库中类型名称 }
+    如：#{name,javaType=java.lang.Sting, jdbcType=VARCHAR}
+    javaType, jdbcType 的类型 MyBatis 可以检测出来，一般不需要设置。常用格式 #{name}-->
+    <select id="selectStudentByObjects" resultType="com.com.com.huangjiabin.entity.Student">
+        select * from student where name=#{name} or id=#{id}
+    </select>
+
+    <!--按位置传参 #{arg+index}
+    mybatis3.4之前的版本是#{index}
+    -->
+    <select id="selectStudentByIndexs" resultType="com.com.com.huangjiabin.entity.Student">
+        select * from student where name=#{arg0} or age=#{arg1}
+    </select>
+
+    <!--通过Map传参 #{key }-->
+    <select id="selectStudentByMaps" resultType="com.com.com.huangjiabin.entity.Student">
+        select * from student where name=#{key1} or age=#{key2}
+    </select>
+</mapper>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <!--_01回顾Object.defineProperty-->
+    <script>
+        let number = 18
+        let person ={
+            name:"张三",
+            sex:'男'
+        }
+
+        //_02给对对象加属性，好处能控制属性的属性
+        Object.defineProperty(person,'age',{
+            /*
+            _03添加属性的方法一
+            value:18,
+            enumerable:true,//控制属性是否被可以枚举的，是否可遍历，默认false
+            writable:true,//控制属性是否可以被修改，默认是false
+            configurable:true, //控制属性是否可以被删除，默认是false
+            */
+
+            //_04添加属性的方法二。需求，让age属性关联number对象，当number修改时属性也被修改
+            //当有人读取person的age属性时，get函数(getter)就会被调用，且返回值就是age的值
+            get:function () {   //简写：get()
+                console.log("我被调用了");
+                return number;
+            },
+            //当有人修改person的age属性的时，set函数(setter)就会被调用，且会收到修改的具体值
+            set(value){
+                console.log("有人修改了age的属性，且值是"+value);
+                number=value; //此时age才修改
+            }
+        })
+        console.log(person);
+
+    </script>
+    <!--_05数据代理：通过一个对象代理对另一个对象中属性的操作（读/写）-->
+    <script>
+        /*_06需求:obj2代理obj*/
+        let obj = {x:100}
+        let obj2 = {y:200}
+        Object.defineProperty(obj2,'x',{
+            get(){
+                return obj.x;    //通过获取obj2.x来获取obj.x
+            },
+            set(value){
+                obj.x=value;    //通过修改obj2.x来修改obj.x
+                console.log("obj2.age被修改")
+            }
+        })
+    </script>
+    <!--07vue里实例对象vm就是动态代理data里的数据，里面也有get,set的数据有getter和setter
+        好处：在V中更加方便操作data的数据，否则得{{_data.name}}取获取数据了
+    -->
+</body>
+</html>

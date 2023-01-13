@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.huangjiabin.hibernate.model.Authority" table="t_authority">
+        <id name="id" column="id">
+            <generator class="native"></generator>
+        </id>
+        <property name="name" column="name"></property>
+        <property name="remark" column="remark"></property>
+
+        <!--
+            set标签：
+            name：属性名称
+            table：关联表的名称
+        -->
+        <set name="roleSet" table="role_authority">
+            <!--
+                column：当前表对象在其他表中外键名称
+            -->
+            <key column="authority_id"></key>
+            <!--
+                class：属性实体类的全路径
+                column：属性在关联表外键名称
+            -->
+            <many-to-many class="com.huangjiabin.hibernate.model.Role" column="role_id"/>
+        </set>
+    </class>
+</hibernate-mapping>
+
+
+
+
+

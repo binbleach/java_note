@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="jquery-3.4.1.js"></script>
+    <!--val()不带参数就是取值，带参数就是设置值。
+        text()不带参取text值，代参设置text值。
+        attr()带一个参取其他值,两个参设置其他值。
+        remove()删除dom对象所有。
+        empty()删除dom对象所有子对象。
+        append()添加对象，原有基础上
+        html()和text()类似不过带html属性,append()类似不过去除原基础重写。
+        on对象绑定。
+    -->
+    <script>
+        $(function () {
+            $("#btn1").click(function () {
+                $(":text").val("吕布");
+            })
+
+            $("#btn2").click(function () {
+                $(":text").remove();
+            })
+
+            $("#btn3").click(function () {
+                alert($("span").text());
+            })
+
+            $("#btn4").click(function () {
+                $("span").text("我是小傻瓜");
+            })
+            $("#btn5").click(function () {
+                alert($("img").attr("src"));
+            })
+            $("#btn6").click(function () {
+                $("img").attr("src","img/四谎2.jpg");
+            })
+            $("#btn7").click(function () {
+                $("select").empty();
+            })
+            $("#btn8").click(function () {
+                $("select").append("<option>诸葛亮</option>");
+            })
+            $("#btn9").click(function () {
+                $("select").html("<option>诸葛亮</option>");
+            })
+            $("#btn10").click(function () {
+                var a=$("option");
+                a.each(function (i,n) {     //each的第一种写法jquery对象点
+                    alert(i+n.value);
+                })
+            })
+            $("#btn11").on("click",function () {  //on对象绑定
+                var json={
+                    "张飞":"无脑",
+                    "关羽":"骄傲",
+                    "刘备":"打野快"
+                }
+                $.each(json,function (i,n) {   //each的第二种写法$对象点
+                    alert(i+n);
+                })
+            })
+        })
+
+
+    </script>
+</head>
+<body>
+<input type="text" value="张飞"><br/>
+<button id="btn1">val()函数</button><br/>
+<button id="btn2">remove()函数</button><br/>
+<span style="background-color: yellow">我是span</span><br/>
+<button id="btn3">text()取值函数</button><br/>
+<button id="btn4">text()设置值函数</button><br/>
+<img src="img/四谎1.jpg" style="height: 200px;width: 200px"><br/>
+<button id="btn5">attr()取值函数</button><br/>
+<button id="btn6">attr()设置值函数</button><br/>
+<select>
+    <option>张飞</option>
+    <option>关羽</option>
+    <option>刘备</option>
+</select><br/>
+<button id="btn7">empty()函数</button>
+<button id="btn8">append()函数</button>
+<button id="btn9">html()函数</button>
+<button id="btn10">each()函数取dom对象数组</button>
+<button id="btn11">each()函数取json对象数组</button>
+
+</body>
+</html>

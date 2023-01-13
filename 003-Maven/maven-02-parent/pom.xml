@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.huangjiabin</groupId>
+  <artifactId>maven-02-parent</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <!--第一种就是 maven-03-modules那个工程的非嵌套-->
+  <!--第二种就是这个工程，嵌套，相对于第一种方式多了个modules--><!--还有第三种，第一种和第二种的集合，先建一个空项目再建多个第二种-->
+  <modules>
+    <module>001-maven-java</module>
+    <module>002-maven-web</module>
+  </modules>
+
+  <packaging>pom</packaging>
+
+  <properties>
+    <mysql-connector-java-version>5.1.9</mysql-connector-java-version>
+    <junit-version>4.1.2</junit-version>
+  </properties>
+
+  <dependencyManagement>
+      <dependencies>
+
+        <dependency>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+          <version>${mysql-connector-java-version}</version>
+        </dependency>
+
+        <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>${junit-version}</version>
+        </dependency>
+
+      </dependencies>
+  </dependencyManagement>
+
+
+  <!--插件也会继承-->
+  <!-- 控制配置maven构建项目的参数设置，设置jdk版本 -->
+  <build>
+    <!-- 配置插件 -->
+    <plugins>
+      <!-- 配置具体插件 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <!-- 插件的名称 -->
+        <artifactId>maven-compiler-plugin</artifactId>
+        <!-- 插件的版本 -->
+        <version>3.8.1</version>
+        <!-- 配置插件的信息 -->
+        <configuration>
+          <!-- 告诉maven，项目是在jdk1.8上编译的 -->
+          <source>1.8</source>
+          <!-- 程序应该运行在jdk1.8上 -->
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

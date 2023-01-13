@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>02const</title>
+</head>
+<body>
+  <script>
+    //const声明的是常量
+    const SCHOOL='尚硅谷'
+
+    //1、必须先赋值
+    //const A;  编译错误
+
+    //2、书写规范，一般使用大写
+
+    //3、常量值不能修改
+    //const SCHOOL='动力节点' //报错因为上面有一个SCHOOL了
+
+    //4、也是有块级作用域
+    //  {
+    //    const PLAYER = 'UZI';
+    //  }
+    //  console.log(PLAYER); //报错
+
+    //5、对于数组和对象里的属性修改不算修改常量，因为地址没有改变
+    const TEAM=['UZI','MLXG','Ming','Letme'];
+    TEAM.push('Meiko');
+    TEAM[0]='UZZ';
+    console.log(TEAM);
+
+    //6、数组的解构 优点取值少写了前缀
+    const F4=['小沈阳','刘能','赵四','宋小宝'];
+    let [xiao,liu,zhao,song]=F4;
+    console.log(xiao);
+    console.log(liu);
+    console.log(zhao);
+    console.log(song);
+
+    //7.对象的解构
+    const shan ={
+        name:'赵本山',
+        age:'65',
+        xiaopin:function (){
+            console.log("昨天今天和明天小品");
+        }
+    }
+    let {name,age,xiaopin} = shan;
+    console.log(name);
+    console.log(age);
+    console.log(xiaopin);
+
+  </script>
+</body>
+</html>

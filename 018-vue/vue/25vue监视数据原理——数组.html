@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <ul v-for="(p,index) in persons" :key="index">
+            {{p.name}}——{{p.age}}——{{p.sex}}
+        </ul>
+        <button @click="changeMa()">修改马冬梅</button>
+    </div>
+
+    <script>
+        Vue.config.productionTip='false';
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                persons:[
+                    {name:"马冬梅",age:"35",sex:"女"},
+                    {name:"周冬雨",age:"30",sex:"女"},
+                    {name:"周杰伦",age:"45",sex:"男"},
+                    {name:"温兆伦",age:"50",sex:"男"}
+                ]
+            },
+            methods:{
+                changeMa(){
+                    //bug此代码不会修改马冬梅，因为persons[0]没有get，set
+                    //this.persons[0]={name:"马化腾",age:"35",sex:"女"}
+
+                    /*vue只有在push,pull,splice等js对数组改变的函数执行时才会监视到数组的改变。
+                     注：此时的函数不再是存粹的js函数，而是vue包装的函数*/
+                    this.persons.splice(0,1,{name:"马化腾",age:"35",sex:"女"})
+
+
+                    this.persons[1].name="影后";  //可以修改，因为persons[0].name有get,set
+
+                    // 注：vue如果找不到数据会时undefine却不会报
+                }
+            }
+        })
+    </script>
+
+</body>
+</html>

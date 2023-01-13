@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="dubbo-04-zookeeper-provider"/>
+
+    <dubbo:protocol name="dubbo" port="20880"/>
+
+    <dubbo:registry address="zookeeper://192.168.8.128:2181"/>
+
+    <dubbo:service interface="com.huangjiabin.service.UserService" ref="userService"/>
+
+    <bean id="userService" class="com.huangjiabin.service.impl.UserServiceImpl"/>
+
+    <!-- 多个服务注册-->
+    <!--
+        version         用于区分相同类型的服务
+        retries="2"     访问次数，访问两次，如果第一次失败会访问第二次 -->
+    <dubbo:service interface="com.huangjiabin.service.UserService" ref="userService2"
+                   retries="2" version="2.0.0"/>
+    <bean id="userService2" class="com.huangjiabin.service.impl.UserServiceImpl2"/>
+
+
+</beans>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        //只要对象里有Symbol.iterator属性(他是一个接口方法)就可以用for of去循环遍历(原理是调next())
+        //如：Array,Arguments,Set,Map,String,TypedArray,NodeList
+        //for in 保存的是键名 和for of 保存的是键值
+        //done是iterator的属性为true代表循环遍历结束
+        const xiYou =['唐僧','孙悟空','猪八戒','沙僧'];
+        for(v in xiYou){
+            console.log(v); //0,1,2,3
+        }
+        for(v of xiYou){
+            console.log(v); //唐僧,孙悟空,猪八戒,沙僧
+        }
+        //iterator原理是通过指针
+        let zhizhen=xiYou[Symbol.iterator]();
+        console.log(zhizhen.next());  //返回唐僧，超过值为undefined
+
+        //自定义iterator,目的是想调用student里的信息
+        const banJi ={
+            name:"电商一班",
+            students:[
+                '黄家宾',
+                '高丽君',
+                '徐静苹',
+                '任迎'
+            ],
+            [Symbol.iterator](){    //自定义iterator方法
+                let index = 0;
+                let _this=this;     //这里也可以直接写成箭函数
+                return {
+                    next:function () {
+                        if(index<_this.students.length){
+                            const result= {value:_this.students[index],done:false};
+                            index++;
+                            return result;
+                        }else {
+                            return {value:undefined,done:true}
+                        }
+                    }
+                }
+            }
+        }
+        for(let v of banJi){      //完全按照我们自己的意愿遍历对象
+            console.log(v);
+        }
+    </script>
+
+</body>
+</html>

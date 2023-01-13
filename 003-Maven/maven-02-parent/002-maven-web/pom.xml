@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!--指向父工程-->
+  <parent>
+    <artifactId>maven-02-parent</artifactId>
+    <groupId>com.huangjiabin</groupId>
+    <version>1.0-SNAPSHOT</version>
+    <!--没有相对路径了
+        <relativePath>../001-maven-parent/pom.xml</relativePath>
+    -->
+  </parent>
+
+  <artifactId>002-maven-web</artifactId>
+  <packaging>war</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+    </dependency>
+  </dependencies>
+
+
+</project>

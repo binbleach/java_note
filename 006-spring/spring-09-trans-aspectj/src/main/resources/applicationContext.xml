@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--声明数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>
+        <property name="username" value="root"/>
+        <property name="password" value="1220.dbggl.mysql"/>
+        <property name="maxActive" value="20"/>
+    </bean>
+
+    <!--创建SqlSessionFactory-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis.xml"/>
+    </bean>
+
+    <!--创建Dao对象-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="basePackage" value="com.huangjiabin.dao"/>
+    </bean>
+
+
+    <bean id="add" class="com.huangjiabin.service.impl.AddGoodsServiceImpl">
+        <property name="goodsDao" ref="goodsDao"/>
+        <property name="saleDao" ref="saleDao"/>
+    </bean>
+
+    <!--xml配置事务：和源代码完全分离的-->
+    <!--1.声明事务管理器对象-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!--2.配置事务通知-->
+    <tx:advice id="advice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!--配置事务通知和作用的目标方法
+                name：通知作用的目标方法名  |两种写法：1）完整方法名，不带包和类     2）使用通配符
+                propagation：传播行为。
+                isolation：隔离级别
+                rollback-for：指定的异常全限定类名   |注：发生该异常或者运行时异常时一定回滚
+            -->
+            <tx:method name="buy*" propagation="REQUIRED" isolation="DEFAULT"
+                       rollback-for="java.lang.NullPointerException,com.huangjiabin.exception.NotEnoughException"/>
+<!--            <tx:method name="*" propagation="REQUIRED"/>-->
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <!--
+            配置切入点，指定哪些包下的类，要使用事务
+            expression：切入点表达式，指定哪些类要用事务
+            表达式解读：
+                *       任意返回值
+                *..     任意包
+                service service包
+                ..*     任意类（包含任意子包下的类，可以看出来 ..代表任意层级）
+                .*      任意方法
+                (..)    任意参数的方法
+                * *..service..*.*(..)   service下的所有类所有方法
+        -->
+        <aop:pointcut id="pointcut" expression="execution(* *..service..*.*(..))"/>
+        <!--配置增强器：关联通知和切入点-->
+        <aop:advisor advice-ref="advice" pointcut-ref="pointcut"/>
+    </aop:config>
+
+</beans>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.min.js"></script>
+</head>
+<body>
+    <!--
+        自定义指令有两种写法；
+            1、简写，方便不可控制时间节点 命名用短横线(kebab-case短横线,camelCase是驼峰），如：上:v-big-father 下：‘big-father'(){...}
+            2、全写，可以控制时间节点。
+            注：如直接再简写处写element.focus()，不会获取焦点，因为在指令和元素被绑定时简写方法就被调用了，在插入页面前focus()不会奏效
+            注：所有指令相关的回调方法this都是windows
+    -->
+    <!--
+        需求1：定义一个v-big指令、和v-text功能类似，但会把绑定的数值放大10倍
+        需求2：定义一个v-fbind指令、和v-bind功能类似但可以让其所绑定的input元素默认获取焦点。
+    -->
+    <div id="root">
+        <h2>当前的n值是<span v-text="n"></span></h2>
+        <h2>放大10倍后的n值是：<span v-big="n"></span></h2>
+        <button style="height: 40px;width: 100px;font-size: 30px" @click="n++">n+1</button>
+        <br/>
+        <hr/>
+        <br/>
+        <input type="text" v-fbind=""/>
+    </div>
+    <script type="text/javascript">
+        let vm = new Vue({
+            el:"#root",
+            data:{
+                n:1
+            },
+            directives:{
+                /*两个参数：第一个是所在标签名，这里是<span><span>
+                          第二个参数是绑定的对象：
+                            expression:表达式，
+                            name:指令名        这里是big
+                            rawName:v-指令名   这里是v-big
+                            value:  表达式算过的值 */
+                //简写形式，何时会被调用：1、元素和指令成功绑定时会被调用（一上来还没放在页面） 2、指令所在的模板被重新解析时
+                /*big(element,binding){
+                    element.innerText=binding.value*10;
+                },*/
+                //全写形式
+                fbind:{
+                    //指令与元素绑定时调用
+                    bind(element,binding){
+                        element.value=binding.value
+                    },
+                    //指令所在元素被插入页面时调用
+                    inserted(element,binding){
+                        element.focus();
+                    },
+                    //指令所在的模板被重新解析时调用
+                    update(element,binding){
+                        element.value=binding.value
+                    }
+                }
+            }
+        })
+        //全局自定义指令
+        /*
+          1、全写
+            Vue.directive('big',{
+            bind(element, binding){
+
+            },
+            inserted(element, binding) {
+            },
+            update(element, binding) {
+            }
+            })
+          2、简写
+              Vue.directive('big',function(){
+
+              })
+        })*/
+
+    </script>
+</body>
+</html>

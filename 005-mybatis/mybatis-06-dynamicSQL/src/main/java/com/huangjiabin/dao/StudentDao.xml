@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.com.com.huangjiabin.dao.StudentDao">
+
+    <!--代码片段 ,需要该片段的时候可以直接<include refid="id">-->
+    <sql id="one">
+        select * from student
+    </sql>
+    
+    <!--这里有个bug，如果只有第二个if成立的话，就会多一个and,下面的where会解决这个bug-->
+    <select id="selectStudentIf" resultType="Student">
+        <include refid="one"></include> where
+        <if test="id>1">
+            id>#{id}
+        </if>
+        <if test="age>20">
+            and age>#{age}
+        </if>
+    </select>
+
+
+    <select id="selectStudentWhere" resultType="Student">
+        select * from student
+        <where>
+            <if test="id>100">   /*不实现也不会多一个and,当然不用where在前面加一个1=1也行*/
+                id>#{id}
+            </if>
+            <if test="age>20">
+                and age>#{age}
+            </if>
+        </where>
+    </select>
+
+    <!--如果传进来的参数是集合能循环遍历这个集合-->
+    <select id="selectStudentForeach" resultType="Student">
+        select * from student
+        <where>
+            id in
+            <foreach collection="list" close=")" open="(" item="stu" separator=",">
+                #{stu.id}
+            </foreach>
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,26 @@
+1、上传成后会生成一个_big文件表示备份，正常情况下没有，不这么备份。-m的使属性文件
+tracker_query_storage_store_list_without_group: 
+	server 1. group_name=, ip_addr=192.168.8.128, port=23000
+
+group_name=group1, ip_addr=192.168.8.128, port=23000
+storage_upload_by_filename
+
+2、组名、远程文件名称：M00指的使第一个磁盘因为（相当于data的路径），后面两个零使data的目录名，最后是文件名，可以在data目录下找到
+group_name=group1, remote_filename=M00/00/00/wKgIgGFDASeASVFIAAAAEmZzwgo067.txt （storage.conf里的store_path_count=只有一个磁盘）
+source ip address: 192.168.8.128
+
+file timestamp=2021-09-16 16:32:39
+file size=18
+file crc32=1718862346
+
+3、默认不予访问，后面配置后可以
+example file url: http://192.168.8.128/group1/M00/00/00/wKgIgGFDASeASVFIAAAAEmZzwgo067.txt
+
+storage_upload_slave_by_filename
+group_name=group1, remote_filename=M00/00/00/wKgIgGFDASeASVFIAAAAEmZzwgo067_big.txt
+[2021-09-16 16:32:42] ERROR - file: connection_pool.c, line: 140, connect to server 192.168.8.129:22122 fail, errno: 113, error info: No route to host
+source ip address: 192.168.8.128
+file timestamp=2021-09-16 16:32:39
+file size=18
+file crc32=1718862346
+example file url: http://192.168.8.128/group1/M00/00/00/wKgIgGFDASeASVFIAAAA

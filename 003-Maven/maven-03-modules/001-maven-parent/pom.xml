@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.huangjiabin</groupId>
+  <artifactId>001-maven-parent</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <!--这个model有一个特点，就是 父模块和字模块在同一级目录下，且没有工程模块。
+        做法：1）删除maven-03-modules 模块的.iml文件
+             2）删除 maven-03-modules 模块
+        恢复工程模块:
+            1）删除.idea文件，重启工程
+  -->
+  <!--packaging标签指定打包方式，默认打包为jar包-->
+  <packaging>pom</packaging>
+
+  <!--
+      maven父工程必须的的两个要求：
+      1、packaging标签的文本内容必须设置为pom
+      2、要把src删除调
+  -->
+
+  <!--父管理依赖的版本号-->
+  <properties>
+    <!--自定义标签
+        通常管理依赖版本号的标签名由=项目名称+字段version
+    -->
+    <junit-version>4.0.1</junit-version>
+    <mysql-connector-java>8.0.19</mysql-connector-java>
+    <dubbo-version>2.6.2</dubbo-version>
+  </properties>
+
+  <!--父工程加强管理依赖避免冗余-->
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit-version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>${mysql-connector-java}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>dubbo</artifactId>
+        <version>${dubbo-version}</version>
+      </dependency>
+
+    </dependencies>
+
+
+  </dependencyManagement>
+
+</project>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <style>
+        *{
+            margin-top:20px;
+        }
+        .demo1{
+            height:50px;
+            background-color:skyblue;
+        }
+        .box1{
+            padding: 5px;
+            background-color: skyblue;
+        }
+        .box2{
+            padding: 5px;
+            background-color: orange;
+        }
+        ul{
+            width: 200px;
+            height: 200px;
+            background-color: orange;
+            overflow: auto;
+        }
+        li{
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <!--
+        事件的基本使用：
+            1.使用v-on:xxx 或者 @xxx 绑定事件，其中xxx是事件名。
+            2.事件的回调需要配置在methods对象中，最终都会在vm上。
+            3.methods中配置的函数，不需要箭头函数！否则this就不是vm了。
+            4.methods中配置的函数，都是Vue所管理的函数，this的指向是vm或组件实例对象
+            5.@click="demo" 和 @click="demo($event)"效果一致，但后者可以传参数
+    -->
+    <!--
+        事件修饰符：
+            1.prevent：阻止默认事件（常用）。
+            2.stop：组织事件冒泡（常用）。
+            3.once：事件只触发一次（常用）。
+            4.capture：使用事件的捕获模式。
+            5.self；只有event.target是当前操作的元素时才触发事件：
+            6.passive：事件的默认行为立即执行，无序等待事件回调执行完毕
+            注修饰符可以连写如：@click.stop.prevent：先阻止冒泡在阻止默认事件
+    -->
+    <div id="root">
+        <h2>欢迎你的到来{{name}}</h2>
+        <!--01绑定事件-->
+        <button v-on:click="showInfo1">点我提示信息(不带参数)</button>
+        <!--02绑定事件简写-->
+        <button @click="showInfo2($event,666)">点我提示信息(带参数)</button>
+        <!--03prevent阻止默认事件-->
+        <a href="http://www.baidu.com" @click.prevent="show">点我提示信息</a>
+        <div class="demo1" @click="show('a')">
+            <!--04stop阻止冒泡,只弹出b不会弹出a-->
+            <button @click.stop="show('b')">点我提示信息</button>
+        </div>
+        <!--05_once事件只出发一次，只会弹出1次a-->
+        <button @click.once="show('a')">只能点一次</button>
+        <!--06capture：使用事件捕获模式：
+            先捕获再冒泡，捕获是从外到里，冒泡是从里到外
+            事件是从冒泡阶段处理:点击div2,会先输出2，再到1
+            使用事件捕获模式则事件就会再捕获时被处理：点击div2,会先输出1，再到2-->
+        <div class="box1" @click.capture="show1(1)">
+            div1
+            <div class="box2" @click="show1(2)">div2</div>
+        </div>
+        <!--07_self：只有event.target是当前操作的元素时才触发
+            正常情况：点击div2,事件会冒泡到div1，会先输出div2再输出div1
+            但是event.target是div2的，所以不会输出div1
+        -->
+        <div class="box1" @click.self="show1('div1')">
+            div1
+            <div class="box2" @click="show1('div2')">div2</div>
+        </div>
+        <!--
+            @scroll：滚动条加的滚动
+            @wheel：滚轮加的滚动、
+            测试上面两个都不受影响了，讲课老师是wheel会先执行回调函数再做默认事件（滚动）
+            passive立即执行默认事件，无需等待回调执行完毕
+        -->
+        <ul @wheel.passive="gun">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+        <ul @scroll="gun">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+
+
+    </div>
+    <script>
+        Vue.config.productionTip=false;
+        new Vue({
+            el:'#root',
+            data:{
+                name:"司令"
+            },
+            methods:{
+                showInfo1(event){ //如果这里是箭头函数showInfo:(event)=>{ 那下面的this就是window
+                    console.log(event.target.innerText);
+                    //console.log(this)     //此处的this是vm:vue实例对象
+                },
+                showInfo2(event,number){
+                    console.log(event);
+                    console.log(number);
+                },
+                show(a){
+                    alert("我是信息："+a);
+                },
+                show1(argument){
+                    console.log(argument);
+                },
+                gun(){
+                    for(let i =0;i<10000;i++){
+                        console.log("#");
+                    }
+                    console.log("累坏了");
+                }
+            }
+        })
+    </script>
+
+</body>
+</html>

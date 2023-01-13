@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            width:200px;
+            height:200px;
+            background: #58a;
+        }
+    </style>
+</head>
+<body>
+    <div id="ad"></div>
+    <script>
+        //1.ES6 允许使用箭头函数
+
+        /*let a = function (){
+        }*/
+        let a=()=>{     //上面函数声明的简化
+            console.log('我是方法a');
+        }
+        function b (){       //不执行
+            console.log('我是方法b');
+        }
+        b();        //执行方法b
+
+        //2.ES6 箭头函数下的this是静态的，指向的函数声明时所在的作用域下的this值，而不是谁调用指向谁，也不可以改变this
+        function getName(){
+            console.log(this.name);
+        }
+        let getName2=()=>{
+            console.log(this.name);
+        }
+        window.name='尚硅谷';
+        const school = {
+            name:"科城"
+        }
+        getName.call(school);   //科城
+        getName2.call(school);  //尚硅谷
+
+        //3.不能作为构造函数实例化对象
+        /*let Person =(name,age)=>{
+            this.name=name;
+            this.age=age;
+        }*/
+        //let person = new Person("黄家宾",23); //报错Person不是构造函数
+
+        //4.不能使用arguments(参数) 变量
+        let student = ()=>{
+            //console.log(arguments); //报错arguments is not defined
+        }
+        student(1,2,3);
+
+        //5.箭头函数的简写
+        let add = n =>{        //省略小括号，条件：一有且只有一个数的参数的时候
+            return n+n;
+        }
+        let pow=n=> n*n;   //省略花括号，函数体只有一条语句的时候可以省略花括号，还必须省略return.
+
+        console.log(pow(8));
+
+        //6.箭头函数实践
+        //需求-1 点击div 2s后颜色变成粉色。
+        // 两种方法：1.在定时器外层保存this,也就是ad对象 2.用=>箭头函数，因为箭头函数里的this始终是函数声明作用域里的this
+        //获取元素
+        let ad = document.getElementById("ad");
+        //绑定事件
+        ad.onclick=function (){
+            //第一种方法
+            //let ad_this=this;
+            /*setTimeout(function () {
+                //修改背景颜色,这里不能直接用this,因为定时器里的this指向的使window。可以在{}上一层保存ad对象的this,在里面用
+                //this.style.background='pink'; //直接用错
+                //ad_this.style.background='pink'; //配合外层保存的用对了
+            },2000)*/
+
+            //第二种方法
+            setTimeout(()=>{
+                this.style.background='pink';
+            },2000)
+        }
+        //需求-2 从数组中返回偶数的元素
+        const arr=[1,2,6,9,10,200,25];
+        /*第一种
+            const result = arr.filter(function (item) {
+            if(item%2==0){
+                return true;
+            }else return false;
+        })*/
+
+        /*第二种
+            const result = arr.filter(item=>{
+            if(item%2==0){
+                return true;
+            }else return false;
+        })*/
+        //第二种的简化
+        const result = arr.filter(item=>item%2===0);
+        console.log(result);
+
+        //箭头函数适合与this无关的回调函,数定时器,数组的回调方法
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context.xsd
+         http://www.springframework.org/schema/mvc
+         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--
+        关于maven，同一个工程下引入依赖，不需要打包只maven仓库，创建了bean(注解或xml或其他)后则可直接引入使用
+        在当前案例下使用UserService接口
+            方式一：
+                1、不需要配置dubbo，不通过dubbo调用
+                2、02dubbo引入了01dubbo依赖（不需将01dubbo打包至maven仓库）
+                3、在dubbo-02-direct-consumer里创建userService接口实现类的bean对象
+            方式二：
+                1、需要配置dubbo，通过dubbo调用
+                2、dubbo-02-direct-consumer引入了dubbo-01-direct-provider依赖（
+                    不需将dubbo-01-direct-provider打包至maven仓库）
+                3、不需要在dubbo-02-direct-consumer里创建userService接口实现类的bean对象
+    -->
+    <!--方式一的配置，扫描注解或配置的方式创建userServiceImpl的bean对象，这里可以看出来被引入的依赖的xml文件并不会自动加载-->
+<!--    <bean id="userServiceImpl" class="com.huangjiabin.service.impl.UserServiceImpl"/>-->
+<!--    <context:component-scan base-package="com.huangjiabin.service"/>-->
+
+    <context:component-scan base-package="com.huangjiabin.controller"/>
+
+    <mvc:annotation-driven/>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+</beans>

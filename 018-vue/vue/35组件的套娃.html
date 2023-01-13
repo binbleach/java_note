@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.min.js"></script>
+</head>
+<body>
+    <!--
+        标准化开发中的技巧：
+            写一个app组件被vm管理，app(一人之下万人之下)管理所有其他组件
+    -->
+<div id="root">
+    <!--第三步使用组件-->
+    <school></school>
+</div>
+
+<script>
+    //娃得先创建
+    const student = Vue.extend({
+        template:`
+                    <div>
+                    <h2>{{name}}</h2>
+                    <h2>{{age}}</h2>
+                    </div>
+                `,
+        data(){
+            return {
+                name:"黄家宾",
+                age:"21"
+            }
+        }
+    })
+    //套娃,不仅要注册，还要在模板里使用它
+    const school = Vue.extend({
+        template:`
+                    <div>
+                    <h2>{{name}}</h2>
+                    <h2>{{address}}</h2>
+                    <hr/>
+                    <student></student>
+                    </div>
+                `,
+        data(){
+            return {
+                name:"电子科技大学成都学院",
+                address:"百叶路一号"
+            }
+        },
+        components:{
+            student
+        }
+    });
+    //第二步，注册组件
+    new Vue({
+        el:'#root',
+        //局部注册，用得多
+        components:{
+            school,
+        }
+    })
+</script>
+
+</body>
+</html>

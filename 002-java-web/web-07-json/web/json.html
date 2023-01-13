@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" >
+        /*json在js中是一种对象*/
+        /* json 轻量级的数据交换格式 ，体积小易解析
+        * xml也是不过更严谨，体积大，解析麻烦
+        * */
+        var json={
+            "name":"黄家宾",
+            "age":21,
+            "sex":"man"
+        };
+
+        alert(json.age+json.name+json.sex)
+
+        /*[]封装数组
+        * {}封装对象
+        * 对象表示用键值对
+        * 数据由逗号隔开
+        * */
+        var jsons=[
+            {"name":"黄家宾","age":21,"sex":"man"},
+            {"name":"何林权","age":22,"sex":"man"}
+        ];
+
+        for(var i=0;i<jsons.length;i++){
+            alert(jsons[i].name+jsons[i].age+jsons[i].sex);
+        }
+
+        /*用json描述一个班级里的总人数/套娃*/
+        var classdate = {
+            "total":3,
+            "students":[
+                {"name":"黄家宾","age":21,"sex":"man"},
+                {"name":"何林权","age":22,"sex":"man"},
+                {"name":"何林权","age":22,"sex":"man"}
+            ]
+        };
+        /* eval 函数可以将字符串当作js解析并执行*/
+        window.eval("var i=0");
+        alert("i="+i);
+
+        /* json 配合eval完成后台前端的数据交换*/
+        //在前端取数据
+        var fromJava = "{\"name\":\"安琪\",\"age\":21}";
+        window.eval("var jsonObj="+fromJava);
+        alert(jsonObj.name+jsonObj.age);
+        //alert(jsons[name]+jsons{age}); 取属性和上面的一样的
+
+        /*实用*/
+
+        /*将来这一步肯定是从java传过来的json数据*/
+        var json2={
+            "total":3,
+            "emp":[
+                {"id":102,"name":"陈益鹏","sal":20000},
+                {"id":103,"name":"安琪","sal":30000},
+                {"id":104,"name":"出娄","sal":20000},
+            ]
+        };
+
+        window.onload=function () {
+            var table=document.getElementById("displayBtn")
+            table.onclick=function () {
+                var html="";
+                for(var i =0;i<json2.total;i++){
+                    html+="<tr>";
+                    html +="<td>"+json2.emp[i].id+"</td>";
+                    html +="<td>"+json2.emp[i].name+"</td>";
+                    html +="<td>"+json2.emp[i].sal+"</td>";
+                    html+="</tr>";
+                }
+                document.getElementById("emptbody").innerHTML=html;
+                document.getElementById("count").innerHTML=json2.total;
+            }
+        }
+    </script>
+</head>
+<body>
+<h2>职员信息</h2>
+<hr>
+<input type="button" value="显示员工信息列表" id="displayBtn">
+<table border="1px" width="50%">
+    <tr>
+        <th>员工编号</th>
+        <th>员工名字</th>
+        <th>员工薪资</th>
+    </tr>
+    <tbody id="emptbody">
+    </tbody>
+</table>
+总共<span id="count">0</span>条数
+</body>
+</html>
+
+<!--拓展-->
+<!--json转js:
+            var json=JSON.parse(js)
+    js转json:
+            var js = JSON.stringify()
+
+-->
+<!--
+JSON工具包，可以将对象转成json格式字符串然后传过去，用到去看老杨
+https://www.bilibili.com/video/BV1Yz411B7Pk?p=187 ，这个可以自己用反射做的
+-->

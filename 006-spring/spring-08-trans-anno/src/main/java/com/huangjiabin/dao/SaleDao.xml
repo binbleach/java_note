@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.com.huangjiabin.dao.SaleDao">
+    <select id="selectSales" resultType="sale">
+        select * from sale
+    </select>
+
+    <insert id="insertSale">
+        insert into sale(gid,nums) values(#{gid},#{nums})
+    </insert>
+
+</mapper>

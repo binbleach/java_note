@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <h2>人员列表计算属性实现</h2>
+    <input v-model="param1" type="text" placeholder="请输入名字">
+    <button @click="dataType=1;">点击升序</button>
+    <button @click="dataType=2;">点击降序</button>
+    <button @click="dataType=0;">点击还原</button>
+    <ul>
+        <li v-for="(p,index) in nowPersons" :key="index">
+            {{p.name}}——{{p.sex}}——{{p.age}}
+        </li>
+    </ul>
+
+</div>
+<script>
+    Vue.config.productionTip=false;
+    /*
+        计算属性实现升序降序
+    */
+    new Vue({
+        el:'#root',
+        data:{
+            persons:[
+                {name:"马冬梅",age:"35",sex:"女"},
+                {name:"周冬雨",age:"30",sex:"女"},
+                {name:"周杰伦",age:"45",sex:"男"},
+                {name:"温兆伦",age:"50",sex:"男"}
+            ],
+            param1:"",
+            dataType:0
+        },
+        computed:{
+            nowPersons(){
+                let arr= this.persons.filter((p)=>{
+                    return p.name.indexOf(this.param1)!==-1
+                })
+                if(this.dataType){
+                    arr.sort((p1,p2)=>{
+                        return this.dataType===1?p1.age-p2.age:p2.age-p1.age;
+                    })
+                }
+                return arr;
+
+            }
+
+        }
+    })
+
+</script>
+
+
+
+</body>
+</html>

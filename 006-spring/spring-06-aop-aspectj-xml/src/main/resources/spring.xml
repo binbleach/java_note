@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="someServiceImpl" class="com.huangjiabin.service.impl.SomeServiceImpl"/>
+    <bean id="myAdvice" class="com.huangjiabin.advice.MyAdvice"/>
+    <bean id="myAdvice2" class="com.huangjiabin.advice.MyAdvice2"/>
+
+    <!--第一种配置方式
+        1：创建普通类
+    -->
+    <aop:config>
+        <!-- 2：配置切入点
+            表达式解读：
+                *       任意返回值
+                *..     任意包
+                service service包
+                ..*     任意类（包含任意子包下的类，可以看出来 ..代表任意层级）
+                .*      任意方法
+                (..)    任意参数的方法
+                * *..service..*.*(..)   service下的所有类所有方法
+         -->
+        <aop:pointcut id="pointcut" expression="execution(* *..service..*.*(..))"/>
+        <!-- 3：配置切面：引入普通类 -->
+        <aop:aspect ref="myAdvice">
+            <!--4：配置通知：连接通知和切入点-->
+            <aop:before method="myBefore" pointcut-ref="pointcut"/>
+        </aop:aspect>
+    </aop:config>
+
+    <!--第二种配置方式
+        1：创建通知类，需要实现MethodBeforeAdvice，AfterReturningAdvice等接口，去区分什么类型的通知
+    -->
+    <aop:config>
+        <!--2：配置切入点-->
+        <aop:pointcut id="pointcut" expression="execution(* *..service..*.*(..))"/>
+        <!--3、配置通知器：去连接通知和切入点-->
+        <aop:advisor advice-ref="myAdvice2" pointcut-ref="pointcut"/>
+    </aop:config>
+    
+</beans>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+    <!--给返回类型起别名-->
+    <typeAliases>
+
+        <!--第一种，指定类。直接定义类的别名。
+        优点：可以自己取别名。缺点：有多少类就要定义多少别名
+        --><typeAlias type="com.com.com.huangjiabin.entity.Student" alias="stu"></typeAlias>
+
+        <!--第二种，指定包，类名是啥别名就是啥
+            优点：只要在一个包下设置一个就够了。缺点不可以自己起别名
+        --><package name="com.com.com.huangjiabin.entity"/>
+    </typeAliases>
+
+    <environments default="online">
+
+        <environment id="online">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/mybatis"/>
+                <property name="username" value="root"/>
+                <property name="password" value="root"/>
+            </dataSource>
+
+        </environment>
+    </environments>
+
+    <mappers>
+        <mapper resource="com/huangjiabin/dao/StudentDao.xml"/>
+        <!--<package name="com.huangjiabin.dao"/>-->
+    </mappers>
+
+</configuration>

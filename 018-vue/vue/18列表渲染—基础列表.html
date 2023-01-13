@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!--
+            v-for指令：
+                1、用于展示列表数据
+                2、语法：如下
+                3、可遍历数组、对象、字符串（用的很少）、指定次数（用的很少）
+        -->
+        <h2>人员列表</h2>
+        <ul>
+            <li v-for="p in persons" :key="p.id">
+                {{p.name}}——{{p.sex}}
+            </li>
+        </ul>
+        <ul>
+            <!--这里in还可以写成of,index是下标，:key是每个节点元素的id,不写是默默人下标-->
+            <li v-for="(p,index) in persons" :key="index">
+                {{p.name}}——{{p.sex}}——{{index}}
+            </li>
+        </ul>
+        <ul>
+            <!--遍历对象：参数是，value再到key-->
+            <li v-for="(v,k) in car" :key="k">
+                {{k}}——{{v}}
+            </li>
+        </ul>
+        <ul>
+            <!--遍历字符串：参数是，字符再到index-->
+            <li v-for="(v,i) in str" :key="i">
+                {{v}}——{{i}}
+            </li>
+        </ul>
+        <ul>
+            <!--遍历指定次数：参数是，1开始的number到index  -->
+            <li v-for="(number,index) in 5" :key="index">
+                {{number}}——{{index}}
+            </li>
+        </ul>
+    </div>
+    <script>
+        new Vue({
+            el:'#root',
+            data:{
+                persons:[
+                    {name:"张楚岚",sex:"男"},
+                    {name:"冯宝宝",sex:"女"},
+                    {name:"诸葛青",sex:"男"}
+                ],
+                car:{
+                    name:"保时捷",
+                    price:"200万",
+                    color:"五颜六色"
+                },
+                str:"beyond"
+            }
+        })
+
+    </script>
+
+</body>
+</html>

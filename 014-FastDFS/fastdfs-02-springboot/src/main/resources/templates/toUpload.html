@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--
+    定义文件上传表单，method必须为post
+    必须指定enctype属性为multipart/form-data
+    target 取值为某个iframe的name属性，用于指定某个符合页面中显示相应内容或在新窗口中响应内容
+    和ajax效果很像：
+        1、<iframe>在当前窗口开辟一个小窗口，target使表单关联小窗口，请求/upload处理后转发到success.html页面
+        2、success.html页面还是在小窗口显示
+        3、success。html运行window.top.location.href="[[${url}]]"代码后，top属性会是小窗口跳到最外层，且运行/eee请求从而转到主页
+-->
+<form th:action="@{/upload}" target="success" method="post" enctype="multipart/form-data">
+    合同文件：<input type="file" name="uploadFile"><br>
+    <input type="hidden" name="creditorId" th:value="${creditorId}">
+    <input type="submit" value="上传文件">
+</form>
+    <iframe name="success" hidden></iframe>
+
+</body>
+</html>

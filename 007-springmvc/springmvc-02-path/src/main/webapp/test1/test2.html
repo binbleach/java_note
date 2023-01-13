@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<#--当前路径：http://localhost:8080/myweb/test1/test2.html-->
+<form action="test.html" method="POST">
+    <button type="submit">POST->test.html</button>      <#--报错 访问：http://localhost:8080/myweb/test1/test.html-->
+</form>
+<form action="/test.html" method="POST">
+    <button type="submit">POST->/test.html</button> <#--报错 访问：http://localhost:8080/test.html-->
+</form>
+<form action="/myweb/test.html" method="POST">
+    <button type="submit">POST->/myweb/test.html</button> <#--访问：http://localhost:8080/test.html-->
+</form>
+<form action="index.jsp" method="POST">
+    <button type="submit">POST->index.jsp</button> <#--访问：http://localhost:8080/myweb/test1/index.jsp-->
+</form>
+<form action="/myweb/test1/index.jsp" method="POST">
+    <button type="submit">POST->/myweb/test1/index.jsp</button> <#--访问：http://localhost:8080/myweb/test1/index.jsp-->
+</form>
+<form action="/myweb/index.jsp" method="POST">
+    <button type="submit">POST->/myweb/index.jsp</button> <#--访问：http://localhost:8080/myweb/index.jsp-->
+</form>
+
+</body>
+</html>

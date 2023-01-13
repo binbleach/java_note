@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <title>Title</title>
+</head>
+<body>
+<h2>合同列表</h2>
+<table style="text-align-all: center;">
+    <tr>
+        <td>序号</td>
+        <td>姓名</td>
+        <td>身份证</td>
+        <td>性别</td>
+        <td>手机号</td>
+        <td>地址</td>
+        <td>借款金额</td>
+        <td>/</td>
+    </tr>
+    <tr th:each="cl:${creditorList}">
+        <td th:text="${clStat.count}">序号</td>
+        <td th:text="${cl.realName}">姓名</td>
+        <td th:text="${cl.id}">身份证</td>
+        <td th:text="${cl.sex==1?'男':'女'}">性别</td>
+        <td th:text="${cl.phone}">手机号</td>
+        <td th:text="${cl.address}">地址</td>
+        <td th:text="${cl.money}">借款金额</td>
+        <td>
+            <sapn th:if="${cl.creditorFile==null}">
+                <!--也可以这样写-->
+                <!--<a th:href="@{|/toupload?creditorId=${cl.id}|}">上传合同</a>-->
+                <a th:href="@{/toupload(creditorId=${cl.id})}">上传合同</a>
+            </sapn>
+            <sapn th:if="${cl.creditorFile!=null}">
+                <a th:href="@{|/download?creditorFileId=${cl.creditorFile.id}|}">下载合同</a>
+                <a th:href="@{|/delete?creditorFileId=${cl.creditorFile.id}|}" onclick="return confirm('您确定删除文件吗')">删除合同</a>
+            </sapn>
+        </td>
+
+
+    </tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.min.js"></script>
+</head>
+<body>
+    <!--
+        1、一个重要的内置关系：VueComponent.prototype.__proto__===Vue.prototype(Vue是函数，Vue.prototype是vue的原型对象)
+        注：所有函数的原型对象的原型对象都是object原型对象，vue让VueComponent原型对象的原型对象不指向Object,指向vue的原型对象
+        2、为什么要有这个关系：让组件实例对象（vc）可以访问道Vue原型上的属性、方法
+
+    -->
+    <div id="root">
+
+    </div>
+
+    <script>
+        //构造函数
+        function Demo() {
+            this.a=1;
+            this.b=2;
+        }
+        let d = new Demo();
+        console.log(Demo.prototype)//显示原型属性，指向原型对象
+        console.log(d.__proto__)//隐式原型属性，指向原型对象
+        console.log(Demo.prototype===d.__proto__);//true
+        //程序员通过显示原型属性操作原型对象，追加一个x属性，值为 1
+        Demo.prototype.x=1;
+        console.log(d,"实例对象");
+        console.log(d.__proto__,"原型对象");
+        console.log(d.__proto__.constructor,"函数")
+        console.log(Demo.prototype,"原型对象");
+        console.log(Demo.prototype.constructor,"函数");
+        console.log(d.__proto__===Demo.prototype,'原型对象一致true');
+        console.log(Demo===Demo.prototype.constructor,'函数一致true');
+        console.log(d.prototype,"undefine，实例对象没有prototype属性");
+        console.log(Demo.__proto__,"ƒ () { [native code] }");
+        console.log(d.x);//1
+        console.log(d.a);//1
+        console.log(d.__proto__.a);//undefine
+        console.log(d.__proto__.x)//1
+        console.log(Demo.prototype.x)//1
+        console.log(Demo.prototype.constructor.prototype.constructor.prototype.x)//1
+        console.log(d.__proto__.__proto__,"原型对象的原型对象，就是object原型对象原型")
+        console.log(d.__proto__.__proto__.__proto__,"空")
+        console.log(Demo.prototype.__proto__,"object原型对象")
+
+        /*
+            总结：
+                是函数，就有prototype属性指向原型对象
+                是对象(实例对象)，有__proto__属性指向原型对象
+                原型对象，有constructor指向函数
+                a和b只在实例对象里，x在原型对象里和实例对象里
+                所有函数的原型对象的原型对象都是object
+        */
+
+
+        const vm = new Vue({
+            el:"#root",
+            data:{
+                msg:"你好vue"
+            }
+        })
+    </script>
+</body>
+</html>

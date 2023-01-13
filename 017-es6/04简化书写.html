@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script >
+        //允许在大括号里直接写变量名
+        let school='电子科技大学成都学院';
+        let h =function (){
+            console.log('名字黄家宾');
+        };
+        let info = {
+            school,
+            h,
+            /*c:function (){
+                console.log("名字蔡徐坤");
+            }*/
+            c(){
+                console.log("名字蔡徐坤");   //上面代码简化后
+            }
+        }
+
+        console.log(info);
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.com.huangjiabin.fastdfs.mapper.CreditorFileMapper">
+  <resultMap id="BaseResultMap" type="com.com.huangjiabin.fastdfs.com.huangjiabin.hibernate.model.CreditorFile">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+    <result column="remote_file_name" jdbcType="VARCHAR" property="remoteFileName" />
+    <result column="old_filename" jdbcType="VARCHAR" property="oldFilename" />
+    <result column="file_size" jdbcType="BIGINT" property="fileSize" />
+    <result column="file_type" jdbcType="VARCHAR" property="fileType" />
+    <result column="ci_id" jdbcType="INTEGER" property="ciId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, group_name, remote_file_name, old_filename, file_size, file_type, ci_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from creditor_file
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from creditor_file
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.com.huangjiabin.fastdfs.com.huangjiabin.hibernate.model.CreditorFile">
+    insert into creditor_file (id, group_name, remote_file_name, 
+      old_filename, file_size, file_type, 
+      ci_id)
+    values (#{id,jdbcType=INTEGER}, #{groupName,jdbcType=VARCHAR}, #{remoteFileName,jdbcType=VARCHAR}, 
+      #{oldFilename,jdbcType=VARCHAR}, #{fileSize,jdbcType=BIGINT}, #{fileType,jdbcType=VARCHAR}, 
+      #{ciId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.com.huangjiabin.fastdfs.com.huangjiabin.hibernate.model.CreditorFile">
+    insert into creditor_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="groupName != null">
+        group_name,
+      </if>
+      <if test="remoteFileName != null">
+        remote_file_name,
+      </if>
+      <if test="oldFilename != null">
+        old_filename,
+      </if>
+      <if test="fileSize != null">
+        file_size,
+      </if>
+      <if test="fileType != null">
+        file_type,
+      </if>
+      <if test="ciId != null">
+        ci_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="groupName != null">
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="remoteFileName != null">
+        #{remoteFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="oldFilename != null">
+        #{oldFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        #{fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="fileType != null">
+        #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="ciId != null">
+        #{ciId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.com.huangjiabin.fastdfs.com.huangjiabin.hibernate.model.CreditorFile">
+    update creditor_file
+    <set>
+      <if test="groupName != null">
+        group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="remoteFileName != null">
+        remote_file_name = #{remoteFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="oldFilename != null">
+        old_filename = #{oldFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        file_size = #{fileSize,jdbcType=BIGINT},
+      </if>
+      <if test="fileType != null">
+        file_type = #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="ciId != null">
+        ci_id = #{ciId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.com.huangjiabin.fastdfs.com.huangjiabin.hibernate.model.CreditorFile">
+    update creditor_file
+    set group_name = #{groupName,jdbcType=VARCHAR},
+      remote_file_name = #{remoteFileName,jdbcType=VARCHAR},
+      old_filename = #{oldFilename,jdbcType=VARCHAR},
+      file_size = #{fileSize,jdbcType=BIGINT},
+      file_type = #{fileType,jdbcType=VARCHAR},
+      ci_id = #{ciId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

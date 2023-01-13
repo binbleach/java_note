@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!--使用v-show做条件渲染：Dom节点还在只不过不显示-->
+        <h2 v-show="1===3">你好呀薰</h2>
+        <h2 v-show="true">你好呀公生</h2>
+
+        <!--使用v-if做条件渲染：连带着Dom节点都移除了。适用于切换频率低的场景-->
+        <h2 v-if ="false">你好呀小椿</h2>
+        <h2 v-if="1===1">你好呀阿渡</h2>
+
+        <!--v-elseif：必须连续中间不允许其他代码打断,其效果和java一样-->
+        <h2>当前n的值是：{{n}}</h2>
+        <button @click="n++;">点我n++</button><button @click="n=0;">点我重置n</button>
+        <h2 v-if="n===1">你好呀有马</h2>
+        <h2 v-else-if="n===2">你好呀椿</h2>
+        <h2 v-else-if="n===3">你好呀阿渡</h2>
+        <h2 v-else="n===4">你好呀宫园熏</h2>
+
+        -------------------------------------
+        <!--v-if配合template使用不影响结构，就是没有template标签，只存在<h2>不影响样式结构，v-show不能和template使用-->
+        <template v-if="n===1">
+            <h2 >你好呀有马</h2>
+            <h2 >你好呀椿</h2>
+            <h2 >你好呀阿渡</h2>
+        </template>
+
+    </div>
+    <script>
+        new Vue({
+            el:'#root',
+            data:{
+                n:0
+            },
+        })
+    </script>
+
+
+</body>
+</html>

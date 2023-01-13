@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    单项数据绑定：<input type="text" v-bind:value="name"/>
+    双向数据绑定：<input type="text" v-model:value="name"/>
+    <!--
+        v-model只能用在表单类元素上中 就是输入有value值的
+        v-model:value可以简写成 v-model，因为v-model默认收集的就是value值
+    -->
+</div>
+<script>
+    new Vue({
+        el:'#root',
+        data:{
+            name:'黄家宾'
+        }
+    })
+</script>
+
+</body>
+</html>

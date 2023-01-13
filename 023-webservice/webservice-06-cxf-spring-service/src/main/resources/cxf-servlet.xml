@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+
+    <!--该文件不是cxf默认读取文件， 需要导入cxf的bean，并将文件引入到spring.xml中  -->
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+
+    <!--发布服务
+        url：http://localhost:8080/cxf/weather?wsdl
+    -->
+    <jaxws:server serviceClass="com.huangjiabin.cxf.service.WeatherInterface" address="/weather">
+        <jaxws:serviceBean>
+            <bean class="com.huangjiabin.cxf.service.impl.WeatherInterfaceImpl"/>
+        </jaxws:serviceBean>
+        <!--服务端添加输入日志拦截器-->
+        <jaxws:inInterceptors>
+            <bean class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
+        </jaxws:inInterceptors>
+        <!--服务端添加输出日志拦截器-->
+        <jaxws:outInterceptors>
+            <bean class="org.apache.cxf.interceptor.LoggingOutInterceptor"/>
+        </jaxws:outInterceptors>
+    </jaxws:server>
+
+
+</beans>

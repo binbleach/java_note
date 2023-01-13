@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .item{
+            width:20px;
+            height:30px;
+            border: aqua solid 1px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="page-header">点击切换颜色</h2>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+    </div>
+    <script>
+        let a=1;
+        let b,c,d;
+        let e=321,f='iloveyou',h=[];
+        //1、变量不能重复声明
+        //let star = '罗志祥'
+        //let star = '周扬青'
+
+        //2、作用域：块级作用域(es6新增) 全局作用域，函数作用域，eval作用域
+        // if else while for
+        // {
+        //   let girl = '周扬青'; //{}之外不能用
+        //  var girl = '周扬青';  //{}之外能用，全局
+        // }
+
+        //3.不存在变量提升
+        //console.log(song);  //输出defined在console控制台
+        //var song = '恋爱达人';
+        //console.log(song);  //报错
+        //let song='恋爱大人';
+
+        //4.不影响作用域链：
+        {
+            let school = '尚硅谷';
+            function fn(){
+                console.log(school);    //往上一层找
+            }
+            fn();
+        }
+
+        //5.var没有块级作用域。for循环是同步的，内部事件处理函数是异步的，所以等到异步事件触发的时候，同步代码已经跑完，
+        // 因此i也加完了（这就是为什么i固定为最大值不变的原因）
+        let items = document.getElementsByClassName("item");
+        for(let i=0;i<items.length;i++){
+            items[i].onclick = function (){
+                //for循环里的如果是var i 则下面语句，因为var是全局的此时++已经是3了，把var i 改为 let i 即可
+                items[i].style.background='pink';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        //ES6 引入了rest参数,用于获取函数的实参,用来代替arguments
+
+        //ES5的获取方式,是以对象的方式存储的
+        function data(){
+            console.log(arguments);
+        }
+        data('诸葛亮','曹操','刘备');
+
+        //ES6的获取方式
+        // rest参数必须放在其他参数前面,他是以数组的方式存储的
+        function date(a,...args){
+            console.log(a)
+            console.log(args);
+        }
+        date('孙悟空','猪八戒','红海儿');
+
+    </script>
+
+</body>
+</html>

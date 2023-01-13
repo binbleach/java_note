@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<!--深度监视简写：不需要immediate:true，deep:true等其他简写的前提下-->
+    <div id="root">
+        <h1>{{number.a}}</h1>
+        <button style="width: 60px;height: 60px" @click="number.a++;">修改a数据</button>
+        <h1>{{number.b}}</h1>
+        <button style="width: 60px;height: 60px" @click="number.b++;">修改b数据</button>
+        <h1>{{isHot}}</h1>
+        <button style="width: 60px;height: 60px" @click="isHot=!isHot">点击切换isHot</button>
+
+    </div>
+    <script>
+        const vm= new Vue({
+            el:'#root',
+            data:{
+                isHot:'true',
+                number:{
+                   a:1,
+                   b:2
+                }
+            },
+            watch:{
+                //原写法
+                number:{
+                    deep:true,
+                    handler(){
+                        console.log("number值已改变");
+                    }
+                },
+                //简写
+                isHot(newValue,oldValue) {    //表示handler
+                    console.log("isHot已被修改");
+                }
+            }
+        })
+        //配置项简写
+        vm.$watch('isHot',function (newValue,oldValue) {
+            console.log('isHot被修改了，新数据是：'+newValue)
+        })
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="jquery-3.4.1.js"></script>
+
+    <style type="text/css">
+        div{
+            background: cornflowerblue;
+            width: 200px;
+            height: 100px;
+        }
+
+    </style>
+    <script type="text/javascript">
+        /*
+        id选择器 $("#id") calss样式选择器 $(".class")
+        标签选择器 $("标签名") 全部选择器 $("*")
+        选择器可以组合使用
+        * */
+        function fun() {
+            var a=$("*");
+            a.css("background","white");
+            var b=$("div");
+            b.css("background","cornflowerblue")
+        }
+        function fun1() {
+            var a=$("#one");  /*id选择器*/
+            a.css("background","red");
+        }
+        function fun2() {
+            var a=$(".two");    /*样式选择器*/
+            a.css("background","red");
+        }
+        function fun3() {
+            var a=$("span");    /*标签选择器*/
+            a.css("background","red");
+        }
+        function fun4() {
+            var a=$("*");   /*所以选择器*/
+            a.css("background","red");
+        }
+        function fun5() {
+            var a=$("div,span");    /*组合选择器*/
+            a.css("background","red");
+        }
+        function fun6() {
+            var c=$(":button");/*这里定位的是type属性,不管有没有form有input就行，button也行有type就行<tr>不行*/
+            c.css("background","cornflowerblue");  //表单选择器
+        }
+    </script>
+</head>
+<body>
+
+<div id="one">我是有id的div</div> <br>
+<div class="two">我是有class的div</div> <br>
+<div>我是啥都没有的div</div> <br>
+<span>我是啥都没有的span</span>
+<br>
+<input type="button" value="恢复" onclick="fun()">
+<input type="button" value="id选择器" onclick="fun1()">
+<input type="button" value="样式选择器" onclick="fun2()">
+<input type="button" value="标签选择器" onclick="fun3()">
+<input type="button" value="所有选择器" onclick="fun4()">
+<input type="button" value="组合选择器" onclick="fun5()">
+<input type="button" value="表单选择器" onclick="fun6()">
+<button type="button"  value="我是按钮">我是按钮</button>
+
+
+</body>
+</html>

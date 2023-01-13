@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="jquery-3.4.1.js"></script>
+    <style>
+        div{
+            color: grey;
+        }
+    </style>
+    <script>
+        $(function () {
+            $('#btn1').click(function () {
+                var jQuery=$("div:first");  //过滤器第一个
+                jQuery.css('background','red');
+            })
+            $('#btn2').click(function () {
+                var jQuery = $('div:eq(1)');  //等于过滤标签
+                jQuery.css('background','blue')
+            })
+            $('#btn3').click(function () {
+                $('div:lt(4)').css('background','green'); //小于过滤标签
+            })
+            $('#btn4').click(function () {
+                $('div:gt(3)').css('background','yellow'); //大于过滤器
+            })
+        })
+    </script>
+</head>
+<body>
+<!--对已经定位到数组中的dom对象进行筛选过滤,过滤了也是jquery对象，不能单独使用得和选择器配合-->
+<div id="one">我是0号div</div>
+<div id="two">我是1号div</div>
+<div>我是2号div
+    <div>我是3号div</div>
+    <div>我是4号div</div>
+</div>
+<div>我是5号div</div>
+<br>
+<span>我是span</span>
+<br>
+<input type="button" value="获取第一个div" id="btn1"><br>
+<input type="button" value="获取第二个div" id="btn2"><br>
+<input type="button" value="获取第四个之前得div" id="btn3">
+<input type="button" value="获取第第三个之后的div个之前得div" id="btn4">
+</body>
+</html>

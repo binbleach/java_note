@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script type="text/javascript">
+        //promise是ES6引入的异步编程新的解决方案，语法上来说是一个构造函数，通过它可以实例化对象，内部封装异步操作
+        const p = new Promise(function (resolve,reject){
+            setTimeout(function (){
+                //let data = '数据库中的用户数据';
+                //resolve(data);//调用这个方法，状态为成功
+
+                let err = '数据读取失败';
+                reject(err); //调用这个方法状态为失败
+            },1000)
+        })
+        //成功之后执行promise对象的then方法第一个，失败第二个
+        p.then(function (value) {
+            console.log(value);
+        },function (reason) {
+            console.error(reason);      //error打印效果为小红框
+        })
+
+        //ajax
+        /*const xhr = new XMLHttpRequest();
+        xhr.open("GET","https://api.apiopen.top/getJoke");
+        xhr.send();
+        xhr.onreadystatechange=function () {
+            if(xhr.readyState==4){
+                if(xhr.status==200){
+                    console.log(xhr.response);
+                }else {
+                    console.error(xhr.status);
+                }
+            }
+        }*/
+
+        //promise+ajax
+        const p2 = new Promise((resolve,reject)=>{
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET","https://api.apiopen.top/getJoke");
+            xhr.send();
+            xhr.onreadystatechange=function () {
+                if(xhr.readyState==4){
+                    if(xhr.status==200){
+                        resolve(xhr.response);
+                    }else {
+                        reject(xhr.status);
+                    }
+                }
+            }
+        })
+        p2.then(function (value) {
+            console.log('promise+ajax+读取数据成功');
+            console.log(value);
+        },function (reason) {
+            console.log(reason);
+        })
+
+        //then方法特性，返回一个promise对象
+        const p3 = new Promise((resolve,reject)=> {
+            setTimeout(()=>{
+                resolve('调取用户数据');
+            })
+        })
+        const result=p3.then(function (value) {
+            //返回类型
+            //1.非promise类型的属性
+            //return 'I love you';  //状态为成功，值为返回的值，无则undefined
+            //2.是promise对象
+            //return new Promise((resolve,reject)=>{
+            //      resolve('ok')  //状态为成功，值为ok
+            //      reject('error') //状态为失败，值为error
+            //3.抛出错误
+            throw new Error('出错啦'); //状态为失败，值为出错啦
+        },function (reason) {
+            console.log(reason);
+        })
+        console.log(result);
+        //根据then方法的特性链式调用,杜绝回调地狱
+        p3.then(value=>{
+
+        }).then(value=>{
+
+        },reason => {
+
+        }).then(reason=>{
+        });
+
+
+
+
+
+    </script>
+
+</body>
+</html>

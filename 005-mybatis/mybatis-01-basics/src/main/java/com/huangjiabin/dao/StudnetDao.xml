@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.com.com.huangjiabin.dao.StudentDao">
+    <!--1、id表示唯一表示，mybatis会根据他来找到要执行的sql语句
+        可以自定义，要求使用接口中的方法名
+
+        2、返回类型：resultType
+        （1）返回的是对象，resultType=返回对象对象类型。
+        类型写全限定名称如：com.huangjiabin.entity.Student ,也可以自定义别名，得在mybatis主配置设置
+        （2）返回的是简单类型，如就一个数的时候，就一个int(Integer的别名)。
+        （3）返回的是map最多是一行记录，多的得装在List集合里，其实和（1）一样new对象把参数赋值进去。
+            map返回得是如map=={id=1,name=黄家宾}这样的类型,列名是key列值是value。
+    -->
+    <select id="selectStudents" resultType="com.com.com.huangjiabin.entity.Student">
+        select * from student order by id
+    </select>
+
+    <insert id="insertStudents" >
+        insert into student(id,name,email,age) values (#{id},#{name},#{email},#{age})
+    </insert>
+
+    <select id="pageHelper" resultType="Student">
+        select * from student
+    </select>
+</mapper>
+<!--
+    sql映射文件：是写sql语句的mybatis会执行这些sql
+    1、指定约束文件：
+        <!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> //固定的不需要记忆
+
+        mybatis-3-mapper.dtd约束文件名称，扩展名是dtd
+        作用：限制检查在当前文件中出现的标签、属性必须符合mybatis的要求
+
+    2、mapper：是当前文件的根标签，必须的
+    3、namespace： 叫做命名空间，唯一的，可以是自定义的字符串
+    (王妈要求你使用dao接口的全限定名称如com.huangjiabin.dao.StudentDao)
+    4、在当前文件中可以用特定标签表示数据库的特定操作。
+    <select>查询
+    <update>更新
+    <insert>插入
+    <delete>删除
+
+-->

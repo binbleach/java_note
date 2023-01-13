@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>two</title>
+    <!--导库-->
+    <script type="text/javascript" src="jquery-3.4.1.js"></script>
+
+    <script type="text/javascript" >
+
+        function fun1() {
+            var dom=document.getElementById("btn")
+            alert(dom.value+"dom对象的"); //这里是dom对象，然后就可以调用dom的属性
+            alert($(dom).val()+"jQuery对象的");  //这里转成了jquery对象所以可以用它的方法
+        }
+
+        function fun2() {
+          var jquery=$("#text");
+          alert(jquery[0].value);//dom对象可以用value方法
+            alert(jquery.get(0).value);//.get(下标)取
+            alert(jquery.val()); //jQuery直接调用，取得的是数组的时候得遍历
+            alert($(jquery[0]).val()); //jQuery转dom又转jQuery
+        }
+
+    </script>
+</head>
+<body>
+<input type="button" id="btn" value="dom转jquery" onclick="fun1()"/>
+<input type="text" id="text">
+<input type="button" id="btn2" value="jquery转dom" onclick="fun2()"/>
+
+</body>
+</html>

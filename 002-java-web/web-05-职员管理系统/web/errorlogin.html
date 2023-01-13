@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function fun1() {
+            var username=document.getElementById("one");
+            if(username.value==""){
+                //获得光标焦点
+                username.focus();
+                document.getElementById("one_*").innerHTML="姓名不能为空";
+            }else {
+                document.getElementById("one_*").innerHTML = "*";
+            }
+        }
+        function fun2() {
+            //用ByName的话返回的是一个数组
+            var password = document.getElementsByName("password");
+            if(password[0].value==""){
+                password[0].focus();
+                document.getElementById("two_*").innerHTML = "密码不能为空";
+                return false;
+            }else{
+                document.getElementById("two_*").innerHTML="*";
+            }
+        }
+
+    </script>
+</head>
+<body>
+<center><font style="font-size: 30px" color=red>账号或者密码错误</font></center>
+<form action="/myweb/loginservlet" method="post">
+    <table border="2px" align="center">
+        <tr>
+            <td>姓名</td>
+            <td><input type="text" name="username" id="one">
+                <font id="one_*" color="red"></font></td>
+        </tr>
+        <tr>
+            <td>密码</td>
+            <td><input type="password" name="password" onfocus="fun1()">
+                <font id="two_*" color="red"></font></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" id="ten" name="ck"></td>
+            <td>十天免登录</td>
+        </tr>
+        <tr>
+            <!-- return 若返回的是false表单不提交-->
+            <td><input type="submit" onclick="return fun2()"></td>
+            <td><input type="reset"></td>
+        </tr>
+    </table>
+</form>
+
+</body>
+</html>

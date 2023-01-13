@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/dayjs.min.js"></script>
+    <script src="../js/vue.min.js"></script>
+</head>
+<body>
+    <!--
+        过滤器：
+            定义：对要显示的失数据进行特定格式化后再显示（使用于一些简单逻辑的处理）。
+            语法：
+                1、插值语法能用
+                2、v-bing能用
+                3、v-model不能用
+    -->
+    <div id="root">
+        <h2>当前时间戳：{{time}}</h2>
+        <h2>修改过的时间：{{time|timeFormat("可以传参可以不传")}}</h2>
+        <h2>修改过的时间段：{{time|timeFormat|timeCut}}</h2>
+    </div>
+
+    <script type="text/javascript">
+        let vm = new Vue({
+            el:"#root",
+            data:{
+                time:"1640325930138"
+            },
+            filters:{
+                //第一个参数就算没传，也是当前过滤方法前的值，这里也就是time
+                timeFormat(value,str){
+                    console.log(str)
+                    return dayjs(value).format('YYYY年MM月DD日 HH:mm:ss')
+                },
+                //这个value则是timeCut前面timeFormat返回的参数
+                timeCut(value){
+                    return value.substring(0,5);
+                }
+            }
+        })
+        /*全局过滤器
+        Vue.filter("timeFormat",function () {
+
+        })*/
+    </script>
+</body>
+</html>

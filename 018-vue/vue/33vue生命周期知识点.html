@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.min.js"></script>
+</head>
+<body>
+    <!--
+       常用的生命周期钩子：
+            1、mounted：发送ajax请求，启动定时器、绑定自定义时间、订阅消息等【初始化操作】
+            2、beforeDestroy：清楚定时器、解绑自定义时间、取消订阅消息等【收尾工作】。
+        关于销毁Vue实例
+            1、销毁后借助Vue开发者工具看不到任何信息
+            2、销毁后自定义事件会失效、但原生DOM事件依然有效
+            3、一般不会在beforeDestroy操作数据，因为即便操作数据也不会触发更新流程了。
+    -->
+    <div id="root" :x="n">
+        <!--被template代替，无法被解析-->
+        <button>WOOWO</button>
+    </div>
+    <script>
+        let vm = new Vue({
+            //template：代替上面<div>里所有内容去解析，下面必须有div包裹
+            template:`
+                <div>
+                    <h2>当前n值是：{{n}}</h2>
+                    <button @click="add">点我n+1</button>
+                    <button @click="bai">点我销毁流程</button>
+                </div>
+            `,
+            data:{
+                n:1,
+            },
+            methods:{
+                add(){
+                    this.n++;
+                },
+                bai(){
+                    //vm.$destroy()销毁vm
+                    this.$destroy();
+                }
+            },
+            beforeCreate(){
+                console.log("初始化前，数据代理还为开始")
+            },
+            created(){
+                console.log("初始化后，数据被监视，代理")
+            },
+            beforeMount(){
+                console.log("将内存中虚拟DOM变成真实DOM放到页面前在此所有对DOM的操作最终都不会成功")
+            },
+            beforeUpdate(){
+                console.log("数据更新前掉，页面和数据还不一致")
+            },
+            updated(){
+                console.log("数据更新后掉，页面和数据还一致了")
+            },
+            mounted(){
+                console.log("挂载后")
+            },
+            beforeDestroy(){
+                console.log("销毁之前，能访问数据，你能掉方法，不能更改数据")
+            },
+            destroyed(){
+                console.log("销毁之后")
+            }
+        })
+        //没有el，掉$mount方法也能解析模板
+        vm.$mount("#root");
+    </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <!--默认欢迎界面-->
+    <welcome-file-list>
+        <welcome-file>loginservlet</welcome-file>
+    </welcome-file-list>
+
+    <!--添加部门servlet-->
+    <servlet>
+        <servlet-name>addServlet</servlet-name>
+        <servlet-class>control.addServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addServlet</servlet-name>
+        <url-pattern>/add</url-pattern>
+    </servlet-mapping>
+
+    <!--查询部门servlet-->
+    <servlet>
+        <servlet-name>selectServlet</servlet-name>
+        <servlet-class>control.selectServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>selectServlet</servlet-name>
+        <url-pattern>/select</url-pattern>
+    </servlet-mapping>
+
+    <!--登录servlet-->
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>control.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/loginservlet</url-pattern>   <!--一个小小得斜杠 //写了半天-->
+    </servlet-mapping>
+
+    <!--连接池监听器-->
+    <listener>
+        <listener-class>control.listen</listener-class>
+    </listener>
+
+    <!--防止用户恶意登录过过滤器-->
+    <filter>
+        <filter-name>safeFilter</filter-name>
+        <filter-class>control.SafeFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>safeFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--注册职员添加servlet-->
+    <servlet>
+        <servlet-name>addemp</servlet-name>
+        <servlet-class>control.addempServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addemp</servlet-name>
+        <url-pattern>/addemp</url-pattern>
+    </servlet-mapping>
+
+    <!--注册查询职员servlet-->
+    <servlet>
+        <servlet-name>selectemp</servlet-name>
+        <servlet-class>control.selectempServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>selectemp</servlet-name>
+        <url-pattern>/empselect</url-pattern>
+    </servlet-mapping>
+    
+    <!--注册ajaxcheck-->
+    <servlet>
+        <servlet-name>check</servlet-name>
+        <servlet-class>control.ajaxcheck</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>check</servlet-name>
+        <url-pattern>/namecheck</url-pattern>
+    </servlet-mapping>
+</web-app>

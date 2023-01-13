@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://dubbo.apache.org/schema/dubbo
+         http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+    <!--注意这里选择的是apache的
+   服务提供者声明名称，必须保证服务名称的唯一性，它的名称是dubbo内部使用的唯一标识符，一般是项目名，不过我这里不是
+   -->
+    <dubbo:application name="dubbo-01-direct-provider"/>
+
+
+    <!--指定协议protocol：
+        name:协议这里用的是官方推荐dubbo
+        port:默认20880端口-->
+    <dubbo:protocol name="dubbo" port="20880"/>
+
+    <!--
+    interface:暴露服务接口的全限定类名
+    ref:接口所用的实现类在spring容器的标识(id)，这里就是下面配置的实现类名
+    registry:如果不使用注册中心(直连) 就是N/A
+    -->
+    <dubbo:service interface="com.huangjiabin.service.UserService" ref="userServiceImpl" registry="N/A" timeout="15000"/>
+
+    <!--spring注册是(创建)类-->
+    <bean id="userServiceImpl" class="com.huangjiabin.service.impl.UserServiceImpl"/>
+
+</beans>

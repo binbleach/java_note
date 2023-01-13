@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="Student" class="com.huangjiabin.di_xml_set.Student">
+    <!--设值注入（也叫set注入），实际上调用的时set方法。没有set方法的话不能赋值报错。有set方法没有属性也执行set方法-->
+        <property name="age" value="21"/> <!--不管值是什么类型，都要放在引号中，xml文件规范-->
+    <!--set基本类型注入-->
+        <property name="name" value="黄家宾"/>
+    <!--set引用类型注入-->
+        <property name="school" ref="MySchool"/>
+    </bean>
+    <bean id="MySchool" class="com.huangjiabin.di_xml_set.School">
+        <property name="name" value="电子科技大学成都学院"/>
+        <property name="address" value="成都市郫都区"/>
+    </bean>
+
+    <!--构造器注入-->
+    <bean id="Student2" class="com.huangjiabin.di_xml_constructor.Student">
+        <constructor-arg name="age" value="30"/>
+        <constructor-arg name="name" value="徐凤年"/>
+        <constructor-arg name="school" ref="MySchool2"/>
+    </bean>
+
+    <bean id="MySchool2" class="com.huangjiabin.di_xml_constructor.School">
+        <constructor-arg name="name" value="武当山"/>
+        <constructor-arg name="address" value="北凉"/>
+    </bean>
+
+    <!--构造器下标注入，下标可以省略不过顺序就不能变了-->
+    <bean id="Student3" class="com.huangjiabin.di_xml_constructor.Student">
+        <constructor-arg index="1" value="35"/>
+        <constructor-arg index="0" value="陈芝豹"/>
+        <constructor-arg index="2" ref="MySchool2"/>
+    </bean>
+
+    <!--构造器调用不是自己创建的类-->
+    <bean id="File" class="java.io.File">
+        <constructor-arg name="parent" value="D:\Java\IDEA_WorkSpece\JavaSE_Note\PrintStream02.txt"/>
+        <constructor-arg name="child" value="PrintStream02.txt"/>
+    </bean>
+
+    <!--自动注入，只能时引用类型-->
+    <!--byName-->
+    <bean id="Student4" class="com.huangjiabin.di_xml_autowire.Student" autowire="byName">
+        <property name="name" value="刘备"/>
+        <property name="age" value="40"/>
+    </bean>
+
+    <!--byType-->
+    <!--自动注入，只能时引用类型-->
+    <bean id="Student5" class="com.huangjiabin.di_xml_autowire.Student" autowire="byType">
+        <property name="name" value="刘备"/>
+        <property name="age" value="40"/>
+    </bean>
+    <!--
+    使用 byType 方式自动注入，要求：配置文件中被调用者 bean 的 class 属性指定的类，
+    要与代码中调用者 bean 类的某引用类型属性类型同源。即要么相同，要么有 is-a 关系（子
+    类，或是实现类）。但这样的同源的被调用 bean 只能有一个。多于一个，容器就不知该匹配
+    哪一个了。
+    -->
+
+    <!--多配置文件 ,classpath代表类路径下，就是target-classes下-->
+    <!--<bean id="school" class="com.huangjiabin.di_xml_autowire.School">
+        <property name="name" value="三国小学"/>
+        <property name="address" value="成都"/>
+    </bean>-->
+
+    <!--<import resource="classpath:School4and5.xml"/>-->
+    <import resource="classpath*:School*.xml"/>  <!--通配符 不能包含主文件不然就一直循环，报错-->
+</beans>

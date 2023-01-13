@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script TYPE="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <!--MVVM模型
+        M是模型model，对应的是data里的东西，最终会显示到vm里
+        V是视图:模板，mv里有的模板都能用
+        VM是视图模型，就相当于vue实例对象,里面有两条线一条DataBindings:M->V一条监听DOMListeners:v->M -->
+    <div id="root">     <!--V-->
+        名称：{{name}}
+        地址：{{address}}
+    </div>
+    <script>
+        Vue.config.productionTip=false;
+        new Vue({       /*VM*/
+            el:'#root',
+            data:{      /*M*/
+                name:"黄家宾",
+                address:"海南"
+            }
+        })
+    </script>
+
+</body>
+</html>

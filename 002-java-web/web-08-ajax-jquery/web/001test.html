@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--使用jQuery，首先要将jQuery库引入。-->
+    <script type="text/javascript" src="jquery-3.4.1.js"></script>
+
+    <style>
+        item{
+            color: dodgerblue;
+        }
+    </style>
+</head>
+<body>
+<ul id="aaa">
+    <li id="bbb" class="item">
+        <div>div1</div>
+        <div>div2</div>
+    </li>
+    <li>
+        <div>div3</div>
+        <div>div4</div>
+    </li>
+    <li>
+        <div></div>
+        <div></div>
+    </li>
+</ul>
+<ul class="level-1">
+    <li class="item-i">I</li>
+    <li class="item-ii">II
+        <ul class="level-2">
+            <li class="item-a">A</li>
+            <li class="item-b">B
+                <ul class="level-3">
+                    <li class="item-1">1</li>
+                    <li class="item-2">2</li>
+                    <li class="item-3">3</li>
+                </ul>
+            </li>
+            <li class="item-c">C</li>
+        </ul>
+    </li>
+    <li class="item-iii">III</li>
+</ul>
+</body>
+<script>
+    $(function () {
+        var $fileList =  $("#aaa").find("li")
+        console.log("$fileList=====",$fileList)
+        console.log("$fileList[0]：",$fileList[0])
+        console.log("dom=========",document.getElementById("bbb"))
+        //true
+        console.log("$fileList[0]===dom",document.getElementById("bbb")===$fileList[0])
+
+        console.log("$ul=========",$("#aaa"))
+        console.log("$ul.length======",$("#aaa").length)
+
+    })
+</script>
+
+</html>

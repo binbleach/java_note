@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+    <!--cxf，默认加载文件，配置及发布或接收成功。获取bean的话要通过spring的方式去加载它
+        address：wsdl文档地址
+        serviceClass：调用的接口路径
+        id：用于spring调用的唯一标识
+    -->
+    <jaxws:client id="weather" serviceClass="com.huangjiabin.cxf.clinet.WeatherInterface"
+                  address="http://localhost:8080/cxf/weather?wsdl"
+    />
+</beans>

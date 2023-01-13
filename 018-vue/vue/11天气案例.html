@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <!--天气案例重点就是绑定的事件方法内容很短可以直接加进去-->
+    <div id="root">
+        <h2>今天天气is{{weathercap}}</h2>
+        <button  @click="weatherqie()">点击切换天气</button>
+        <button  @click="weather=!weather">点击切换天气</button>
+    </div>
+    <script>
+        new Vue({
+            el:'#root',
+            data:{
+                weather:true
+            },
+            methods:{
+                weatherqie(){
+                    this.weather=!this.weather
+                }
+            },
+            computed:{
+                weathercap(){
+                    return this.weather?"天气晴朗":"大于瓢泼";
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+1.介绍：
+              1）一组（8个）来自于Servlet规范中接口
+              2) 监听器接口由项目开发人员负责实现
+              3) 监听器负责监听作用域对象并在指定事件中调用监听处理方法
+           2.作用域对象:
+             存在于服务端计算机内存中，可以在指定条件下为servlet之间提供
+            数据共享服务的对象
+3.Servlet规范中定义作用域对象:3个
+               1.ServletContext接口----全局作用域对象
+               2.HttpSession接口  ------会话作用域对象
+               3.HttpServletRequest接口----请求作用域对象
+4.监听器作用:
+
+              1) 监听作用域对象生命周期变化时刻
+              2) 监听作用域对象存放共享数据变化时刻
+
+        5.监听器接口实现类开发步骤
+              1）根据监听目的选择对应接口进行实现
+              2）重写监听器接口中事件处理方法，这些方法在指定事件
+                   产生时由tomcat负责调用
+              3）web.xml向tomcat注册监听器接口实现类
+
+      6.ServletContextListener接口：
+               监听全局作用域对象生命周期变化时刻
+
+      7.全局作用域对象生命周期：
+
+               1）在Tomcat启动时，自动为当前网站创建全局作用域对象
+               2）在Tomcat运行时，一个网站有且只能有一个全局作用域对象
+               3）在Tomcat关闭时，自动销毁网站中全局作用域对象
+
+    8.ServletContextAttributeListener接口
+
+             监听全局作用域对象共享数据变化时刻
+
+    9.全局作用域对象共享数据变化
+
+                   ServletContext application = request.getServletContext();
+                   application.setAttribute("key1",100); //新增共享数据
+                   application.setAttribute("key1",200);//更新共享数据
+                   application.removeAttribute("key1");//移除共享数据

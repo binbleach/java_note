@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        /*
+        1、生成器函数是es6提供给我们的一种异步编程解决方案，
+        2、语法行为与传统函数完全不同 ：
+            (1)不能直接执行代码，只能通过next()方法。
+            (2)yield函数代码分割符。
+            (3)可以传参，如果传参在next()里则会做上一条yield的返回结果。
+        */
+
+        //一
+        function * gen() {
+            console.log("hello generator");
+        }
+        gen();//并不能打印出 hello generator 这句话
+        gen().next();//只能通过next()方法打印出hello generator
+
+        //二
+        function * gan(){
+            console.log('干他丫的');
+            yield '两只老虎';
+            console.log('嘤嘤嘤');
+            console.log('冲冲冲');
+            yield '真奇怪';
+        }
+
+        let iterator = gan();
+        iterator.next();    //干他丫的
+        console.log(iterator.next()); //先打印冲冲冲，再返回一个对象值为真奇怪，done为fasle
+        console.log(iterator.next());//返回的是undefined，done为true
+        console.log('-----------------------')
+        for(let v of gan()){
+            console.log("for of :"+v); //遍历的v是 yield的值
+        }
+
+        //三传参
+        function * jyyh(arg) {
+            console.log(arg);
+            let a=yield '我是第一';
+            console.log('a'+a);
+            let b=yield '我是第二';
+            console.log('b'+b);
+            let c=yield '我是第三';
+            console.log('c'+c);
+        }
+        let iterator1 = jyyh('黄家宾');
+        console.log(iterator1.next('AAA')); //黄家宾 我是第一名
+        console.log(iterator1.next('BBB')); //aBBB 我是第二名
+        console.log(iterator1.next('CCC')); //bCCC 我是第三名
+
+
+
+
+    </script>
+
+</body>
+</html>

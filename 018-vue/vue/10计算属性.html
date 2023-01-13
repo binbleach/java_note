@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <!--一：姓名案例：通过姓和名计算出全名-->
+    <div id="root">
+        姓：<input v-model="firstName"/><br/>
+        名：<input v-model="lastName"/><br/>
+        <!--这里的fullName必须加括号，和绑定事件加不加()都行不一样，插入的是返回值不是函数
+        ，mv里的数据一发生变化，模板会重新解析，方法会再次被调用-->
+        全名：<span>{{fullName()}}</span>
+        全名：<span>{{fullName()}}</span>
+    </div>
+    <script>
+        Vue.config.productionTip='false'
+        new Vue({
+            el:'#root',
+            data:{
+                firstName:'张',
+                lastName:'三'
+            },
+            methods:{
+                fullName(){
+                    console.log("fullName被调用了");
+                    return this.firstName+'-'+this.lastName;
+                }
+            }
+        })
+    </script>
+
+    <!--
+        二：计算属性，Vue认位data里的数据都是属性,所谓计算属性就是对属性加工后使用
+                1、定义：要使用属性不存在，要通过已有属性计算得来
+                2、原理：底层借助了Object.defineproperty方法提供得getter和setter
+                3、get函数什么时候执行？
+                    （1）、初次读取时回执行一次。
+                    （2）、当依赖的数据发生改变会被再次调用。
+                4、优势：与methods失效相比，内部有缓存机制（服用），效率更高，调试方便。
+                5、备注：
+                    1、计算属性最终会出现在vm上，直接读取使用即可
+                    2、如果计算属性要被修改那必须写上set函数去响应修改，且set中要引起计算时依赖的数据改变
+                -->
+    <div id="root2">
+        姓：<input v-model="firstName"/><br/>
+        名：<input v-model="lastName"/><br/>
+        <!--
+            这里的fullName1和上面不同，不是方法，而是存在vm里的属性计算属性直接存在vm里。不是通过_data代理拿到的别名
+            还有是计算属性有缓存就算下面再调，但get也只会执行一次，除非依赖属性更改才重新刷新
+        -->
+        全名：<span>{{fullName1}}</span>
+        全名：<span>{{fullName1}}</span>
+    </div>
+    <script>
+        Vue.config.productionTip='false'
+        var vm=new Vue({
+            el:'#root2',
+            data:{
+                firstName:'张',
+                lastName:'三'
+            },
+            //计算属性写在这
+            computed:{
+                //属性
+                fullName1:{
+                    //当有人读取fullName1时，get就会被调用，且返回值就作fullName的值
+                    //get什么时候调用？1、初次读取fullName1时 2、所以来的数据发生变化时
+                   get(){
+                        console.log("计算属性get被调用了");
+                        return this.firstName+'-'+this.lastName;
+                   },
+                   //set什么时候被调用？1、当fullName1被修改时,收到的参数valeu修就是改的值。
+                    set(value){
+                        console.log(value);//只做输出不会调用get，得改firstName或lastName
+                        fullName=value.split("-")
+                        this.firstName=fullName[0];
+                        this.lastName=fullName[1];
+                    }
+                }
+            }
+        })
+    </script>
+
+
+    <!--计算属性的简写：适用于只读不改，也就是不需要set-->
+    <div id="root3">
+        姓：<input v-model="firstName"/><br/>
+        名：<input v-model="lastName"/><br/>
+        全名：<span>{{fullName2}}</span>
+    </div>
+    <script>
+        Vue.config.productionTip='false'
+        new Vue({
+            el:'#root3',
+            data:{
+                firstName:'张',
+                lastName:'三'
+            },
+            computed:{
+                //函数当get用
+                fullName2(){
+                    console.log("计算属性简写get被调用了");
+                    return this.firstName+'-'+this.lastName;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

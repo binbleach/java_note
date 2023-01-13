@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <welcome-file-list>
+        <welcome-file>_01Welcome.html</welcome-file>
+        <!--
+            一：
+               设置欢迎页为：<welcome-file>Welcome.do</welcome-file>
+               结果：request.getServletPath() = "/Welcome.do"
+               不管欢迎页怎么设置都是下面结果：
+                    request.getContextPath() = "/aaa"
+                    request.getRequestURI()  = "/aaa/"
+                    request.getRequestURL()  = "http://localhost:8080/aaa/"
+            二：
+               设置欢迎页为：<welcome-file>/Welcome.do</welcome-file> 有拦截//Welcome的Servlet
+               结果：request.getServletPath() = "//Welcome.do"
+            三：
+               设置欢迎页为：<welcome-file>/Welcome.do</welcome-file> 没有拦截"//Welcome.do"的Servlet
+               结果：request.getServletPath() = "/"
+        -->
+<!--        <welcome-file>Welcome.do</welcome-file>-->
+    </welcome-file-list>
+
+    <servlet>
+        <servlet-name>Welcome</servlet-name>
+        <servlet-class>_01Welcome</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Welcome</servlet-name>
+        <url-pattern>/Welcome.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>sendRedirect</servlet-name>
+        <servlet-class>_03sendRedirect</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>sendRedirect</servlet-name>
+        <url-pattern>/1/sendRedirect</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>RequestDispatcher</servlet-name>
+        <servlet-class>_04getRequestDispatcher</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RequestDispatcher</servlet-name>
+        <url-pattern>/1/RequestDispatcher</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ServletContext</servlet-name>
+        <servlet-class>_06ServletContext</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletContext</servlet-name>
+        <url-pattern>/ServletContext</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ServletContext2</servlet-name>
+        <servlet-class>_06ServletContext2</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletContext2</servlet-name>
+        <url-pattern>/ServletContext2</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Cookie</servlet-name>
+        <servlet-class>_07Cookie</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Cookie</servlet-name>
+        <url-pattern>/Cookie</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Cookie2</servlet-name>
+        <servlet-class>_07Cookie2</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Cookie2</servlet-name>
+        <url-pattern>/Cookie2</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Session</servlet-name>
+        <servlet-class>_08HttpSession</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Session</servlet-name>
+        <url-pattern>/Session</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Session2</servlet-name>
+        <servlet-class>_08HttpSession2</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Session2</servlet-name>
+        <url-pattern>/Session2</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Request</servlet-name>
+        <servlet-class>_09RequestsetAttribute</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Request</servlet-name>
+        <url-pattern>/request</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Request2</servlet-name>
+        <servlet-class>_09RequestgetAttribute</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Request2</servlet-name>
+        <url-pattern>/request2</url-pattern>
+    </servlet-mapping>
+
+    <listener>
+        <listener-class>_11ServletContextListener</listener-class>
+    </listener>
+    <!--监听注册-->
+    <listener>
+        <listener-class>_11ServletContextAttributeListener</listener-class>
+    </listener>
+    <!--和监听器无关，只是普通的servlet,用于向ServletContext中添加数据，去测试监听器的运行-->
+    <servlet>
+        <servlet-name>listener</servlet-name>
+        <servlet-class>_11testServletAttributeListener</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>listener</servlet-name>
+        <url-pattern>/listener</url-pattern>
+    </servlet-mapping>
+    <!--过滤器注册-->
+    <filter>
+        <filter-name>_12TestFilter</filter-name>
+        <filter-class>_12Filter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>_12TestFilter</filter-name>
+        <url-pattern>/sh.png</url-pattern>
+    </filter-mapping>
+    <!--过滤器注册-->
+
+    <servlet>
+        <servlet-name>jstl</servlet-name>
+        <servlet-class>_15JSTL</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>jstl</servlet-name>
+        <url-pattern>/jstl</url-pattern>
+    </servlet-mapping>
+
+</web-app>

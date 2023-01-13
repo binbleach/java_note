@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.com.com.huangjiabin.dao.StudentDao">
+    <!--
+        一、返回类型：主要是看查询的属性赋值给了啥就是啥。
+        二、赋值：是通过列名对属性名赋值，所以列明和属性名得一致。
+        三、返回类型写的是全限定名，也可以是自己起的***别名在mybatis配置中设置***
+    -->
+
+    <!-- 第一种，返回类型是对象（），对象可以是任何自定义对象-->
+    <select id="selectStudents" resultType="stu">
+        select id,name,email,age from student where id > #{爱啥啥}
+    </select>
+
+    <!--第二种返回的是一个数-->
+    <select id="selectStudentCount" resultType="int">
+        select count(*) from student
+    </select>
+
+    <!--第三种返回的是Map，只能返回一条数据，不然得用List封装起来-->
+    <select id="selectStudentMap" resultType="java.util.Map">
+        select * from student where name = #{key1}
+    </select>
+
+    <!--第四种resultMap,用来解决对象属性名和查询数据的列名不同的时候-->
+    <resultMap id="MyStudent" type="com.com.com.huangjiabin.entity.MyStudent">
+        <id column="id" property="myId"/>  <!--这行代表主键列-->
+        <result column="name" property="myName"/>
+    </resultMap>
+    <select id="selectMyStudent" resultMap="MyStudent">
+        select id,name from student where id=#{id}
+    </select>
+
+    <!--第二种解决属性名不匹配的方法-->
+    <select id="selectMyStudent1" resultType="MyStudent">
+        select id as myId,name as myName from student where id=#{id}
+    </select>
+
+    <!--第一种模糊查询-->
+    <select id="selectStudentLike1" resultType="Student">
+        select * from student where name LIKE #{name}
+    </select>
+
+    <!--第二种模糊查询-->
+    <select id="selectStudentLike2" resultType="Student">
+        select * from student where name LIKE "%" #{name} "%"
+    </select>
+
+</mapper>

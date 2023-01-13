@@ -1,0 +1,55 @@
+1、项目01是演示session丢失
+    你在tomcat1、tomcat2上部署同一个项目，项目有两个功能一个set设置session,一个get拿到session
+    然后在同一个浏览器tomcat1 set之后tomcat2却不能get。
+
+2、项目02是演示springsession:
+    只需要在applicationContext.xml中配置这个就可以实现同域名同项目的session共享就像nginx下的p2p项目
+    <bean  id="redisHttpSessionConfiguration" class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+        <!--配置seesion最大生命周期，单位秒，默认1800秒30分钟-->
+        <property name="maxInactiveIntervalInSeconds" value="1800"/>
+        <!--引入序列化规则对象-->
+        <property name="cookieSerializer" ref="defaultCookieSerializer"/>
+    </bean>
+
+    <!--设置cookie序列化规则对象-->
+    <bean id="defaultCookieSerializer" class="org.springframework.session.web.http.DefaultCookieSerializer">
+@        <!--指定session存放在域名的根目路下，实现同域名不同项目的session共享-->
+        <property name="cookiePath" value="/"/>
+
+@        <!--指定SpringSession的session存放在根域名下，实现同域名不同二级子域名数据共享，适合多城市站点部署-->
+        <property name="domainName" value="myweb.com"/>
+    </bean>
+
+    注：同域名不同二级子域名需要在C:\Windows\System32\drivers\etc\hosts的dns映射下改:
+            127.0.0.1 p2p.myweb.com  //这里是反着的
+            127.0.0.1 shop.myweb.com
+
+3、单点登录：可以实现像登录淘宝，同时登录天猫。springsession不支持需要自己写SSO
+
+4、springboot集成springsession：
+    1、添加依赖：
+       <!--springsession将数据存入reids依赖包-->
+               <dependency>
+                   <groupId>org.springframework.session</groupId>
+                   <artifactId>spring-session-data-redis</artifactId>
+               </dependency>
+
+   <!--springboot集成redis依赖包-->
+   <dependency>
+       <groupId>org.springframework.boot</groupId>
+       <artifactId>spring-boot-starter-data-redis</artifactId>
+   </dependency>
+
+    2、配置springboot连接redis
+       spring.redis.host=192.168.8.128
+       spring.redis.port=6379
+
+    3、SpringSession配置：
+        #设置springsession的session最大生命周期，单位看后面，默认30分钟
+        server.servlet.session.timeout=30m
+        #指定cookie的存放路径为根路径
+        server.servlet.session.cookie.path=/
+        #指定Cookie的存放在根域名，用于实现同域名不同二级子域名的Session共享
+        server.servlet.session.cookie.domain=myweb.com
+
+    4、配置两个端口再包成jar再解压到linux上运行即可

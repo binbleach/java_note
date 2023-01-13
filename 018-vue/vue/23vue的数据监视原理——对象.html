@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <!--
+        模拟vue的数据监视，监视data里的数据，可以通过get获取且set改变有通知并改变
+        之前的数据代理是数据代理。。。
+    -->
+    <script>
+        let data={
+            name:"黄家宾",
+            age:"21"
+        };
+        //这个读也不行改也不行，当data.name时，get会被调用，死循环
+        /*Object.defineProperty(data,"name",{
+            get(){
+               return data.name;
+            },
+            set(val){
+                data.name=val;
+            }
+        })*/
+
+        //创建一个监视的实例对象，用于监视data中属性的变化
+        const obs = new Observer(data);
+        function Observer(obj){
+            const keys = Object.keys(obj);
+            keys.forEach((k)=>{
+                Object.defineProperty(this,k,{
+                    get(){
+                        return obj[k];
+                    },
+                    set(val){
+                        obj[k]=val;
+                        console.log("${k}被改了，我要解析模板，生成虚拟dom")
+                    }
+                })
+            })
+        }
+        let vm={};
+        vm._data = obs;
+        //不足:vm不能直接vm.name,因为没做数据代理，只是数据监视了，
+        //     还有监视不到属性里的属性。
+
+    </script>
+
+</body>
+</html>

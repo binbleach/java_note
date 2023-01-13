@@ -1,0 +1,31 @@
+        接口          mapper          mybatis配置   select实用    insert实用    封装
+顺序：StudnetDao -> StudentDao.xml -> mybatis.xml -> MyApp -> test.MyAppTest->MyBatisUtils
+    -> MyApp2(封装实用)
+
+第二章：
+  1 主要类的介绍
+   1） Resources： mybatis中的一个类， 负责读取主配置文件
+	  InputStream in = Resources.getResourceAsStream("mybatis.xml");
+
+	2)SqlSessionFactoryBuilder : 创建SqlSessionFactory对象，
+	     SqlSessionFactoryBuilder builder  = new SqlSessionFactoryBuilder();
+        //创建SqlSessionFactory对象
+        SqlSessionFactory factory = builder.build(in);
+
+  3）SqlSessionFactory ： 重量级对象， 程序创建一个对象耗时比较长，使用资源比较多。
+        在整个项目中，有一个就够用了。
+
+     SqlSessionFactory:接口  ， 接口实现类： DefaultSqlSessionFactory
+	  SqlSessionFactory作用： 获取SqlSession对象。SqlSession sqlSession = factory.openSession();
+
+	  openSession()方法说明：
+	   1. openSession() ：无参数的， 获取是非自动提交事务的SqlSession对象
+		2. openSession(boolean): openSession(true)  获取自动提交事务的SqlSession.
+		                         openSession(false)  非自动提交事务的SqlSession对象
+
+ 4)SqlSession:
+   SqlSession接口:定义了操作数据的方法 例如 selectOne() ,selectList() ,insert(),update(), delete(), commit(), rollback()
+   SqlSession接口的实现类DefaultSqlSession。
+
+	使用要求： SqlSession对象不是线程安全的，需要在方法内部使用， 在执行sql语句之前，使用openSession()获取SqlSession对象。
+	在执行完sql语句后，需要关闭它，执行SqlSession.close(). 这样能保证他的使用是线程安全的。

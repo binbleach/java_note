@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+
+    <h2>人员列表监视属性实现</h2>
+    <input v-model="param" type="text" placeholder="请输入名字">
+    <ul>
+        <li v-for="(p,index) in nowPersons" :key="index">
+            {{p.name}}——{{p.sex}}——{{p.age}}
+        </li>
+    </ul>
+
+</div>
+<script>
+    new Vue({
+        el:'#root',
+        data:{
+            persons:[
+                {name:"马冬梅",age:"35",sex:"女"},
+                {name:"周冬雨",age:"30",sex:"女"},
+                {name:"周杰伦",age:"45",sex:"男"},
+                {name:"温兆伦",age:"50",sex:"男"}
+            ],
+            nowPersons:[],
+            param:""
+        },
+        watch:{
+            param:{
+                immediate:true,
+                handler(newValue){
+                    this.nowPersons=this.persons.filter((p)=>{
+                        return p.name.indexOf(newValue)!==-1
+                    })
+                }
+            }
+        }
+    })
+
+</script>
+==========================================================
+<div id="root1">
+<h2>人员列表计算属性实现</h2>
+<input v-model="param1" type="text" placeholder="请输入名字">
+<ul>
+    <li v-for="(p,index) in nowPersons1" :key="index">
+        {{p.name}}——{{p.sex}}——{{p.age}}
+    </li>
+</ul>
+
+</div>
+<script>
+    new Vue({
+        el:'#root1',
+        data:{
+            persons1:[
+                {name:"马冬梅",age:"35",sex:"女"},
+                {name:"周冬雨",age:"30",sex:"女"},
+                {name:"周杰伦",age:"45",sex:"男"},
+                {name:"温兆伦",age:"50",sex:"男"}
+            ],
+            param1:""
+        },
+        computed:{
+            nowPersons1(){
+                    return this.persons1.filter((p)=>{
+                        return p.name.indexOf(this.param1)!==-1
+                    })
+            }
+        }
+    })
+
+</script>
+
+</body>
+</html>
