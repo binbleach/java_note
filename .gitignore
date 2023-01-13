@@ -18,6 +18,7 @@ target/
 **/mvnw.cmd
 **/.mvn
 **/target/
+**/out/
 **/.gitignore
 
 ### Maven ###
