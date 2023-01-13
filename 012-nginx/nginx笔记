@@ -1,0 +1,318 @@
+Nginx主要应用：
+静态网站部署：Nginx是一个http的web服务器，可以部署静态资源
+负载均衡
+静态代理
+静动分离
+虚拟主机
+1、Nginx反向代理
+    正向代理对象是客户端，反向代理对象是服务端。
+    反向代理就像电信的总机转接你的电话到空闲的客服
+    正向代理就像vpn，你访问外网翻墙需要的跳板
+
+2、Nginx安装：
+    1）官网下载linux安装包，并解压到linux
+    2）安装所需库：yum install gcc openssl openssl-devel pcre pcre-devel zlib zlib-devel -y
+    3）设置安装位置：./configure --prefix=/usr/local/nginx
+    4）执行命令进行编译：make
+    5）执行命令进行安装：make install
+
+3、启动Nginx:
+    1）在sbin目录下运行./nginx
+        启动成功，会有一个进程master,一个worker
+    2）配置文件启动：./nginx -c /usr/local/nginx/conf/nginx.conf -t
+        如：/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx1.conf -t
+        注：后面加个-t 可以检查配置文件是否损坏，想真正启动得去掉t
+
+4、关闭Nginx:
+    1）优雅关闭：kill -QUIT 主pid(进程号)
+    2）快速关闭：kill -TERM 主pid
+
+5、重启Nginx:./nginx -s reload
+
+6、配置文件：
+    1）worker_processes 1:配置工作worker进程数目，根据自身硬件调整，通常是cpu数量或者低于cpu两倍数量
+    2）日志级别：[debug、info、notice、warn、error、crit]，默认是error
+       如 ：error_log logs/error.log notice
+    3）logs/nginx.pid #配置经常pid文件（里面就一串数字）
+    4）worker进程的连接上限：
+        events {
+            worker_connections  1024;  #这是连接上限，总的（上限65535）=进程数*连接数量
+        }
+    5）配置http服务器，利用它的方向代理功能实现负载均衡
+       http {
+           #配置nginx支持哪些多媒体类型，可以在conf/mime.types查看支持哪些多媒体类型
+           include       mime.types;
+           #如果在mime里没有，默认文件类型 流类型，可以理解为支持任意类型
+           default_type  application/octet-stream;
+
+           #配置日志格式
+           #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+           #                  '$status $body_bytes_sent "$http_referer" '
+           #                  '"$http_user_agent" "$http_x_forwarded_for"';
+
+           #配置access.log日志及存放路径。并使用上面定义的main日志格式
+           #access_log  logs/access.log  main;
+
+           sendfile        on;  #开启高效文件传输模式
+           #tcp_nopush     on;  #防止网络堵塞
+
+           #keepalive_timeout  0;
+           keepalive_timeout  65; #长连接超时时间，单位是秒
+
+           #gzip  on;   #开启gzip压缩传输
+
+    6）配置server虚拟主机，一个http可以有多个server(端口号和域名不能两个都相同)
+        server {
+                listen       80;             #端口号
+                server_name  localhost;      #域名
+
+                #charset koi8-r;            #配置字符集
+
+            #access_log  logs/host.access.log  main;   #虚拟主机的访问日志
+
+                # 拦截/请求
+                location / {
+                    #root是配置服务器的默认网站根目录位置，默认为nginx安装主目录下的html目录
+                    root   html;
+                    index  index.html index.htm;    #配置文件的名称
+                }
+                #/是根路径 root也是根路径，请求用/替代，找文件加上root就好。ip/ace/index.html->/opt/www/ace/index.html下的文件
+                #注：不管上面或者下面的地址有没有在后面添加"/"
+                location /ace {
+                    root /opt/www;
+                    index login.html; #默认欢迎页面
+                }
+
+                #error_page  404              /404.html; #配置404页面
+
+                # redirect server error pages to the static page /50x.html #配置50x错误页面
+                #
+                error_page   500 502 503 504  /50x.html;
+
+                #精准拦截
+                location = /50x.html {
+                    root   html;
+                }
+
+7、负载均衡：将请求均匀的分摊到集群中的多个服务器节点上执行.两种方式，一种软件，一种硬件贵好
+    1、负载均衡部署  ：
+        a、以上面为起点，解压两个tomcat,两台服务器,一台2，一台3。
+
+        b、配置启动一台tomcat端口号，在conf->server.xml
+            改一：<Server port="8004" shutdown="SHUTDOWN" debug="0">的8005改为其它的端口。
+            改二(这里是访问端口号)：<Connector port="9200" protocol="HTTP/1.1" maxThreads="150" connectionTimeout="20000" redirectPort="8443" />
+            改三：<Connector port="8008" protocol="AJP/1.3" redirectPort="8443" />
+
+        c、设置负载均衡：在nginx配置中conf->nginx.conf
+            #访问时就可以去掉端口号访问
+            upstream www.myweb.com{
+            server 192.168.8.128:9200;
+            server 192.168.8.128:8080;
+            }
+            server{
+            location /myweb {
+                proxy_pass http://www.myweb.com;
+            }
+            }
+
+        d、该tomcat中部署的myweb项目的jsp内容，就可以看出两个文件来自那个服务器。
+
+8、负载均衡策略：
+    1、轮回策略（默认）：要求机器的性能一致，否则会导致堆积。如果有机器宕掉会被踢不再循环。
+        upstream backserver {
+            	server 127.0.0.1:8080;
+            	server 127.0.0.1:9090;
+        }
+    2、权重策略：权重越高，分配的请求就会越多，其中weight是比例该概念
+        upstream backserver {
+            	server 192.168.8.128:9200 weight=5;
+            	server 192.168.8.128:8080 weight=2;
+        }
+    3、最少连接数：那个服务器不忙就给哪个。可能少的性能差，会导致压力大
+        upstream backserver {
+            	least_conn;
+            	server 127.0.0.1:8080;
+            	server 127.0.0.1:9090;
+        }
+    4、ip_hash：以上三种都会导致session丢失。nginx会拿到用户的ip通过计算选择服务器。
+                计算的方式是通过ip拿到hash值%服务器数 hash("192.168.8.128") % 2
+                能解决session丢失问题不过可能会导致算出的数据都是一台服务器的值导致请求都给这台服务器然后宕机
+        upstream backserver {
+            	ip_hash;
+            	server 127.0.0.1:8080;
+            	server 127.0.0.1:9090;
+        }
+
+9、备份服务器：用于代码更新
+    配置1：
+    upstream backserver {
+        	server 127.0.0.1:9100;
+    		#其它所有的非 backup机器down的时候，才请求backup机器，不能和ip_hash一起用
+        	server 127.0.0.1:9200 backup;
+    }
+    配置2：
+    	upstream backserver {
+        server 127.0.0.1:9100;
+        #down表示当前的server是down状态，不参与负载均衡。
+        server 127.0.0.1:9200 down;
+    }
+
+10、静态代理、静动分离应对高并发实现方式（现在看不出区别，不是非要nginx，只是效率高就用它）：
+    方式一：；拦截后缀、不是以下后缀的不取
+    location ~ .*\.(js|css|htm|html|gif|jpg|jpeg|png|bmp|swf|ioc|rar|zip|txt|flv|mid
+    |doc|ppt|pdf|xls|mp3|wma)$ {
+        	root /opt/static;
+    }
+    说明
+    ~ 表示正则匹配，也就是说后面的内容可以是正则表达式匹配
+    第一个点 . 表示任意字符
+    *表示一个或多个字符
+    \. 是转移字符，是后面这个点的转移字符
+    | 表示或者
+    $ 表示结尾
+
+    方式二：拦截路径包含以下
+    location ~ .*/(css|js|img|images) {
+        	root   /opt/static;
+    }
+    	xxx/css
+    xxx/js
+    xxx/img
+    xxx/images
+
+
+11、关于访问第一个/开始(不包含http://)之前的都是根，后面加的访问路径在后台文件夹上也要对应
+    如：访问192.168.8.128/myweb  那后台文件就在 设置的root(如:/opt/static)下的myweb目录下
+
+12、动静分离部署,p2p项目。
+    1、你可一根据课件来不过我这个不是根据课件来的。
+    2、p2p项目dataservice目录复制到tomcat5的webapps里，这台服务器是提供者，通过dubbo注册中心连接获取
+    3、剩下两个服务器tomcat3、4，把p2p项目里的p2p目录复制过去，这两台台服务器是消费者。
+    4、打开redis、mysql、zookeeper。
+    5、通过配置nginx反向代理实现负载均衡，代理3、4服务器：
+    upstream www.p2p.com{
+	server 192.168.8.128:9300;
+	server 192.168.8.128:9400;
+    }
+    server{
+    	  location /p2p {
+                proxy_pass http://www.p2p.com;
+            }
+    )
+    6、移出3、4tomcat服务器中，webapps目录下的p2p项目的静态文件：js、img、images、css
+    7、把静态文件移动到目录：opt/static/p2p
+
+    8、配置静态文件的代理(这里我理解为拦截器)：
+    upstream www.static.com{
+    	server 192.168.8.128:81;
+    	server 192.168.8.128:82;
+        }
+    server{
+          location ~ .*/(js|img|images|css) {   #注意这里有空格
+                proxy_pass http://www.static.com;
+            }
+    )
+
+    9、配置两个nginx配置文件，用来模仿启动两台nginx:
+        1）设置端口改成三台nginx不一样且上面用到
+            server {
+                    listen       81;
+            }
+        2） 配置拦截器
+            server{
+                location ~ .*/(css|js|img|images) {
+                            root /opt/static;
+                        }
+            }
+    10、ok.启动3台tomcat，三台nginx，一个redis,一个mysql，一个zookeeper就行了
+        注：遇到bug:前面配置的一主二从redis，导致不能写，用redis.conf本来的配置，因为没该bind用不了
+
+13、虚拟主机：虚拟主机，就是把一台物理服务器划分成多个“虚拟”的服务器，这样我们的一台物理服务器就可以
+              当做多个服务器来使用,(端口和域名不能都相同)从而可以配置多个网站。
+    1、两种方式（基于端口一般用了解就行（一般用基于域名，需要dns服务器，不过咱没有，可以配置本地dns镜像
+    2、基于域名的虚拟服务器实现：
+        a）需要部署三个项目北京、天津、南京到三个tomcat服务器
+        b）配置nginx:#配置三个server和负载均衡
+            upstream beijing.myweb.com {
+                    	server  127.0.0.1:9100;
+               		}
+            upstream nanjing.myweb.com {
+                server  127.0.0.1:9200;
+            }
+            upstream tianjin.myweb.com {
+                server  127.0.0.1:9300;
+            }
+
+            server {
+            listen       80;
+            server_name  beijing.myweb.com;
+                location / {
+                    proxy_pass http://beijing.myweb.com;
+                }
+            }
+
+            server {
+                listen       80;
+                server_name  nanjing.myweb.com;
+                    location / {
+                        proxy_pass http://nanjing.myweb.com;
+            }
+            }
+
+            server {
+                listen       80;
+                server_name  tianjin.myweb.com;
+                location / {
+                    proxy_pass http://tianjin.myweb.com;
+            }
+            }
+        c）配置本地dns映射：
+            在C:\Windows\System32\drivers\etc\hosts 加：
+            192.168.235.128 beijing.myweb.com
+            192.168.235.128 nanjing.myweb.com
+            192.168.235.128 tianjin.myweb.com
+    4、上面一样的不过是独立配置：
+        需要在nginx配置文件http下server外加 include + 配置文件路径。
+        配置文件内容：就是上面的内容，叫啥都行。
+
+实验室：
+    tomcat1：8005、8080、8009
+    tomcat2：8004、9200、8008
+    tomcat3：8006、9300、8013
+    tomcat4：8007、9400、8014
+    tomcat5：8008、9500、8015
+
+    第一个牛刀小试：root 不需要tomcat，直接启动nginx配置文件为：nginx1.conf，访问：ip/ace/index.html得到linux里/opt/www/ace/index.html
+        location /ace {
+            root /opt/www;
+            index login.html; #默认欢迎页面
+        }
+    第二个负载均衡：proxy_pass 两台tomcat 1和2，一台nginx配置文件为：nginx2.conf
+        upstream www.myweb.com{
+            server 192.168.8.128:9200;
+            server 192.168.8.128:8080;
+        }
+        server{
+            location /myweb {
+                proxy_pass http://www.myweb.com;    #192.168.8.128/myweb 访问得到项目正常
+            }
+        }
+        server{
+            location /myweb {
+                proxy_pass http://www.myweb.com/;    #192.168.8.128/mywebmyweb/ 才能访问得到
+            }
+        }
+
+        server{
+            location /myweb/ {
+                proxy_pass http://www.myweb.com/;    #192.168.8.128/myweb/myweb 才能访问得到
+            }
+        }
+        server{
+            location /myweb/ {
+                proxy_pass http://www.myweb.com;    #192.168.8.128/myweb 访问得到项目正常
+            }
+        }
+
+
+
