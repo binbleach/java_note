@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huangjiabin.site.sys.mapper.HandleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.huangjiabin.site.sys.model.Handle">
+        <id column="id" property="id" />
+        <result column="target_id" property="targetId" />
+        <result column="user_id" property="userId" />
+        <result column="handle_result" property="handleResult" />
+        <result column="is_email" property="isEmail" />
+        <result column="is_email_success" property="isEmailSuccess" />
+        <result column="remark" property="remark" />
+        <result column="handle_target" property="handleTarget" />
+        <result column="handle_time" property="handleTime" />
+    </resultMap>
+
+</mapper>

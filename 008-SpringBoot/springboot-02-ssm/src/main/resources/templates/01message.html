@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"> <!--加了这句，才能后台获取数据-->
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--
+    thymeleaf模板引擎的页面必须得通过中央调度器，不能直接访问
+-->
+<h2 th:text="${de}">展示要现实的内容1</h2> <!--有就覆盖输出-->
+<h2 th:text="${de}">展示要现实的内容2</h2>
+<a th:href="@{/user/get}">相对路径：转至getUser</a>
+
+</body>
+</html>

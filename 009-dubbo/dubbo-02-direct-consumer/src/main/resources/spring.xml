@@ -11,7 +11,7 @@
          http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!--
-        关于maven，同一个工程下引入依赖，不需要打包只maven仓库，创建了bean(注解或xml或其他)后则可直接引入使用
+        关于maven，同一个工程下引入依赖，不需要打包到maven仓库，创建了bean(注解或xml或其他)后则可直接引入使用
         在当前案例下使用UserService接口
             方式一：
                 1、不需要配置dubbo，不通过dubbo调用

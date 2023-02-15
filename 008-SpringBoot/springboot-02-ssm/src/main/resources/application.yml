@@ -1,0 +1,52 @@
+#web项目端口号，默认8080
+server:
+  port: 8088
+#web项目上下文
+  servlet:
+    context-path: /aaa
+
+spring:
+  #配置视图解析器
+  mvc:
+    view:
+      prefix: /             # 指定mvc视图的前缀
+      suffix: .jsp            # 指定mvc视图的后缀
+      viewName: /jsp/*      #设置jsp视图解析器的匹配规则（真实路径包含jsp）
+      order: 2
+    static-path-pattern: /**  #静态资源匹配规则（真实路径不包含img）
+  web:
+    resources:
+      static-locations: classpath:/static/,classpath:/META-INF/resources/,classpath:/img/  #静态资源寻址
+#  profiles:
+#    active: thymeleaf,freemarker,mvc,datasource      # 激活对应环境（没搞懂）
+  thymeleaf:
+#    view-names: /**  #设置thymeleaf视图解析器的匹配规则，必须和严格对应，如 "/01message"匹配， "01message"不匹配。不配置对不对应都行
+    prefix: classpath:/templates/ #设置thymeleaf模板引擎的前后缀（可选项）
+    suffix: .html
+    cache: false  #设置thymeleaf模板引擎的缓存默认是开启
+
+  #设置连接数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1/springboot?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8
+    username: root
+    password: 1220.dbggl.mysql
+
+mybatis:
+#  config-location: classpath:mybatis.xml  #指定mybatis配置文件，没有不需要
+#  type-aliases-package: com.huangjiabin.springboot.domain # 所有Entity别名类所在包
+
+#（1）mapper文件在src目录下
+#  mapper文件在src目录下不会被编译，在pom文件配置编译即可。只要编译后和dao在同一包下，就不需要指定编译后位位置
+#  mapper-locations: classpath:mapper/*.xml
+
+#（2）mapper文件在resources目录下
+# mapper文件放在resource目录下，编译后和dao编译后不再同一包下，所以需要指定绑定。
+#  mapper-locations: classpath:mapper/*.xml
+
+#开启或关闭swagger
+swagger:
+  enable: true
+
+
+

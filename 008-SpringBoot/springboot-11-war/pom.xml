@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.5.4</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+
+    <groupId>com.huangjibin.springboot</groupId>
+    <artifactId>springboot-11-war</artifactId>
+    <version>1.0.0</version>
+
+    <!--定义打包的形似-->
+    <packaging>war</packaging>
+
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!--引入springboot内嵌Tomcat对jsp的解析依赖，不添加解析不了jsp-->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+
+    <build>
+        <finalName>springboot</finalName> <!--定义打包的包名-->
+
+        <resources>
+            <!--手动修改了资源文件夹，之前默认的会失效-->
+            <resource>
+                <!--源文件夹-->
+                <directory>src/main/webapp</directory>
+                <!--指定编译到META-INF/resources-->
+                <targetPath>META-INF/resources</targetPath>
+                <!--指定源文件夹中的那些资源要编译进去-->
+                <includes>
+                    <include>*.*</include>
+                </includes>
+            </resource>
+
+            <!--把手动修改的资源文件夹改回来-->
+            <!--src/main/resources 下的所有配置文件编译到 classes 下面去-->
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+        </resources>
+
+
+
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

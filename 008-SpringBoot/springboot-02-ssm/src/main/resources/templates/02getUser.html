@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--1、标准变量表达式：${user.id}-->
+<h2>标准变量表达式${user.id}</h2>
+<span th:text="${user.id}"></span>
+<span th:text="${user.name}"></span>
+
+<!--2、选择变量表达式：先${user}再*{id}-->
+<h2>选择变量表达式：先${user}再*{id}</h2> <!--不建议使用-->
+<span th:object="${user}"> <!--必须套在里面，div也行-->
+    <span th:text="*{id}" ></span>
+    <span th:text="*{name}" ></span>
+</span>
+
+<!--3、混合使用：*{user.id}-->
+<h2>混合使用*{user.id}</h2>    <!--不建议使用-->
+<span th:text="*{user.id}"></span><br>
+<span th:text="*{user.name}"></span><br>
+
+<!--4、路径表达式：全路径--> <!--注：其实两种方式都可以用绝对路径和相对路径-->
+<a href="http://localhost:8080/me/say">传统写法：跳转至message</a><br/>
+<a th:href="@{http://localhost:8080/me/say}">路径表达式写法：跳转至</a><br>
+
+<!--5、路径表达式：相对路径。写全路径上面两个没有任何区别，得写相对路径。注/是不带根，没有就是带根，包括/me路径-->
+<a th:href="@{/me/say}">路径表达式+相对路径</a><br>
+
+<!--6、全路径带多个参数-->
+<a href="http://localhost:8080/me/say1?id=4567&name=好彩妹">全路径带参：say1</a><br>
+<a th:href="@{http://localhost:8080/me/say1?id=1234&name=徐凤年}">全路径带参：say1</a><br>
+
+<!--7、从后台获取参数复杂-->
+<a th:href="@{'/me/say1?id='+${user.id}+'&name='+${user.name}}">从后台获取参数复杂</a><br>
+
+<!--8、从后台和获取参数简单--> <!--REST4风格只能拼接复杂的，不能用简单的小括号,因为小括号有？号的效果-->
+<a th:href="@{/me/say1(id=${user.id},name=${user.name})}">从后台获取参数简单</a>
+<a th:href="@{|/me/say1?id=${user.id}&name=${user.name}|}">从后台获取参数简单</a><br>
+
+<span th:text="${#request.getServletPath()}"></span>
+<span th:text="${#request.getContextPath()}"></span>
+
+
+</body>
+</html>

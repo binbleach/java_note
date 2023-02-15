@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huangjiabin.site.sys.mapper.ReserveMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.huangjiabin.site.sys.model.Reserve">
+        <id column="id" property="id" />
+        <result column="target_id" property="targetId" />
+        <result column="user_id" property="userId" />
+        <result column="create_time" property="createTime" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+        <result column="reserve_status" property="reserveStatus" />
+        <result column="reserve_target" property="reserveTarget" />
+        <result column="is_delete" property="isDelete" />
+        <result column="reserve_reason" property="reserveReason" />
+        <result column="is_cancel" property="isCancel" />
+    </resultMap>
+
+    <select id="selectNotConflict" resultType="com.huangjiabin.site.sys.model.Reserve">
+        select * from sys_reserve r
+        where target_id = #{targetId} and reserve_target = #{reserveTarget} and reserve_status=52
+        and (  (start_time >= #{startTime} and start_time <![CDATA[<=]]> #{endTime})
+        or (start_time <![CDATA[<=]]>  #{startTime} and end_time >= #{endTime})
+        or (end_time   >=  #{startTime} and  end_time <![CDATA[<=]]> #{endTime}))
+    </select>
+
+</mapper>

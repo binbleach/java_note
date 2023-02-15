@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body th:inline="text">
+<!--内敛表达式：th:inline="text" and th:inline="javascript"-->
+<div th:inline="text">
+    取出来的数据是:[[${data}]]
+</div>
+[[${data}]]  <!--官方介绍是必须在div里用，不过事实上div外面也可以用，所以通常会在body上添加内敛--><br>
+
+<script type="text/javascript" th:inline="javascript"> /*在script上添加内敛就可以从后台取数据了*/
+    function showData () {
+        alert([[${data}]]);
+        alert("你好呀");
+    }
+</script>
+<input type="button" onclick="showData()" value="展示数据"/><br>
+
+<!--字面量的概念，就是字面量-->
+
+<!--字符串拼接替换,像拼几个都行-->
+<span th:text="|我是data=${data}"/>
+
+<!--运算符-->
+<div th:text="${data == null ? '男' : '女'}"></div>
+<div th:text="${data} == null ? '男' : '女'"></div> <!--两种写法都一样-->
+<div th:text="${flag} ? '狗' : '猪'"></div>   <!--boolean也一样-->
+
+3+5=<span th:text="3+5"/>
+3*5=<span th:text="3*5"/>
+5%3=<span th:text="5%3"/>
+3-5=<span th:text="3-5"/><br>
+
+<!--大于下于判断 gt lt-->
+5>2为：<span th:if="5 gt 2">真</span><br>
+5gt2为：<span th:unless="5 lt 2">假</span> <!--用gt lt 替代的大雨小雨 和 ge le 大于等于，小于等于，免得和标签混淆--><br>
+
+<!--thymeleaf提供的对象-->
+
+<!--session-->
+<span th:text="${#session.getAttribute('result')}"></span><br>
+<span th:text="${#httpSession.getAttribute('result')}"></span><br>
+<span th:text="${session.result}"></span><br> <!--注：这里没有#-->
+
+<!--request-->
+<span th:text="${#request.getScheme()}"></span>
+<span th:text="${#request.getServerName()}"></span>
+<span th:text="${#request.getServerPort()}"></span>
+<span th:text="${#request.getContextPath()}"></span>
+<span th:text="${#request.getServletPath()}"></span><br>
+获取请求路径：<span th:text="${#request.getRequestURL()}"></span><br>
+获取请求参数：<span th:text="${#request.getQueryString()}"></span><br>
+<span th:text="${#httpServletRequest.requestURL}"></span><!--注：这个有两种，绝对路径和相对路径供选择--><br>
+
+<!--内置功能对象-->
+<span th:text="${#dates.format(date,'yyyy-MM-dd HH:mm:ss SSS')}"></span>
+<span th:text="${#strings.substring(data,5)}"></span><!--从第五个开始-->
+<span th:text="${#strings.substring(data,0,5)}"></span><!--从第五个结束，包含第五个不包含5，左闭右开-->
+</body>
+</html>

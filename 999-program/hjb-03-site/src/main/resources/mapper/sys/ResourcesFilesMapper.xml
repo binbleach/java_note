@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huangjiabin.site.sys.mapper.ResourcesFilesMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.huangjiabin.site.sys.model.ResourcesFiles">
+        <id column="resources_id" property="resourcesId" />
+        <result column="files_id" property="filesId" />
+    </resultMap>
+
+</mapper>

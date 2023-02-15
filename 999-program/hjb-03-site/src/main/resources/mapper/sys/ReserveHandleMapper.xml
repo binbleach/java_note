@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huangjiabin.site.sys.mapper.ReserveHandleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.huangjiabin.site.sys.model.ReserveHandle">
+        <id column="id" property="id" />
+        <result column="reserve_id" property="reserveId" />
+        <result column="handler_id" property="handlerId" />
+        <result column="time" property="time" />
+        <result column="handle" property="handle" />
+        <result column="is_mail" property="isMail" />
+        <result column="is_mail_success" property="isMailSuccess" />
+        <result column="remark" property="remark" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huangjiabin.site.sys.mapper.DictListMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.huangjiabin.site.sys.model.DictList">
+        <id column="list_id" property="listId" />
+        <result column="list_name" property="listName" />
+        <result column="list_type" property="listType" />
+        <result column="list_describe" property="listDescribe" />
+    </resultMap>
+    <resultMap id="ListWithDate" type="com.huangjiabin.site.sys.model.DictList" extends="BaseResultMap">
+        <collection property="datas" ofType="com.huangjiabin.site.sys.model.DictData">
+            <id column="data_id" property="dataId"></id>
+            <result column="data_name" property="dataName" />
+            <result column="data_order" property="dataOrder" />
+        </collection>
+    </resultMap>
+
+    <select id="getAllDictList" resultMap="ListWithDate">
+        select l.* ,d.data_id as data_id,d.data_name as data_name,d.data_order as data_order
+        from dict_list l,dict_data d
+        where l.list_id = d.data_group
+    </select>
+
+</mapper>

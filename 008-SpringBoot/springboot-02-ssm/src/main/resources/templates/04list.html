@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--
+        list:循环对象别名
+        listStat:循环对象状态 ，可以没有，不过还是在，默认为对象别名+Stat
+        ${list}：循环对象
+-->
+<div th:each="list,listStat:${list}">
+    索引:<span th:text="${listStat.index}"></span>&nbsp;&nbsp;
+    计数:<span th:text="${listStat.count}"></span>&nbsp;&nbsp;
+    id:<span th:text="${list.id}"></span>&nbsp;&nbsp;
+    名字:<span th:text="${list.name}"></span>&nbsp;&nbsp;
+</div>
+
+<div th:each="m:${map}"><!--省略mStat的写法变量map集合-->
+    索引:<span th:text="${mStat.index}"></span>&nbsp;&nbsp;
+    计数:<span th:text="${mStat.count}"></span>&nbsp;&nbsp;
+    key:<span th:text="${m.key}"></span>&nbsp;&nbsp;
+    id:<span th:text="${m.value.id}"></span>&nbsp;&nbsp;
+    name:<span th:text="${m.value.name}"></span>&nbsp;&nbsp;
+</div>
+
+<!--遍历数组和上面的一模一样-->
+<!--复杂的集合无非是嵌套的集合，一步步解出来就行了-->
+
+<!--if判断语句-->
+<div th:if="${sex eq 0}">
+    男
+</div>
+<div th:if="${sex eq 1}">
+    女
+</div>
+<!--unless和if相反，ne是不等于的意思-->
+<div th:unless="${sex == 1}">
+    猪
+</div>
+<div th:unless="${sex ne 1}">
+    狗
+</div>
+
+<!--th:switch/th:case用法-->
+<div th:switch="${sex}">
+    <span th:case="0">欧美</span>
+    <span th:case="1">日韩</span>
+    <span th:case="2">国产</span>
+</div>
+</body>
+</html>

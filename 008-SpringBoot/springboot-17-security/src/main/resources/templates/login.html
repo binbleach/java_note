@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<http   xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www/thymeleaf.org"/>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/login" method="post">
+    <!--_csrf.token是服务器端生成的，工作中先从服务器端取token访问的时候带过去判断是否一致-->
+    <input type="hidden" th:value="${_csrf.token}" name="_csrf" th:if="${_csrf}">
+    用户名222：<input type="text" name="username"/><br>
+    密码：<input type="password" name="password"/><br>
+    <!--name属性都不能变-->
+    记住我：<input type="checkbox" name="remember-me" value="true"><br>
+    <button type="submit" >登录</button>
+</form>
+</body>
+</html>

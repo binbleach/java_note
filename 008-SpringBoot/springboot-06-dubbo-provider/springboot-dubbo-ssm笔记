@@ -1,0 +1,31 @@
+01、创建一个普通的java接口工程，创建一个springboot提供者工程，和消费者工程。
+02、在provider工程下，做mybatis逆向工程：
+    a）逆向工程插件    b）逆向工程文件GeneratorMapper.xml文件
+    c）逆向工程得实体bean应该放在接口工程，需要改逆向工程文件model的路径（不能有中文）
+       mapper和dao接口位置不变
+    d）添加接口工程依赖，dubbo集成springboot依赖，注册中心依赖，mybatis集成springboot依赖
+       mysql驱动依赖，springboot集成redis起步依赖
+03、设置配置文件：
+    a）设置内嵌tomcat端口号，免得一会重复。和是上下文根
+    b）设置mysql数据库连接信息
+    c）设置dubbo配置
+    d）redis配置
+至此provider配置完毕
+
+04、给consumer添加依赖：
+    aubbo和zookeeper注册中心依赖，和接口工程依赖、jsp解析依赖
+
+05、配置consumer文件：
+    a）配置tomcat端口号上下文根
+    b）配置dubbo
+    c）配置视图解析器
+
+06、写Controller类，调用到StudentService接口类，没有就创建，interface接口在接口工程里，impl接口实现类在provider提供者里
+    impl接口实现类又调用到StudentMapper数据库Dao接口，dao接口从spring容器里获得所以需要在StudentMapper接口上加@Component注解
+    然后通过@Autowired注解自动注入。
+    太麻烦了这样说
+provider->StudentServiceImpl->@Component(注入spring容器)@Service(暴露接口)//consumer->StudentService->@Reference(接收接口服务)
+    application(springboot启动类)->@MapperScan(扫描mapper进容器)//provider->StudentMapper->@Autowired
+    注：还是会爆红不过可以用建议在StudentMapper接口类上加@Componnet
+    还有在interface的实体类加上序列化、在provider指定编译mapper文件、在consumer指定解析xml文件位置、两个application都要加dubbo注解
+

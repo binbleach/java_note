@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--路径表达式：其他标签-->
+<!--<script type="text/javascript" src="/js/jquery-3.4.1.js"/>-->
+<!--改成-->
+<script type="text/javascript" th:src="@{/js/jquery-3.4.1.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        alert("我日你妈");
+    })
+</script>
+<img th:src="@{/img/meimei.jpg}">
+<h2>你好</h2>
+</body>
+</html>

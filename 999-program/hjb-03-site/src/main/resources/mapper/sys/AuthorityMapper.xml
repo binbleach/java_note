@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huangjiabin.site.sys.mapper.AuthorityMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.huangjiabin.site.sys.model.Authority">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="disabled" property="disabled" />
+        <result column="del_flag" property="delFlag" />
+        <result column="remark" property="remark" />
+    </resultMap>
+    <resultMap id="AuthorityWithRole" type="com.huangjiabin.site.sys.model.Authority" extends="BaseResultMap">
+        <collection property="roles" ofType="com.huangjiabin.site.sys.model.Role">
+            <id column="rid" property="id"></id>
+            <result column="rname" property="name" />
+            <result column="rremark" property="remark" />
+            <result column="rdisabled" property="disabled" />
+            <result column="rdelFlag" property="delFlag" />
+        </collection>
+    </resultMap>
+
+
+    <select id="getAuthorityByUserId" resultType="com.huangjiabin.site.sys.model.Authority">
+        SELECT DISTINCT
+            a.*
+	    FROM
+            sys_authority a,
+            sys_user_role ur,
+            sys_role_authority ra
+		WHERE
+            a.id = ra.authority_id AND
+            ra.role_id = ur.role_id	AND
+            ur.user_id = #{id}	AND
+            a.disabled = 0	AND
+            a.del_flag = 0
+		ORDER BY a.id
+
+    </select>
+    <select id="getAuthorityWithRole" resultMap="AuthorityWithRole">
+        SELECT
+             a.id,
+             a.`name`,
+             a.disabled,
+             a.del_flag,
+             a.remark,
+             r.id as rid,
+             r.`name` as rname,
+             r.`remark` as rremark,
+             r.disabled as rdisabled,
+             r.del_flag as rdelFlag
+        FROM
+            sys_authority a,
+            sys_role r,
+            sys_role_authority ra
+        WHERE
+            a.id = ra.authority_id
+            and
+            r.id = ra.role_id
+        ORDER BY a.id
+
+
+    </select>
+
+</mapper>
