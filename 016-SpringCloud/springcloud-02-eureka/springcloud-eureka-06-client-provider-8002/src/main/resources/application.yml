@@ -1,0 +1,29 @@
+server:
+  port: 8002
+
+spring:
+  application:
+    name: springcloud-eureka-provider   #微服务名称，唯一标识
+  datasource:   #配置数据库
+    type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
+    driver-class-name: com.mysql.jdbc.Driver              # mysql驱动包 com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/springcloud?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 1220.dbggl.mysql
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka/ #集群版
+  instance:
+    instance-id: 8002
+    prefer-ip-address: true
+    lease-expiration-duration-in-seconds: 1
+    lease-renewal-interval-in-seconds: 2
+
+#配置mybatis
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  type-aliases-package: com.huangjiabin.entity    # 所有Entity别名类所在包

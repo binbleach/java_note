@@ -1,0 +1,34 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: springcloud-eureka-provider   #微服务名称，唯一标识
+  datasource:   #配置数据库
+    type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
+    driver-class-name: com.mysql.jdbc.Driver              # mysql驱动包 com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/springcloud?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 1220.dbggl.mysql
+
+#配置eureka
+eureka:
+  client:
+    register-with-eureka: true  #表示是否将自己注册进eureka服务，默认为true
+    #是否从Eureka Server抓取已有的注册信息，默认为true。单节点无所谓，集群必须设置为true 才能配合ribbon 使用负裁均衡
+    fetch-registry: true
+    service-url:
+      #服务连接地址，客户端（提供者和消费者）写要注册的中心地址的地址
+      #defaultZone: http://eureka7001.com:7001/eureka #单机版
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka/ #集群版
+  instance:
+    instance-id: 8001  #实例化名称
+    prefer-ip-address: true #访问路径可以显示ip地址
+    lease-expiration-duration-in-seconds: 1 #发送心跳时间，默认30秒
+    #等待心跳时间。注册中心关闭了自我保护机制的话，等待时间内没收到心跳，就会将该服务注销
+    lease-renewal-interval-in-seconds: 2
+
+#配置mybatis
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  type-aliases-package: com.huangjiabin.entity    # 所有Entity别名类所在包

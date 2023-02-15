@@ -1,0 +1,6 @@
+server:
+  port: 80  #80端口在访问的时候可以忽略
+
+spring:
+  application:
+    name: consumer

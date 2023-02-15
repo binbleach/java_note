@@ -1,0 +1,19 @@
+server:
+  port: 7001
+
+
+eureka:
+  instance:
+    #这个hostname，可以和defaultZone的ip不一样，只要defaultZone的地址是能够正常访问的地址就行，hostname暂时没测出来对程序有影响
+    hostname: eureka7001.com
+  client:
+    register-with-eureka: false  #false表示不向注册中心注册自己。
+    fetch-registry: false #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    service-url:
+      #服务连接地址：注册中心单机版写自己的地址或者不写（域名访问需要映射），集群版写别的注册中心地址。
+      #defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/   #单机版本
+      defaultZone: http://eureka7002.com:7002/eureka/      #集群版，就是相互注册相互守望（7001注册7002）
+  server:
+    #我保护机制，默认开启。自我保护机制中，如果服务不可用了也不会被注销。属于AP分支
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 2000 #设置时间
