@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 /*
     内容讲解：
-        1）普通的springboot服务，给03consumer调用的
+        1）创建普通的接口，给03consumer调用的
 */
 @RestController
 public class PaymentController {

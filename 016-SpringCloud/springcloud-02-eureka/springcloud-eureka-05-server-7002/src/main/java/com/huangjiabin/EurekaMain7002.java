@@ -6,8 +6,7 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 /*
     内容讲解：
-        1、建一个eureka注册中心server-7002
-        2、将server-7001服务开集群版，两着相互注册，相互守望
+        1、参考：springcloud-eureka-02-server-7001
 */
 @SpringBootApplication
 @EnableEurekaServer

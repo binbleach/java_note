@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: springcloud-eureka-provider   #微服务名称，唯一标识
+    name: springcloud-eureka-provider   #微服务名称，集群下相同提供者微服务名称相同
   datasource:   #配置数据库
     type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
     driver-class-name: com.mysql.jdbc.Driver              # mysql驱动包 com.mysql.jdbc.Driver
@@ -22,11 +22,12 @@ eureka:
       #defaultZone: http://eureka7001.com:7001/eureka #单机版
       defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka/ #集群版
   instance:
-    instance-id: 8001  #实例化名称
-    prefer-ip-address: true #访问路径可以显示ip地址
-    lease-expiration-duration-in-seconds: 1 #发送心跳时间，默认30秒
-    #等待心跳时间。注册中心关闭了自我保护机制的话，等待时间内没收到心跳，就会将该服务注销
-    lease-renewal-interval-in-seconds: 2
+    instance-id: 8001  #实例id，用于区分客户端节点
+    prefer-ip-address: true #默认为false：有hostname则显示，没有则显示计算机名字如bin；为true：有ip-address则显示，没有则显示第一个非回环ip地址如：192.168.205.1
+    hostname: localhost   #写实际的，影响消费者调用
+    ip-address: 127.0.0.1 #写实际的，影响消费者调用
+    lease-renewal-interval-in-seconds: 3 #客户端（消费者和提供者）向服务端（注册中心）发送心跳间隔时间，默认30秒
+    lease-expiration-duration-in-seconds: 10 #服务端（注册中心）等待心跳时间。注册中心关闭了自我保护机制的话，等待时间内没收到心跳，就会将该服务注销，默认90秒
 
 #配置mybatis
 mybatis:

@@ -15,6 +15,7 @@ public class CommonResult<T> {
     public static<T> CommonResult Success(T data){
         return new CommonResult(ResultCodeEnum.SUCCESS,data);
     }
+
     public CommonResult (ResultCodeEnum resultCodeEnum,T data){
         this(resultCodeEnum.SUCCESS.getCode(),resultCodeEnum.SUCCESS.getMessage(),data);
     }

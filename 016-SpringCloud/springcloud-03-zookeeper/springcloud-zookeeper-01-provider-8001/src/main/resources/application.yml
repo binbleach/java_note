@@ -1,0 +1,10 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: springcloud-zookeeper-provider   #微服务名称，唯一标识
+  cloud:
+    zookeeper:
+      connect-string: 192.168.8.128:2181  #连接zookeeper中心的地址
+

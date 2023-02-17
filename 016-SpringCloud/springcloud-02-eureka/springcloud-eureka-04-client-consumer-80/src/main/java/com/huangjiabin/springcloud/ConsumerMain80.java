@@ -1,15 +1,14 @@
 package com.huangjiabin.springcloud;
 
+import com.huangjiabin.myrule.MyRule;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.ribbon.RibbonClient;
 
-/*
-    内容讲解：
-        1、建一个服务消费者consumer-80，用eureka将该服务注册进注册中心server-7001
-*/
 @SpringBootApplication
-@EnableEurekaClient
+//@EnableEurekaClient   //E版后可省略
+@RibbonClient(name ="SPRINGCLOUD-EUREKA-PROVIDER",configuration = MyRule.class) //替换ribbon负载均衡算法
 public class ConsumerMain80 {
 
     public static void main(String[] args) {

@@ -3,8 +3,8 @@ server:
 
 
 eureka:
-  instance:
-    hostname: eureka7002.com
+  #instance:
+    #hostname: eureka7002.com
   client:
     register-with-eureka: false
     fetch-registry: false

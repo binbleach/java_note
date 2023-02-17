@@ -11,15 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 
 /*
     内容讲解：
-        1） 通过 RestTemplate 去调用02provider
-        2） 这种调用有弊端，集群变多了的话，服务调用没有治理。所以需要eureka
+        1） 用 RestTemplate 调用 02provider 的普通接口
+        2） 普通的集群变多了的话，不好管理。所以需要eureka：服务调用、负载均衡、容错等，实现服务发现与注册
 */
 @RestController
 public class ConsumerController {
     @Resource
     RestTemplate restTemplate;
 
-    //单机版
+    //普通调用
     public static final String PAYMENT_URL="http://localhost:8001";
 
     @RequestMapping("/consumer/create")

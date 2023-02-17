@@ -1,0 +1,12 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: springcloud-zookeeper-consumer
+    #注册zookeeper
+  cloud:
+    zookeeper:
+      connect-spring: 192.168.8.128:2181
+
+

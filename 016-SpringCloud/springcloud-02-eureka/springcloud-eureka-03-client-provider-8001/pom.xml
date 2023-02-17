@@ -27,7 +27,8 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-            <!--springboot程序监控器依赖，通过Actuator可以在生产环境监控当前应用的健康，虚拟机等信息，通过前端以可视化的界面展示出来-->
+            <!--标配，和上面的web依赖一起
+            springboot程序监控器依赖，通过Actuator可以在生产环境监控当前应用的健康，虚拟机等信息，通过前端以可视化的界面展示出来-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
