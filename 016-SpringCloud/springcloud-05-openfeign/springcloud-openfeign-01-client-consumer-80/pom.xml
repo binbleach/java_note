@@ -4,14 +4,20 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.huangjiabin.springcloud</groupId>
-        <artifactId>springcloud-05-ribbon</artifactId>
+        <artifactId>springcloud-05-openfeign</artifactId>
         <version>1.0.0</version>
     </parent>
 
 
-    <artifactId>springcloud-ribbon-01-client-consumer-80</artifactId>
+    <artifactId>springcloud-openfeign-01-client-consumer-80</artifactId>
 
     <dependencies>
+
+        <!--openfeign-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>

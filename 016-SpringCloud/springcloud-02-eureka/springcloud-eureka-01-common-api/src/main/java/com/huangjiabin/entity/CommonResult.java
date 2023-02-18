@@ -19,4 +19,8 @@ public class CommonResult<T> {
     public CommonResult (ResultCodeEnum resultCodeEnum,T data){
         this(resultCodeEnum.SUCCESS.getCode(),resultCodeEnum.SUCCESS.getMessage(),data);
     }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

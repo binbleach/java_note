@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @Slf4j
@@ -67,5 +68,15 @@ public class PaymentController {
         }
         log.info("discovery end.................................");
         return this.discoveryClient;
+    }
+
+    //用于测试feign调用超时的接口
+    @GetMapping(value = "/payment/feign/timeout")
+    public String paymentFeignTimeOut()
+    {
+        System.out.println("*****paymentFeignTimeOut from port: "+serverPort);
+        //暂停线程 3秒钟
+        try { TimeUnit.SECONDS.sleep(3); } catch (InterruptedException e) { e.printStackTrace(); }
+        return serverPort;
     }
 }
