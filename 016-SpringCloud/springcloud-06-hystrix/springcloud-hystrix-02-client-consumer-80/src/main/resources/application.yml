@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: springcloud-eureka-consumer
+    name: springcloud-hystrix-consumer
 
 #设置feign客户端超时时间
 feign:
@@ -14,24 +14,17 @@ feign:
         readTimeout: 5000     #指的是建立连接后从服务器读取到可用资源所用的时间
         connectTimeout: 5000  #指的是建立连接所用的时间，适用于网络状况正常的情况下,两端连接所用的时间
         loggerLevel: FULL     #配置feign日志输出级别，默认不显示
-
-#修改日志级别（默认是info，改成debug我们才能看得到feign接口输出的日志）
-logging:
-  level:
-    #com.huangjiabin.springcloud.service.openfeign.ProviderService: debug #第一种方式
-    com:
-      huangjiabin:
-        springcloud:
-          service:
-            openfeign:
-              ProviderService: debug  #第二种方式
-
+  #hystrix:
+    #enabled: true  #开启feign支持hystrix，消费者service层开启降级需要（controller层开启不需要）。加了设置的读取时间会失效，会超1s超时
 
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka/    #集群版
+      defaultZone: http://eureka7001.com:7001/eureka    #集群版
   instance:
     instance-id: 80
+logging:
+  level:
+    com.huangjiabin.springcloud.service.feign.ProviderService: debug

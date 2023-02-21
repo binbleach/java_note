@@ -48,5 +48,14 @@ mybatis:
 swagger:
   enable: true
 
+logging:
+  level:  #修改springboot 日志级别logger层面（除了logger还有appender），如果和logbook-spring.xml同时配置则这里生效（应该所有配置都是以application配置文件为尊的，除非设置它失效如@EnableWebMvc）
+    #com.huangjiabin.springboot.controller.LogbackController: debug   #第一种写法
+    com:
+      huangjiabin:
+        springboot:
+          controller:
+            LogbackController: debug  #第二种写法
+  config: classpath:logback-spring.xml  #修改配置文件位置，默认就是这个
 
 

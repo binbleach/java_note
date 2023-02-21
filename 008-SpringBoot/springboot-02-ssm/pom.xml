@@ -52,9 +52,6 @@
             <version>2.0.0</version>
         </dependency>
 
-        <!--不需要添加logback依赖，springboot有，log4j:log for java.不是第四版
-            logback是log4j最新版
-        -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

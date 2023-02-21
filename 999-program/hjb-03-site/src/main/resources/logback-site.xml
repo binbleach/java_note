@@ -20,7 +20,7 @@
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>logs/test1/error/error.log</File>
         <!-- rollingPolicy:当发生滚动时，决定 RollingFileAppender 的行为，涉及文件移动和重命名。 -->
-        <!-- TimeBasedRollingPolicy： 最常用的滚动策略，它根据时间来制定滚动策略，既负责滚动也负责出发滚动 -->
+        <!-- TimeBasedRollingPolicy： 最常用的滚动策略，它根据时间来制定滚动策略，既负责滚动也负责触发滚动 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 活动文件的名字会根据fileNamePattern的值，每隔一段时间改变一次 -->
             <!-- 文件名：log/test1/error/error.2020-03-30.0.log -->
@@ -73,7 +73,7 @@
         </encoder>
     </appender>
 
-    <!-- 控制台输出日志级别 -->
+    <!-- root输出日志级别 -->
     <root level="INFO">
         <appender-ref ref="ConsoleLog"/>
         <appender-ref ref="ErrorLog"/>

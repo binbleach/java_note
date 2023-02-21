@@ -11,9 +11,9 @@
     <!--追加器 ConsoleAppender：把日志输出到控制台-->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <!--过滤器，ThresholdFilter过滤低于指定阈值的事件-->
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
-        </filter>
+<!--        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+<!--            <level>info</level>-->
+<!--        </filter>-->
         <!--编码器-->
         <encoder>
             <Pattern>%date [%-5p] [%thread] %logger{60} [%file : %line] %msg%n</Pattern>
@@ -39,20 +39,21 @@
         </rollingPolicy>
     </appender>
 
-    <!--定义包级别
-        additivity:可以指定是否转发级别到父级，默认为true转发
+    <!--logger 子
+        additivity:是否使用父级的logger的追加器进行输出，默认为true。注：只使用追加器不继承level，level只有没配置的情况才继承父级的
     -->
-<!--    <logger name="com.huangjiabin.springboot.web" additivity="false" level="WARN" />-->
-<!--    <logger name="com.huangjiabin.springboot.web.model" additivity="false" level="info" />-->
+<!--    <logger name="com.huangjiabin.springboot.controller.LogbackController"  additivity="true" level="debug" />-->
+    <logger name="com.huangjiabin.springboot.controller.LogbackController"  additivity="false"  >
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+    <!--logger爹-->
+    <logger name="com.huangjiabin.springboot.controller"  additivity="false" level="warn" >
+        <appender-ref ref="CONSOLE"/>
+    </logger>
 
-    <!--
-        定义追加器级别，必须定义，否则就算定义了追加器也无法输出
-    -->
-    <root level="DEBUG">
+    <!--logger始祖、root：也是一个logger，是所有logger始祖-->
+    <root level="info">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </root>
-    <!--
-        
-    -->
 </configuration>

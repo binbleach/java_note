@@ -48,7 +48,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix(prefix);    //优先级大于配置文件
+        resolver.setPrefix(prefix);
         resolver.setSuffix(suffix);
         //设置可以被这个视图解析器处理的视图名称或视图名称模式
         resolver.setViewNames(viewName);

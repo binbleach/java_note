@@ -4,16 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>pom</packaging>
 	<modules>
-		<module>springcloud-eureka-01-common-api</module>
-		<module>springcloud-eureka-02-server-7001</module>
-		<module>springcloud-eureka-03-client-provider-8001</module>
-		<module>springcloud-eureka-04-client-consumer-80</module>
-		<module>springcloud-eureka-05-server-7002</module>
-		<module>springcloud-eureka-06-client-provider-8002</module>
+		<module>springcloud-hystrix-01-client-provider-8001</module>
+		<module>springcloud-hystrix-02-client-consumer-80</module>
 	</modules>
 
 	<groupId>com.huangjiabin</groupId>
-	<artifactId>springcloud-02-eureka</artifactId>
+	<artifactId>springcloud-06-hystrix</artifactId>
 	<version>1.0.0</version>
 
 	<properties>
