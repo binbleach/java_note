@@ -12,11 +12,11 @@ spring:
           search-paths:     #搜索目录
             - 016-SpringCloud/springcloud-08-config/springcloud-config
       label: master #读取分支
-  rabbitmq:     #rabbitmq配置
-    host: 192.168.8.128
-    port: 5672
-    username: root
-    password: root
+#  rabbitmq:     #rabbitmq配置
+#    host: 192.168.8.128
+#    port: 5672
+#    username: root
+#    password: root
 
 eureka:
   client:
