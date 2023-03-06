@@ -10,7 +10,7 @@ spring:
         git:
           uri: git@gitee.com:binbleach/java_notes.git   #git仓库名字
           search-paths:     #搜索目录
-            - 016-SpringCloud/springcloud-08-config/springcloud-config
+            - java_notes/016-SpringCloud/springcloud-08-config/springcloud-config
 #          strict-host-key-checking: false
 #          ignore-local-ssh-settings: true
 #          private-key: |
