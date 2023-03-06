@@ -13,7 +13,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
         1、provider-8001服务注册进zookeeper的节点是临时节点，规定时间内没发心跳就会删除
 */
 @SpringBootApplication
-@EnableDiscoveryClient  //可省略
+//@EnableDiscoveryClient  //可省略
 public class ProviderMain8001 {
 
     public static void main(String[] args) {

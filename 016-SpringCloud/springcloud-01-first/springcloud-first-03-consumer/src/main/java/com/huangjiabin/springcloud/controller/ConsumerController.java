@@ -9,13 +9,9 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-/*
-    内容讲解：
-        1） 用 RestTemplate 调用 02provider 的普通接口
-        2） 普通的集群变多了的话，不好管理。所以需要eureka：服务调用、负载均衡、容错等，实现服务发现与注册
-*/
 @RestController
 public class ConsumerController {
+    //restTemplate是Spring提供的用于访问Rest服务的客户端模板工具类
     @Resource
     RestTemplate restTemplate;
 

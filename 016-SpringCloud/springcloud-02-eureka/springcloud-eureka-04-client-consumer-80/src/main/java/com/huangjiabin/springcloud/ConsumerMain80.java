@@ -7,7 +7,7 @@ import org.springframework.cloud.netflix.ribbon.RibbonClient;
 
 @SpringBootApplication
 //@EnableEurekaClient   //E版后可省略
-@RibbonClient(name ="SPRINGCLOUD-EUREKA-PROVIDER",configuration = MyRuleConfig.class) //替换ribbon负载均衡算法
+//@RibbonClient(name ="SPRINGCLOUD-EUREKA-PROVIDER",configuration = MyRuleConfig.class) //替换ribbon负载均衡算法
 public class ConsumerMain80 {
 
     public static void main(String[] args) {

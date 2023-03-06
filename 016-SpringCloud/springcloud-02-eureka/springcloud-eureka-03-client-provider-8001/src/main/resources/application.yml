@@ -19,8 +19,8 @@ eureka:
     fetch-registry: true
     service-url:
       #服务连接地址，客户端（提供者和消费者）写要注册的中心地址的地址
-      #defaultZone: http://eureka7001.com:7001/eureka #单机版
-      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka/ #集群版
+      defaultZone: http://eureka7001.com:7001/eureka #单机版
+      #defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka/ #集群版
   instance:
     instance-id: 8001  #实例id，用于区分客户端节点
     prefer-ip-address: true #默认为false：有hostname则显示，没有则显示计算机名字如bin；为true：有ip-address则显示，没有则显示第一个非回环ip地址如：192.168.205.1

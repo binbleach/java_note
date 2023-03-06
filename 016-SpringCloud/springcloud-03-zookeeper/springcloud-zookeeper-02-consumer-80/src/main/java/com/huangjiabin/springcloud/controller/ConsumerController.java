@@ -15,7 +15,8 @@ import javax.annotation.Resource;
 @RestController
 @Slf4j
 public class ConsumerController {
-    public static final String PAYMENT_URL="http://SPRINGCLOUD-ZOOKEEPER-PROVIDER";
+//    public static final String PAYMENT_URL="http://SPRINGCLOUD-ZOOKEEPER-PROVIDER";
+    public static final String PAYMENT_URL="http://springcloud-zookeeper-provider"; //必须小写
 
     @Resource   //集群版，还需还添加注解开启负载均衡@LoadBalanced默认是轮询的
     private RestTemplate restTemplate;

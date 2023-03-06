@@ -3,7 +3,7 @@ package base;
 public class Array2Test {
 
     public static void main(String[] args) {
-        //二维数组的创建方式第一：
+        //二维数组的创建方式第一：直接赋值
         int [][] arr = {{1,2,3},{2,3,4}};
         for(int i=0;i<arr.length;i++){
             for(int j=0;j<arr[i].length;j++){
@@ -16,9 +16,8 @@ public class Array2Test {
         a[1][2]=9;
         System.out.println(a[1][2]);
 
-        System.out.println();
 
-        //二维数组创建方式二
+        //二维数组创建方式二：先确定创建再赋值
         int [][] arr1 = new int[2][];
         arr1[0] = new int []{1,2,3};
         arr1[1] = new int[]{2,3,4};
@@ -30,7 +29,7 @@ public class Array2Test {
 
          System.out.println();
 
-        //二维数组创建第三种：
+        //二维数组创建第三种：创建的时候赋值
         int [][]arr3;
         arr3=new int[][]{{1,2,3},{2,3,4}};
         for (int[] ints : arr3) {

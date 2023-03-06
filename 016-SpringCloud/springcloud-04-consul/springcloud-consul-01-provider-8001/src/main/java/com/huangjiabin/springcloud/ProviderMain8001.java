@@ -6,9 +6,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /*
     内容讲解：
-        1、建一个服务提供者provider-8001，将该服务注册进consul注册中心
-        2、建一个消费者Consumer-80,将该服务注册进注册进consul。
-        3、利用RestTemplate进行微服务调用，Consumer-80调用Provider-8001
+        1、启动consul：在consul.exe文件下 cmd
+            运行：consul agent -dev ，服务地址：http://localhost:8500/
+        2、建一个服务提供者provider-8001，将该服务注册进consul注册中心
+        3、建一个消费者Consumer-80,将该服务注册进注册进consul。
+        4、利用RestTemplate进行微服务调用，Consumer-80调用Provider-8001
 
     总结：
         分区容忍性（P）：就是保证有服务崩掉了，其它服务还能用。
@@ -23,7 +25,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 */
 @SpringBootApplication
-@EnableDiscoveryClient
+//@EnableDiscoveryClient    //可省略
 public class ProviderMain8001 {
 
     public static void main(String[] args) {

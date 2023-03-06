@@ -6,22 +6,23 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 /*
     内容讲解：
-        1、创建一个eureka注册中心server-7001，将自己注册进去
-            1）服务地址：http://localhost:7001 或 http://eureka7001.com:7001/
-            2）注册地址：http://eureka7001.com:7001/eureka/
-        2、创建一个服务提供者 provider-8001，注册进server-7001
-        3、创建一个服务消费 consumer-80，注册进server-7001
-        4、单机版eureka搭建完成。
-        5、创建建一个eureka注册中心server-7002，注册进server-7001
-        6、将server-7001注册自己改为注册server-7002，此时服务为集群版，注册中心相互注册,相互守望
-        7、provider-8001 和 consumer-80分别 又注册进：server-7002（之前注册进server-7001不变）
-        8、创建一个服务提供者provider-8002（服务名称要与provider-8001一致），同时注册进server-7001和server-7002
-        9、集群版eureka搭建完成
-        10、访问consumer-80的接口：http://localhost/consumer/get/1，多刷新几次会发现调用的服务不同
-        11、通过设置客户端provider-8001,和provider-8002的心跳时间和恢复时间，可以观测注册中心server-7001的自我保护机制效果：
-            自我保护机制下，恢复时间内注册中心就算没接收到服务发送的心跳也不会将服务删除
-        12、在consumer-80 下测试负载均衡，修改负载均衡算法，手写负载均衡轮询算法
-    总结：
+        一、单机版eureka环境搭建
+            1、创建一个eureka注册中心server-7001，将自己注册进去：
+                1）注册地址：http://eureka7001.com:7001/eureka/
+                2）访问地址：http://eureka7001.com:7001/ 或 http://localhost:7001
+            2、创建一个服务提供者 provider-8001，注册进server-7001
+            3、创建一个服务消费者 consumer-80，注册进server-7001
+            4、测试：访问注册中心看所有服务注册成功，且服务可通过微服务名称调用，即成功
+        二、集群版eureka环境搭建
+            5、创建一个eureka注册中心server-7002，注册进server-7001
+            6、将server-7001注册自己改为注册server-7002，此时服务为集群版，注册中心相互注册,相互守望
+            7、provider-8001 和 consumer-80分别 又注册进：server-7002（之前注册进server-7001不变）
+            8、创建一个服务提供者provider-8002（服务名称要与provider-8001一致），同时注册进server-7001和server-7002
+            9、测试：登录注册中心看服务有相互守望，且服务可以轮询调用则成功
+        三、eureka自我保护机制
+            10、通过设置客户端provider-8001,和provider-8002的心跳时间和恢复时间，可以观测注册中心server-7001的自我保护机制效果：
+                自我保护机制下，恢复时间内注册中心就算没接收到服务发送的心跳也不会将服务删除，不删除的服务会访问失败。
+    四、eureka知识卡片：
         1、eureka停更了，知识够用就行
         2、在传统的rpc远程调用框架中，管理每个服务与服务之间依赖关系比较复杂，管理比较复杂，所以需要使用服务治理，
             管理服务于服务之间依赖关系，可以实现服务调用、负载均衡、容错等，实现服务发现与注册。

@@ -6,6 +6,7 @@
 	<modules>
 		<module>springcloud-hystrix-01-client-provider-8001</module>
 		<module>springcloud-hystrix-02-client-consumer-80</module>
+		<module>springcloud-hystrix-03-dashboard-9001</module>
 	</modules>
 
 	<groupId>com.huangjiabin</groupId>

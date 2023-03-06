@@ -26,7 +26,7 @@ public class PaymentController {
     private DiscoveryClient discoveryClient;
 
 
-    //提供创建服务
+    //提供普通创建服务
     @PostMapping(value = "/payment/create")
     public CommonResult create(@RequestBody Payment payment){
         int result = paymentService.create(payment);
@@ -39,7 +39,7 @@ public class PaymentController {
         }
     }
 
-    //提供查询服务
+    //提供普通查询服务
     @GetMapping(value = "/payment/get/{id}")
     public CommonResult<Payment> getPaymentById(@PathVariable("id") Long id){
         Payment payment = paymentService.getPaymentById(id);
@@ -70,7 +70,7 @@ public class PaymentController {
         return this.discoveryClient;
     }
 
-    //用于测试feign调用超时的接口
+    //提供给feign调用的延时接口
     @GetMapping(value = "/payment/feign/timeout")
     public String paymentFeignTimeOut()
     {

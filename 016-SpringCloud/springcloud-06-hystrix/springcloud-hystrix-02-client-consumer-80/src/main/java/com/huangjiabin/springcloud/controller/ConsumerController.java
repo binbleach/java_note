@@ -41,4 +41,5 @@ public class ConsumerController {
     public String getInfoFailFallBackGlobal() {
         return "我是消费者80,controller层Global降级,对方支付系统繁忙请10秒钟后再试或者自己运行出错请检查自己,o(╥﹏╥)o";
     }
+
 }

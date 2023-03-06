@@ -27,7 +27,7 @@
         //创建一个监视的实例对象，用于监视data中属性的变化
         const obs = new Observer(data);
         function Observer(obj){
-            const keys = Object.keys(obj);
+            const keys = Object.keys(obj);  //获取对象里是所有key
             keys.forEach((k)=>{
                 Object.defineProperty(this,k,{
                     get(){

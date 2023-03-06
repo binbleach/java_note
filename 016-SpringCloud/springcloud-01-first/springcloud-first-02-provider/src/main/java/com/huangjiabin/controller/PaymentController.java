@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 /*
     内容讲解：
-        1）创建普通的接口，给03consumer调用的
+        一：搭建普通单机服务环境：
+            1、创建普通服务 provider
+            2、创建普通服务 consumer，通过restTemplate调用
 */
 @RestController
 public class PaymentController {
