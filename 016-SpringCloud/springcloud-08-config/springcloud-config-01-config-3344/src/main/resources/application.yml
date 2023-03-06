@@ -11,6 +11,47 @@ spring:
           uri: git@gitee.com:binbleach/java_notes.git   #git仓库名字
           search-paths:     #搜索目录
             - 016-SpringCloud/springcloud-08-config/springcloud-config
+#          strict-host-key-checking: false
+#          ignore-local-ssh-settings: true
+#          private-key: |
+#                        -----BEGIN OPENSSH PRIVATE KEY-----
+#                        b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
+#                        NhAAAAAwEAAQAAAYEAxPaRj5eHSpm9DcpFy/TSuwiyNyl1Ezz+5N5gp4Dup7vz3QQDA7IM
+#                        ebuCNt4s2xd3OCxEvf/HRNDDfwOb5SVSJmgDiKsWwPv/eYvcjRdcHzXkbRrpzTKZ8pI0pN
+#                        Nk8j4Z3hP1es+LARZ73W2ukqk5kb0owZvp+LBIt9rm7cLxe4N1gzHR97epx2BM3OcaqQgp
+#                        rNv3q3bewl59JwAU3+a6FbRT1gFqqOzTwm8Ufm6OKgUKwpAbJbLVX+8zPDCB6q6N03xSAR
+#                        NvXxJZxq2V9yf3qE5Vqd1uHn5ErYnAmHp7vaRBGCjxsAeP1AorxeKjk1jADrd1QpPqPT2+
+#                        ccpzD7/N/AEX5vD5F4SlK6Je1wP7yJIVRDJ7C0mVG7sPTsKF4KHjlGnUNiJgHkHzqNKx/v
+#                        SPyHM/R1u9NkY/0UJzA1hM/af/jTwKN+pqeVmhYxoR2trNSMD5aT4zybpS9baggMwRmC4d
+#                        89n1VxadKcpyCf2PcE/0mr8PMDBB/2k3e3T3cb6DAAAFiAdx+0sHcftLAAAAB3NzaC1yc2
+#                        EAAAGBAMT2kY+Xh0qZvQ3KRcv00rsIsjcpdRM8/uTeYKeA7qe7890EAwOyDHm7gjbeLNsX
+#                        dzgsRL3/x0TQw38Dm+UlUiZoA4irFsD7/3mL3I0XXB815G0a6c0ymfKSNKTTZPI+Gd4T9X
+#                        rPiwEWe91trpKpOZG9KMGb6fiwSLfa5u3C8XuDdYMx0fe3qcdgTNznGqkIKazb96t23sJe
+#                        fScAFN/muhW0U9YBaqjs08JvFH5ujioFCsKQGyWy1V/vMzwwgequjdN8UgETb18SWcatlf
+#                        cn96hOVandbh5+RK2JwJh6e72kQRgo8bAHj9QKK8Xio5NYwA63dUKT6j09vnHKcw+/zfwB
+#                        F+bw+ReEpSuiXtcD+8iSFUQyewtJlRu7D07CheCh45Rp1DYiYB5B86jSsf70j8hzP0dbvT
+#                        ZGP9FCcwNYTP2n/408CjfqanlZoWMaEdrazUjA+Wk+M8m6UvW2oIDMEZguHfPZ9VcWnSnK
+#                        cgn9j3BP9Jq/DzAwQf9pN3t093G+gwAAAAMBAAEAAAGBAJQHmFiqEsVPjFXb6t8hzmtBWu
+#                        e4YcQmuI98Tno1nag0y1AVnspdO6EV+wSPsHitRy3Rn4yIutQObo98P+NVTEuPKvDBXSWH
+#                        f3dzVTw5DURrtZUGgCd3W1qC5cvnENw7LifJKlq1twwHQOqnb2fMhXbyCrqQGqWMn+qGO7
+#                        8AH4urvlruy5Z408IDr2Dq1A+sEd5Xp+mXOk4sw7TXC9lHSB3d3JBfmjEBZRmhcG6hWnlc
+#                        Nr0Jn02S/WjPltsqvcmKi7zx4LhxQD7Lra6bsrmsOUzGbMK2FGI31KYnaPQIjKNN0YWA0f
+#                        XT4v5TsY9Xjs9TzPF1uR9NoryLviQAIrUNMjPMXZ6cHlFERxdUozSDS0iBxVaAvHYHRvsl
+#                        Hy3qy9gZcPir12HxjAU062HVVVSwwbDjWh2NSJbde3rosDfkLVjqG/wDU1Lmpg5uFWdCli
+#                        QbstGWwuhtixC7gBXc7Xa93uDIj4Z5GS+W8bDyDIcry3LDSA68O9uFGOpZGZYUekn8KQAA
+#                        AMA5xPLR3TYyREOmL+QR/E/YByJ1eioPBIFA1zv/c6VW8Ls7WvfCbo8MFm+Hx8tbYKIbsT
+#                        PfqaNfLqZCIK14qJGkUmSnpnWw4f4D81ZfhXeaamf8uuGHC3ah9ZWO/aL1djQl5tz8fE1R
+#                        dU1le8+CsfjeqaNwhH2AosjS9s2NKi+lJ/KQhsdghFxPHAjozIMp3TNKMOG34Ucric9nCj
+#                        XMnEtyb8MzULurzQTSUXwJWxEjcVmJTkgye1aIfbnLIaZt4uMAAADBAO7+JqgAQyrS+9d/
+#                        MSkgYBAlbYd3DNoXiIYtKu5VdFBND9Yf8yAKa1A8kMFBs0t6XPYLBtE3hdIC/kK0rSLjIz
+#                        5kusSwR0bue7JDEbwf88bw+cCGt2kfRNzDD/eP6EQLdlpK9YQmKbKWc7xxC4DzV81pa4LA
+#                        QAw3oNBPHt6vFTdFCxHAZpzkZSM4RSdagbeE3Epjld9kYQ0lITLBRrdADJE2r2sDxdvIJm
+#                        V1CP6PFzluZAQGEf9th+/pJboTntv7BQAAAMEA0vq+THtMwrhfDN32LOIbvUVdfJjfYwNc
+#                        TsyuuBzdk/yEzMoaWY03dq+53V3YElefCCxlBQwnaQydWhz9HFdTRIs4cKL+gu2yCfdtcq
+#                        xGMIk0izZJXrwrUjbeg2xBrLa6eIhOD9ycwRm//lcP9BBvTyn5L1RfIKOT966+GbaQTBvx
+#                        YPwbkl1eiNdNhISJ7xIxb2lN0UBAdq9FWUyugIq843Xk8pny6uEaZLO50SP6BIDzUxDlPe
+#                        +4AqxDd84Qb9nnAAAAETI5MDEwMzgxNDRAcXEuY29tAQ==
+#                        -----END OPENSSH PRIVATE KEY-----
       label: master #读取分支
 #  rabbitmq:     #rabbitmq配置
 #    host: 192.168.8.128
