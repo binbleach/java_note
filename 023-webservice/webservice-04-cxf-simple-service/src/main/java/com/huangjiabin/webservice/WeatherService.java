@@ -1,7 +1,7 @@
 package com.huangjiabin.webservice;
 
-import com.huangjiabin.service.WeatherInterface;
-import com.huangjiabin.service.impl.WeatherInterfaceImpl;
+import com.huangjiabin.stream.service.WeatherInterface;
+import com.huangjiabin.stream.service.impl.WeatherInterfaceImpl;
 import org.apache.cxf.feature.LoggingFeature;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;

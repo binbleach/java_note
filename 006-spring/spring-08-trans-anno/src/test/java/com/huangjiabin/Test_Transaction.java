@@ -1,6 +1,6 @@
 package com.huangjiabin;
 
-import com.huangjiabin.service.BuyGoodsService;
+import com.huangjiabin.stream.service.BuyGoodsService;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

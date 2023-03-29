@@ -27,7 +27,7 @@
     </bean>
 
 
-    <bean id="add" class="com.huangjiabin.service.impl.AddGoodsServiceImpl">
+    <bean id="add" class="com.huangjiabin.stream.service.impl.AddGoodsServiceImpl">
         <property name="goodsDao" ref="goodsDao"/>
         <property name="saleDao" ref="saleDao"/>
     </bean>

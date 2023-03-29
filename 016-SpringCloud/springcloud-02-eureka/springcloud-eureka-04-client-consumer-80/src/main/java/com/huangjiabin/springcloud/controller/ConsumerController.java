@@ -91,4 +91,10 @@ public class ConsumerController {
         return restTemplate.getForObject(uri+"/payment/get/1",CommonResult.class);
     }
 
+    @GetMapping("/consumer/zipkin")
+    public String testZipkin(){
+        String result = restTemplate.getForObject( PAYMENT_URL+"/payment/zipkin/",String.class);
+        return result;
+    }
+
 }

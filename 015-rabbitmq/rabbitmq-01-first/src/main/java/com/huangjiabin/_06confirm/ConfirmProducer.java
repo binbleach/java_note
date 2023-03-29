@@ -9,16 +9,16 @@ import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 /*
-    发布确认，即使设置了队列的持久化和消息的持久化还是不够的，可能消息在持久化过程中rabbitmq宕机导致消息丢失
-    所以需要发布确认
+    发布确认，即使设置了队列的持久化和消息的持久化还是不够的，可能消息在持久化过程中rabbitmq宕机导致消息丢失，所以需要发布确认。
+    发布确认基础：只用到了ConfirmCallback，确认消息是否发送到Broker服务器，也就是交换机中。
 */
 public class ConfirmProducer {
     private final static String QUEUE_NAME = "hello";
     public static void main(String[] args) {
         try {
-            //ConfirmProducer.confirmIndividually();  //962ms
+            ConfirmProducer.confirmIndividually();  //962ms
             //ConfirmProducer.confirmBatch();     //105ms
-            confirmBatchAsync();
+//            confirmBatchAsync();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -8,8 +8,11 @@
   <artifactId>springcloud-08-config</artifactId>
   <packaging>pom</packaging>
   <version>1.0.0</version>
+
   <modules>
     <module>springcloud-config-01-config-3344</module>
+    <module>springcloud-config-02-client-provider-8001</module>
+    <module>springcloud-config-03-client-consumer-80</module>
   </modules>
 
 

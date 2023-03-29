@@ -1,6 +1,6 @@
 package factory;
 
-import com.huangjiabin.service.USB;
+import com.huangjiabin.stream.service.USB;
 
 public class UsbAppleFactory implements USB {
     @Override

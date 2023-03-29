@@ -1,0 +1,287 @@
+1、结构：
+                                            /
+    /root   /bin    /boot   /dev    /ete    /home   /var    /lib    /usr    /media     ...
+      |—————————————                                                  |—————————
+      |             |                                                 |         |
+/root/Desktop  /root/Maildir ...                                    /usr/bin  /usr/lin
+
+关键的目录：
+usr/bin:存放系统预装的可执行文件，使得文件在任何目录下执行（相当于配置环境变量一样）
+usr/local/bin:存放的是用户自己的可执行文件，放在这里的也是在任何目录都可以运行
+etc：存放系统管理所需的配置文件（etc/profile专门配置环境变量的）
+home:用户的根目录，一般以用户的账号命名，存放用户的私人数据
+opt:存放linux系统下额外的软件，相当于windows系统下的 Program flies目录。
+
+2、linux的远程操作
+    Xshell:linux终端模拟软件
+    ifconfig命令查看ip地址：192.168.8.128
+    端口默认:22
+    成功后双击左侧栏红色的蜗牛壳，输入账号密码就可。
+    Xftp:文件传输软件
+
+3、vi vim：linux提供的文本编辑器，vim是vi的升级版
+    一般模式：用vi或者vim命令打开的文件（vim test.txt 有就打开没有就创建再打开），只能查看文件内容不能编辑
+    编辑模式：在一般模式下按i或者a。可以编辑内容不能保存。按esc返回到一般模式
+    命令模式：在一般模式下按shift+: 进入命令行模式。
+            输入q! 不保存强制退出。输入wq 保存并退出。输入q没编辑退出。
+
+    快捷键（常用）：
+    1）复制当前行: 在一般模式下按 yy
+    2）      粘贴：在一般模式下按 p
+    3）  复制多行：5yy,复制光标下五行
+    4）在文本中查找关键字：在命令模式下，输入/+关键字。按n表示光标查找下一个关键字
+    5）删除光标所在的当前行：在一般模式下按dd。
+       删除光标所在下五行：在一般模式下按5dd。
+    6）撤销上次编辑的内容：一般模式下按 u
+    7)显示行号：进入命令行模式set nu 返回 set nonu
+
+4、linux用户管理
+    1）必须要有合法账号密码，超级管理员创建，超级管理员是安装linux系统时新系统默认创建的
+    2）添加用户：useradd list
+        会创建用户、会在/home创建用户目录名称时用户名、任何一个用户都属于一个组，新建用户时如果不指定组名就会新建一个组
+        创建用户时指定他的跟目录 useradd -d /home/ww wangwu 这时用户目录名就不是wangwu了而是ww(取别名用法很少)
+    3）给用户设置密码：passwd list 会弹出信息给李四设置密码，密码不能少于8位，要满足一定的复杂度
+    3）删除用户userdel list
+       一般删除账号得同时删除用户的主目录：userdel -r list 级联删除主目录
+    4）切换账号：su 用户名 从权限低的切换到权限高的得输入密码
+    5）查看用户的基本信息和属于哪个组：id 用户名 每一个用户都有一个主组不可改，权限是按组分的所以组很重要
+
+5、linux中组的管理
+    1）可以对组中的用户同一管理，一个用户可以属于多个组。
+    2）添加组：groupadd 组名 。组在etc下
+    3）删除组：groupdel 组名
+    4）把用户添加到组中：gpasswd -a 用户名 组名 如gpasswd -a list dev
+    5）把用户从组中一处：gpasswd -d 用户名 组名 如gpasswd -d list dev 注：主组不能改变
+    6）创建用户时指定组：useradd -g+组名 用户名 如 useradd -gdev list
+
+6、linux中的系统操作命令
+    关机:shutdown now 立即关机
+        shutdown -h xxx 定时关机（单位分钟）
+        shutdown -r now 立即重启（或者reboot）
+
+7、linux中帮助命令
+    1）用来查看linux系统手册上的帮助信息 man 命令 如 man ls
+        看的时候按回车翻一行，按空格翻一页，按q退出
+    2）help 命令 用来查看命令的内置帮助信息，就是注释
+
+8、linux中的文件和目录操作的命令：
+    1）查看从根到当前的目录：pwd
+    2)查看指定目录下所有的子目录或者文件列表：ls [指定目录] 注：中括号表示参数时可选的，
+    也可以没有。或者ls -l [指定目录] ：以列表的方式显示
+    或者 ls -a [指定目录] 显示所有文件，包括虚拟的隐藏的 和上面组合起来是 ls -al [指定目录]
+    3）用来切换目录 ：cd 目录名
+                    >绝对目录:从盘符开始的，带/的
+                    在任何目录下执行 cd ~ 进入当前用户的根目录。普通用户在 /home下 超级用户在/root下
+                    >相对目录：以目录名开始的 不带/
+                    .. :当前目录的上一级目录。 . :当前目录
+    4）创建目录：mkdir [选项] 目录名 可以是绝对路径也可以是相对路径
+            ：mkdir -p /opt/test/test1/test2 就算没有test1，也可以帮你创建
+    5）删除文件或者目录：rmdir 目录名（只能删除空目录）
+                rm 文件名 （默认情况下只删除文件）rm -r 目录名 （删除递归的联级的删） n+回车不删除 y+回车删除
+                rm -f 文件名 强制删除不提示  或者 rm -rf 目录名 （强制删除所有不提示）
+                如：rmdir test 删除test目录
+    6）创建文件空文件：touch 文件名（可以是多个，用空格隔开）
+                    如： touch test1 test2 test3 同时创建3个文件
+    7）复制文件或目录：cp [-r] 源 目标目录
+                如：cp test1.txt test 把test1.txt复制到test目录下
+                如：cp -r test test1 把test目录复制到test1目录下
+    8）移动文件或目录：mv 源 目标
+                如：mv test1.txt /opt/test 把test1.txt文件剪切到目录
+                如：mv test1.txt test.txt 相当于重命名。
+    9）重命名：可以如上。
+    10）查看文件内容：cat 文件名 或者 cat -n 文件名（会连带显示行号）
+    11)、分页查看文件文件内容：more 文件名  一次性加载文件所有内容到内存，分页显示
+                    按回车翻一行、按空格翻一页
+                    more test.txt
+    12)、分页查看文件文件内容：less 文件名 分页加载文件所有内容到内存，分页显示
+                    less t4.txt
+    		按回车翻一行、按空格翻一页，按q退出查看
+
+    13)、查看文件的头10行：head [选项] 文件名
+                    如：head test.txt
+                    如：head -n 5 t4.txt
+    14)、查看文件的后10行：tail [选项] 文件名
+               tail t4.txt
+           tail -n 5 t4.txt
+    15）、上传到linux文件并覆盖：rz -y
+    16）、从linux下载文件：sz 文件名
+
+9、linux 中的文件和目录的操作命令
+    1）echo：输出系统变量或者常量的值到命令行终端
+        如：echo $JAVA_HOME
+        如：echo $PATH
+        如：echo Hello World！
+    2）把查看命令的结果输出到指定的文件中：查看命令 > 文件名
+        如：ls > ret.txt 把ls命令输出的结果输出到ret.txt文件中，如果没有文件就会自己新建一个,如果存在就会覆盖里面的内容
+        如：cat test.txt > text1.txt 相当于复制了一份。
+    3）把查看命令的结果追加到指定文件中：查看命令 >> 文件名
+
+10、linux中关于日期和时间的操作命令
+    1）查看或者设置系统的日期或者时间：date
+    date 查看系统当前的完整的欸其和时间
+    date +%Y 查看系统当前的年份
+    date +%m 查看系统当前的月份
+    date +%d 查看系统当前的日期
+    date '+%Y-%m-%d %H:%M:%S' 按yyyy-MM-dd HH:mm:ss格式显示
+    date -S '2020-10-20 10:20:30' 设置当前的系统时间
+    2）查看系统日历：cal
+    cal:查看当前月份的日历
+    cal 2022：查看指定年份的日历
+
+11、linux中关于搜索过滤文件或者目录的命令：
+    1）find [搜索范围] [搜索标准：有默认的-name,-size,-user] 关键字 (得用通配符）。遍历文件，从搜索范围内一个文件一个目录的查找
+    如：find *.txt 搜索当前目录下所有.txt文件
+    如：find *e* 搜索包含e的文件
+    如：find /etc *t* 搜索etc目录下包含t的
+    如：find /etc -size +5K 搜索etc目录下大于5k的文件
+    如：find /etc -user list 搜索etc目录下所有list创建的文件和目录
+    2）locate:从linux数据库目录树查找，不用访问磁盘。所以比find效率高。
+       都是根据名称搜索，但是你创建文件linux不会不会马上同步到数据库中，所以需要先同步而同步比较慢
+       如：updatedb 同步
+           locate *.txt 搜索所有.txt文件
+    3）grep:
+        配合find使用：find test|grep test 查找当前目录下搜索test中包含test关键字的
+        配合cat使用：cat test.txt|grep -i Hello 只查看test.txt文件中包含Hello的，-i表示忽略大小写
+        配合ls使用：ls /opt|grep test 查找opt目录下包含 test的文件或者目录
+
+12、linux中的压缩和解压
+    1）压缩或者解压单个文件（不能打包）：
+        gzip 文件名 ：压缩成一个。gz的压缩包，并删除源文件
+        gunzip .gz压缩包名：解压.gz的压缩包，并把原来的.gz的压缩包删了
+    2）既可以压缩解压也可以打包（就是压缩多个文件）
+        zip 目标压缩包名称 文件名1 文件名2  ：压缩多个文件可以指定名称
+        如：zip new.zip test1.txt ret.txt ：把test1和ret文件打包到new.zip中不会删除源文件。
+
+        unzip 压缩包名：将指定压缩包解压到当前目录
+        如：unzip zip.zip -d test3 ：把压缩包解压到test3，-d表示解压到的指定路径
+    3）一个命令压缩解压打包（用的比较多）
+        压缩：tar [] 目标压缩包名称                   解压tar [] 目标压缩包名称 -C 解压目录名 ：
+        如：tar -zcvf new.tar.gz ret.txt test1.txt    如：tar -zxvf new.tar.gz -C /opt/zip
+        选项：-z压缩和解压 -c和打包 -x解包 -v显示详细信息 -f指定压缩解压tar包 -C指定解包的路径
+
+13、linux组管理
+    文件与组：
+        1）用户不能独立于组存在，一个用户可以存在于多个组
+        2）文件和目录页必须属于一个组而且只能属于一个组。
+        这样linux就可以通过组控制用户可以对文件或者目录的访问权限。
+        3）在文件或者目录看来，linux系统中所有的用户分为三类
+            所有者：默认情况下，文件或者目录的所有者都是创建者，可以修改
+            同组用户：跟文件或者目录属于同一个组的用户
+            其他组用户：既不是文件或者目录的所有者，也不是同组目录
+        4）查看文件的所有者和所在组：ls -l
+        5）修改文件的所有者：chown 新的所有者 文件名
+            如：chown list test1.txt
+           修改文件的所有者和组： chown 新的所有者：新的组 文件名
+            如：chown list:dev test1.txt
+           修改目录下所有文件的所有者和组：
+           如：chown-R list:dev zip 不带R的话就只修改目录
+        6）修改文件或者目录所在组：chgrp 新的组 文件名或者目录名
+           如：chgrp dev test1.txt
+           如：chgrp -R dev zip
+
+14、linux文件或者目录的权限管理
+    在linux中任何目录或者文件都有三种权限：读（Read）、写（Write）、执行（Execute）
+        1）对于文件而言：
+            读：可以读取、查看文件的内容，比如：cat、more、less、head、tail
+            写：可以修改文件的内容、比如：vi或者vim等。
+            执行：如果该文件时可执行文件（.sh），可以直接运行，比如:./xxx/sh
+        2）对于目录而言：
+            读：可以读取、查看目录下边的内容。比如ls等。
+            写：可以修改目录中的内容，创建子目录、创建文件、重命名文件或者目录。
+            执行：可以进入该目录，比如：cd等。
+        3）文件或者目录的权限控制：
+           在linux中，任何一个文件或者目录都有三部分权限：所有者权限、同组用权限、其他用户权限。
+            第一部分所有者权限：rwe：读写执行； rw-：读和写权限；r-x：读和执行；r--：只读；---：没有任何权限。
+            第二部分同组权限：
+            第三部分不组权限：
+            注 ls -l 所查看的权限第一位是‘-’表示文件 ‘d’表示目录。删文件看的是所在目录权限
+        4）修改用户权限：chmod
+            用r、w、x表示权限。用u、g、o、a分别表示给所有者、同组用户、其他用用户、所有用户修改权限。还有+-=表示增加减少等于
+            如：chmod g+w,o+w ret.txt 给ret.txt文件下的同组用户和不同组用户增加写的权限
+        5），使用数字的方式修改权限：
+            r:4(2^2) w:2(2^1) x:1(2^0)。用4、2、1替换r、w、x
+            每一个文件或者目录都有三部分权限，每一部分权限都可以用一组数据之和来表示：
+            rw-:6 r-x:5 -wx:3
+            如：chmod 777 test1.txt 将test1文件权限改成全权限
+
+15、linux中的网络管理：
+    在linux的配置文件：vi /etc/sysconfignetwork-scripts/ifcfg-ens33
+    BOOTPRATO="static"
+    ONBOOT="yes"
+    IPADDR=在VMware编辑->虚拟网络编辑器->NAT模式->DHCP设置->IP起始和结束的网段
+    GATEWAY=在VMware编辑->虚拟网络编辑器->NAT模式->NAT设置的网关。
+    DNS1=与网关一致
+
+16、linux中的进程管理：
+    进程：一个程序的执行，一个进程占一个端口
+    线程：一个程序的线路
+    1）查看当前进程：
+        ps ：只显示应用进程
+        ps -e ：显示所有进程
+        ps -ef ：以全格式的形式显示所有进程
+        可以配合过滤器 |grep 使用
+
+17、服务管理（本质上就是一个进程，支撑linux运行的，叫守护进程）
+    1）操作服务：systemctl [start|stop、restart、reload、status、enable] 服务名称
+       如：systemctl status firewalld 查看防火墙状态
+           systemctl stop firewalld 关闭防火墙
+           systemctl start firewalld 开启防火墙
+           systemctl enable firewalld 设置防火墙开机启动
+       *老板的linux或者发行的版本用service命令操作服务
+
+18、linux中软件包的管理：软件安装包
+    1）RPM：一种linux的软件包的打包和安装工具，他操作的软件包都是.rpm结尾的。
+        a）使用RPM：epm命令。
+        查看当前系统中已经安装的rpm包：rpm -qa
+        b）卸载rpm包：rpm -e 包名 ：如rpm -e firefox
+        c）安装rpm包：rpm -ivh 包名
+       如：cp firefox-45.4.0-1.el7.centos.x86_64.rpm /opt 复制光驱里的rpm包
+           rpm -ivh firefox-45.4.0-1.el7.centos.x86_64.rpm 安装rpm包
+    2)YUM包管理：基于RPM的软件包管理工具，它能够从指定服务器上自动下载RPM包并自动安装，可以自动处理软件包之间的依赖关系
+        a)查看当前系统已经安装的RPM包：yum list installed
+        b)卸载rpm包：yum remove firefox.x86_64
+        c)安装rpm包：yum install firefox
+
+19、安装jdk
+    1)要有jdk的tar.gz包，然后用Xftp传到linux的opt目录下解压就好了
+    2)配置环境：在/etc目录下的 profile文件中配置JAVA_HOME=/opt/jdk1.8.0_121（jdk路径包含名字的）
+    PATH=$JAVA_HOME/bin:$PATH 和 CLASSPATH=$JAVA_HOME/lib:. 注意点
+    3)编写Java程序，先写一个test.java文件，然后编译：javac test.java 。然后运行：java test 注这里文件名不带后缀的
+
+20、安装tomcat
+    1)直接解压就可以了。
+    2）运行tomcat->bin->./startup.sh文件就运行tomcat。
+    3)验证tomcat是否打开成功，可以在linux浏览器上访问http://127.0.0.1:8080，也可以查看线程
+    4)要在windows上访问的话得关闭防火墙 systemctl stop firewalld
+
+21、安装mysql
+    1）查看本机是否安装mariadb,如果有先卸载：查看：yum list installed|grep mariadb 卸载：yum -y remove xxx
+    2）传安装包，解压
+    3）创建一个文件夹data存放mysql数据
+    4）创建用来执行mysql命令的linux用户 叫mysql
+    5）初始化mysql：mysql bin目录下执行：./mysqld --initialize --user=mysql --datadir=/opt/azb/mysql-5.7.18/data --basedir=/opt/azb/mysql-5.7.18
+    6）执行完第五步后会创建临时的mysql的root用户还会生成一个密码，复制下来后面要用：xfj<.hr2klwI
+    7）启动安全功能：在mysql->bin目录下执行：./mysql_ssl_rsa_setup --datadir=/opt/azb/mysql-5.7.18/data
+    8）mysql安装后需要修改目录权限和所有者让其他组的也能写：
+        改所有者和组：chown -R mysql:mysql /opt/azb/mysql-5.7.18/
+        改权限：chmod 777 /opt/azb/mysql-5.7.18/
+    9）启动mysql:mysql-bin 下执行 ./mysqld_safe & 注：&表示后台启动，没有他就是前台启动会占用命令行终端。
+    10）登录：进入mysql->bin下执行 ./mysql -uroot -p 回车输入密码 ，密码是第六步复制的密码。
+    11）修改密码:alter user '用户名'@'主机域名或ip' identified by '新密码'
+               如：alter user 'root'@'localhost' identified by 'root';
+    12）远程授权：grant all privileges on *.* to root@'%' identified by 'root'; 然后更新授权信息：更新权限信息：flush privileges; 再然后关闭防火墙。
+    13）关闭mysql服务：mysql->bin目录下执行：./mysqladmin -uroot -p shutdown 输入密码关闭
+    14）修改数据库编码：set character_set_client=utf8;
+                       set character_set_connection=utf8;
+                       set character_set_database=utf8;
+                       set character_set_results=utf8;
+                       set character_set_server=utf8;
+                       set character_set_system=utf8;
+                       set collation_connection=utf8;
+                       set collation_database=utf8;
+                       set collation_server=utf8;
+                       查看数据库编码：show variables where Variable_name like '%char%';
+
+22、导入crm项目
+    1）导入数据库
+

@@ -1,7 +1,7 @@
 package com.huangjiabin.servlet;
 
 import com.huangjiabin.entity.Student;
-import com.huangjiabin.service.impl.StudentServiceImpl;
+import com.huangjiabin.stream.service.impl.StudentServiceImpl;
 
 
 import org.springframework.web.context.WebApplicationContext;

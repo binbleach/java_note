@@ -1,0 +1,6 @@
+1、安装zipkin:
+    1）下载地址：https://repo1.maven.org/maven2/io/zipkin/zipkin-server/
+    2）启动：java -jar zipkin-server-2.14.1-exec.jar
+    3）访问主页：http://localhost:9411/zipkin/
+2、配置zipkin:
+    1）在 8001、80中配置，通过80调用8001，则可以在zipkin主页看到相关的信息。

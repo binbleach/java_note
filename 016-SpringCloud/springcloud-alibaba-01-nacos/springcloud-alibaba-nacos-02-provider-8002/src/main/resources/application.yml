@@ -1,0 +1,16 @@
+server:
+  port: 8002
+
+spring:
+  application:
+    name: springcloud-alibaba-nacos-provider
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 #配置Nacos地址，默认
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

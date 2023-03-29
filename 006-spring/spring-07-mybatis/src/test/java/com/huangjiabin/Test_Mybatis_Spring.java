@@ -2,7 +2,7 @@ package com.huangjiabin;
 
 import com.huangjiabin.dao.StudentDao;
 import com.huangjiabin.entity.Student;
-import com.huangjiabin.service.StudentService;
+import com.huangjiabin.stream.service.StudentService;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

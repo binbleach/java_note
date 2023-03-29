@@ -1,8 +1,8 @@
 package com.huangjiabin.test;
 
-import com.huangjiabin.service.SomeService;
+import com.huangjiabin.stream.service.SomeService;
 import com.huangjiabin.handler.MyInvocationHandler;
-import com.huangjiabin.service.impl.SomeServiceImpl;
+import com.huangjiabin.stream.service.impl.SomeServiceImpl;
 
 import java.lang.reflect.Proxy;
 

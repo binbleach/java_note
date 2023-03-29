@@ -27,7 +27,7 @@
 <!--    <bean id="userServiceImpl" class="com.huangjiabin.service.impl.UserServiceImpl"/>-->
 <!--    <context:component-scan base-package="com.huangjiabin.service"/>-->
 
-    <context:component-scan base-package="com.huangjiabin.controller"/>
+    <context:component-scan base-package="com.huangjiabin.stream.controller"/>
 
     <mvc:annotation-driven/>
 

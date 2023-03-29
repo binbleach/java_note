@@ -3,10 +3,7 @@ package com.huangjiabin.springdatajpa.po;
 import javax.persistence.*;
 import java.io.Serializable;
 
-/***
- * @Author 徐庶   QQ:1092002729
- * @Slogan 致敬大师，致敬未来的你
- */
+
 @Entity     // 作为hibernate 实体类
 @Table(name = "tb_customer")       // 映射的表名
 public class Customer {

@@ -18,11 +18,13 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
+        <!--自己的common-api-->
         <dependency>
             <groupId>com.huangjiabin</groupId>
             <artifactId>springcloud-eureka-01-common-api</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <!--springboot两件套-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -32,6 +34,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!--包含了sleuth+zipkin：在 springcloud-10-sleuth-zipkin 模块中去看-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
         </dependency>
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>

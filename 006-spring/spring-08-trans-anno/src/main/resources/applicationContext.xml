@@ -45,7 +45,7 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
 
-    <bean id="buyGoods" class="com.huangjiabin.service.impl.BuyGoodsServiceImpl">
+    <bean id="buyGoods" class="com.huangjiabin.stream.service.impl.BuyGoodsServiceImpl">
         <property name="saleDao" ref="saleDao"/>
         <property name="goodsDao" ref="goodsDao"/>
     </bean>

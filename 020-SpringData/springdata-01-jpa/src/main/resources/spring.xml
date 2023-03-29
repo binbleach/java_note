@@ -8,7 +8,7 @@
     https://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!--用于整合jpa -->
-    <!--repositories访问层得包-->
+    <!--repositories访问层的包-->
     <jpa:repositories base-package="com.huangjiabin.springdatajpa.repositories"
         entity-manager-factory-ref="entityManagerFactory"
                       transaction-manager-ref="transactionManager"

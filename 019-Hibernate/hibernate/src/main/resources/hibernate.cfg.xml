@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <!--第 1 部分：配置数据库信息
+        第 2 部分：配置hibernate信息
+        第 3 部分：引入
+    -->
+    <session-factory>
+        <!--第 1 部分：配置数据库信息-->
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hibernate</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">1220.dbggl.mysql</property>
+
+        <!--第 2 部分：配置hibernate信息，可选的-->
+        <!--控制台输出sql 默认false-->
+        <property name="hibernate.show_sql">true</property>
+        <!--输出的sql格式化 默认false-->
+        <property name="hibernate.format_sql">true</property>
+        <!--表生成策略（自动创建表，需要配置关联之后才能帮忙创建）
+            默认none   不自动生成
+            update    如果没有表会创建，有会检查更新
+            create    创建-->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <!-- 配置数据库方言：选择数据库类型
+            mysql 分页 limit oracle 分页rownum
+            该配置让hibernate识别limit或rownu
+            type=InnoDB在5.0以前是可以使用的，但5.1之后就不行了。如果把type=InnoDB改为engine=InnoDB就不会有这个问题。
+            MyISAMySQL引擎不支持外键，所以如果要映射的表里有外键的话，就会创建失败
+
+            mysql8，mysql5.1.47的话可用，mysql5.1.22亲测不可用
+            MySQLDialect 为 type=MyISAM   连接失败 得是mysql5.x之前的版本
+            MySQL5Dialect 为 engine=MyISAM
+            MySQL55Dialect 为 engine=InnoDB
+            MySQL57Dialect 为 engine=InnoDB
+            MySQL8Dialect 为 engine=InnoDB
+         -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <!--配置本地线程绑定session-->
+        <property name="hibernate.current_session_context_class">thread</property>
+        <!--第3部分，引入映射 （配置文件的方式）-->
+        <mapping resource="com/huangjiabin/hibernate/model/User.hbm.xml"></mapping>
+        <mapping resource="com/huangjiabin/hibernate/model/Customer.hbm.xml"></mapping>
+        <mapping resource="com/huangjiabin/hibernate/model/LinkMan.hbm.xml"></mapping>
+        <mapping resource="com/huangjiabin/hibernate/model/Authority.hbm.xml"></mapping>
+        <mapping resource="com/huangjiabin/hibernate/model/Role.hbm.xml"></mapping>
+
+        <!--第3部分，引入映射 （注解的方式）-->
+        <mapping class="com.huangjiabin.hibernate.po.Customer"></mapping>
+
+<!--        <mapping resource="com/huangjiabin/hibernate/po/Customer.hbm.xml"></mapping>-->
+    </session-factory>
+</hibernate-configuration>

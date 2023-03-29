@@ -133,7 +133,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         ,"/sys/user//createUserStudent"     //创建学生
                         ,"/getVideo"        //获取视频
                         ,"/putVideo"        //拉流
-                        ,"/**"
+//                        ,"/**"
                                         );
     }
 }

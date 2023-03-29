@@ -18,21 +18,21 @@ public class SendMsgController {
     private RabbitTemplate rabbitTemplate;
 
     /*
-        发布确认基础是消息是否被持久化，高级是消息是否被投递
-        发布确认基础是通过rabbitmq是否应答确认，
-        发布确认高级是不通过rabbitmq（因为有特殊情况下宕机）来确认消息是否被发布成功的机制的机制
-
-        核心：1、正常的交换机队列，生产者消费者
+        发布确认高级：
+            1、与基础相比：在ConfirmCallback的基础上加上了ReturnCallback
+            2、也可以不走 ReturnCallback，走备份交换机，备份交换机可以路由到备份队（用独立消费者对消息备份）列和报警队列（用独立的消费者来监测报警）
+        核心：
+            1、正常的交换机队列，生产者消费者
             2、写MyCallBack（回调接口，退回接口）类
             3、写备份交换机：再写一个写正常交换机队列做备份交换机，给正常交换机添加备份交换机参数
 
         发布确认高级：
-        1、回调接口：
-            通过回调接口,只要发布消息就会调用回调函数，得知交换机是否接收到消息。
-        2、退回接口
-            回调当交换机宕掉时，可行。可是队列宕掉就不行了还得用退回接口。
+        1、ConfirmCallback接口：
+            只要消息到达到交换机就会调用此接口方法，用于得知交换机是否接收到消息。
+        2、ReturnCallback接口
+            只要交换机路由不到队列就会回调此接口方法，用于得知消费者是否接收到消息
         3、备份交换机：
-            有备份交换机回退消息走备份交换机，没有走退回方法
+            备份交换机优先级高于ReturnCallback，回退消息先走备份交换机，没有再走ReturnCallback
     */
     @GetMapping("/sendMessage/{message}")
     public void sendMessage(@PathVariable String message){

@@ -2,7 +2,7 @@ package com.huangjiabin;
 
 import static org.junit.Assert.assertTrue;
 
-import com.huangjiabin.service.SomeService;
+import com.huangjiabin.stream.service.SomeService;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

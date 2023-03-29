@@ -1,7 +1,7 @@
 package com.huangjiabin.test;
 
 import com.huangjiabin.domain.User;
-import com.huangjiabin.service.UserService;
+import com.huangjiabin.stream.service.UserService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Test {

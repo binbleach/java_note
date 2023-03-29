@@ -14,7 +14,7 @@
     url:访问服务接口的地址
     registry :直连A/N
     -->
-    <dubbo:reference id="userService" interface="com.huangjiabin.service.UserService"
+    <dubbo:reference id="userService" interface="com.huangjiabin.stream.service.UserService"
                      url="dubbo://localhost:20880" registry="N/A"/>
 
 </beans>

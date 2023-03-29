@@ -4,6 +4,12 @@ server:
 spring:
   application:
     name: springcloud-eureka-provider   #微服务名称，集群下相同提供者微服务名称相同
+  zipkin: #配置zipkin
+    base-url: http://localhost:9411
+  sleuth:
+    sampler:
+      #采样率值介于 0 到 1 之间，1 则表示全部采集
+      probability: 1
   datasource:   #配置数据库
     type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
     driver-class-name: com.mysql.jdbc.Driver              # mysql驱动包 com.mysql.jdbc.Driver

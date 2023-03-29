@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping  >
+	<!-- 1 配置类和表对应
+		class标签
+		name属性：实体类全路径
+		table属性：数据库表名称
+	-->
+	<class name="com.huangjiabin.hibernate.model.Customer" entity-name="com.huangjiabin.hibernate.model.Customer" table="t_customer">
+		<id name="cid" column="cid">
+			<generator class="native"></generator>
+		</id>
+		<property name="custName" column="custName"></property>
+		<property name="custLevel" column="custLevel"></property>
+		<property name="custSource" column="custSource"></property>
+
+		<!-- 在客户映射文件中，表示所有联系人
+
+			set标签里面有name属性：
+			     属性值写在客户实体类里面表示联系人的set集合名称
+
+			inverse是否放弃外键维护（hibernate是双向维护外键的，修改时会进行两次sql操作，为了效率可以选择一方(一般是1对多的1)放弃外键维护）
+					false不放弃关系维护(默认)，true表示放弃关系维护。放弃时不会维护其他表中该外键的值。
+
+			cascade="save-update"：级联保存，得把inverse设置为false，否则添加的LinkMan数据会无clid外键
+				   ="delete"：级联删除
+		-->
+	</class>
+</hibernate-mapping>
+
+
+
+
+

@@ -8,56 +8,79 @@ spring:
     config:
       server:
         git:
-          uri: git@gitee.com:binbleach/java_notes.git   #git仓库名字
+          #uri: https://gitee.com/binbleach/java_notes.git   #https连接
+          uri: git@gitee.com:binbleach/java_notes.git   #git连接
           search-paths:     #搜索目录
-            - java_notes/016-SpringCloud/springcloud-08-config/springcloud-config
-#          strict-host-key-checking: false
-#          ignore-local-ssh-settings: true
-#          private-key: |
-#                        -----BEGIN OPENSSH PRIVATE KEY-----
-#                        b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
-#                        NhAAAAAwEAAQAAAYEAxPaRj5eHSpm9DcpFy/TSuwiyNyl1Ezz+5N5gp4Dup7vz3QQDA7IM
-#                        ebuCNt4s2xd3OCxEvf/HRNDDfwOb5SVSJmgDiKsWwPv/eYvcjRdcHzXkbRrpzTKZ8pI0pN
-#                        Nk8j4Z3hP1es+LARZ73W2ukqk5kb0owZvp+LBIt9rm7cLxe4N1gzHR97epx2BM3OcaqQgp
-#                        rNv3q3bewl59JwAU3+a6FbRT1gFqqOzTwm8Ufm6OKgUKwpAbJbLVX+8zPDCB6q6N03xSAR
-#                        NvXxJZxq2V9yf3qE5Vqd1uHn5ErYnAmHp7vaRBGCjxsAeP1AorxeKjk1jADrd1QpPqPT2+
-#                        ccpzD7/N/AEX5vD5F4SlK6Je1wP7yJIVRDJ7C0mVG7sPTsKF4KHjlGnUNiJgHkHzqNKx/v
-#                        SPyHM/R1u9NkY/0UJzA1hM/af/jTwKN+pqeVmhYxoR2trNSMD5aT4zybpS9baggMwRmC4d
-#                        89n1VxadKcpyCf2PcE/0mr8PMDBB/2k3e3T3cb6DAAAFiAdx+0sHcftLAAAAB3NzaC1yc2
-#                        EAAAGBAMT2kY+Xh0qZvQ3KRcv00rsIsjcpdRM8/uTeYKeA7qe7890EAwOyDHm7gjbeLNsX
-#                        dzgsRL3/x0TQw38Dm+UlUiZoA4irFsD7/3mL3I0XXB815G0a6c0ymfKSNKTTZPI+Gd4T9X
-#                        rPiwEWe91trpKpOZG9KMGb6fiwSLfa5u3C8XuDdYMx0fe3qcdgTNznGqkIKazb96t23sJe
-#                        fScAFN/muhW0U9YBaqjs08JvFH5ujioFCsKQGyWy1V/vMzwwgequjdN8UgETb18SWcatlf
-#                        cn96hOVandbh5+RK2JwJh6e72kQRgo8bAHj9QKK8Xio5NYwA63dUKT6j09vnHKcw+/zfwB
-#                        F+bw+ReEpSuiXtcD+8iSFUQyewtJlRu7D07CheCh45Rp1DYiYB5B86jSsf70j8hzP0dbvT
-#                        ZGP9FCcwNYTP2n/408CjfqanlZoWMaEdrazUjA+Wk+M8m6UvW2oIDMEZguHfPZ9VcWnSnK
-#                        cgn9j3BP9Jq/DzAwQf9pN3t093G+gwAAAAMBAAEAAAGBAJQHmFiqEsVPjFXb6t8hzmtBWu
-#                        e4YcQmuI98Tno1nag0y1AVnspdO6EV+wSPsHitRy3Rn4yIutQObo98P+NVTEuPKvDBXSWH
-#                        f3dzVTw5DURrtZUGgCd3W1qC5cvnENw7LifJKlq1twwHQOqnb2fMhXbyCrqQGqWMn+qGO7
-#                        8AH4urvlruy5Z408IDr2Dq1A+sEd5Xp+mXOk4sw7TXC9lHSB3d3JBfmjEBZRmhcG6hWnlc
-#                        Nr0Jn02S/WjPltsqvcmKi7zx4LhxQD7Lra6bsrmsOUzGbMK2FGI31KYnaPQIjKNN0YWA0f
-#                        XT4v5TsY9Xjs9TzPF1uR9NoryLviQAIrUNMjPMXZ6cHlFERxdUozSDS0iBxVaAvHYHRvsl
-#                        Hy3qy9gZcPir12HxjAU062HVVVSwwbDjWh2NSJbde3rosDfkLVjqG/wDU1Lmpg5uFWdCli
-#                        QbstGWwuhtixC7gBXc7Xa93uDIj4Z5GS+W8bDyDIcry3LDSA68O9uFGOpZGZYUekn8KQAA
-#                        AMA5xPLR3TYyREOmL+QR/E/YByJ1eioPBIFA1zv/c6VW8Ls7WvfCbo8MFm+Hx8tbYKIbsT
-#                        PfqaNfLqZCIK14qJGkUmSnpnWw4f4D81ZfhXeaamf8uuGHC3ah9ZWO/aL1djQl5tz8fE1R
-#                        dU1le8+CsfjeqaNwhH2AosjS9s2NKi+lJ/KQhsdghFxPHAjozIMp3TNKMOG34Ucric9nCj
-#                        XMnEtyb8MzULurzQTSUXwJWxEjcVmJTkgye1aIfbnLIaZt4uMAAADBAO7+JqgAQyrS+9d/
-#                        MSkgYBAlbYd3DNoXiIYtKu5VdFBND9Yf8yAKa1A8kMFBs0t6XPYLBtE3hdIC/kK0rSLjIz
-#                        5kusSwR0bue7JDEbwf88bw+cCGt2kfRNzDD/eP6EQLdlpK9YQmKbKWc7xxC4DzV81pa4LA
-#                        QAw3oNBPHt6vFTdFCxHAZpzkZSM4RSdagbeE3Epjld9kYQ0lITLBRrdADJE2r2sDxdvIJm
-#                        V1CP6PFzluZAQGEf9th+/pJboTntv7BQAAAMEA0vq+THtMwrhfDN32LOIbvUVdfJjfYwNc
-#                        TsyuuBzdk/yEzMoaWY03dq+53V3YElefCCxlBQwnaQydWhz9HFdTRIs4cKL+gu2yCfdtcq
-#                        xGMIk0izZJXrwrUjbeg2xBrLa6eIhOD9ycwRm//lcP9BBvTyn5L1RfIKOT966+GbaQTBvx
-#                        YPwbkl1eiNdNhISJ7xIxb2lN0UBAdq9FWUyugIq843Xk8pny6uEaZLO50SP6BIDzUxDlPe
-#                        +4AqxDd84Qb9nnAAAAETI5MDEwMzgxNDRAcXEuY29tAQ==
-#                        -----END OPENSSH PRIVATE KEY-----
+            - 016-SpringCloud/springcloud-08-config/springcloud-config
+          strict-host-key-checking: false
+#          username: binbleach    #https连接非开源仓库时必须
+#          password: 1999beyond
+          ignore-local-ssh-settings: true
+          private-key: |
+            -----BEGIN RSA PRIVATE KEY-----
+            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
+            -----END RSA PRIVATE KEY-----
       label: master #读取分支
 #  rabbitmq:     #rabbitmq配置
 #    host: 192.168.8.128
 #    port: 5672
 #    username: root
 #    password: root
+
+##rabbitmq相关配置,暴露bus刷新配置的端点
+management:
+  endpoints: #暴露bus刷新配置的端点
+    web:
+      exposure:
+        include: 'bus-refresh'
 
 eureka:
   client:

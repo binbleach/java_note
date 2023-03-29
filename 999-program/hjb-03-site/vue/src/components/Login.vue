@@ -131,7 +131,6 @@ import {removeToken, setToken} from "../utils/utils";
           _this.loading = false;
           console.log("登录结果=========",data)
           console.log("token========",this.$store.state.token)
-
           _this.$router.replace({path: '/home'});
         }, resp=> {
           _this.loading = false;

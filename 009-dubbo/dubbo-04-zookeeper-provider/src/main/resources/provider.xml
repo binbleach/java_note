@@ -9,17 +9,17 @@
 
     <dubbo:registry address="zookeeper://192.168.8.128:2181"/>
 
-    <dubbo:service interface="com.huangjiabin.service.UserService" ref="userService"/>
+    <dubbo:service interface="com.huangjiabin.stream.service.UserService" ref="userService"/>
 
-    <bean id="userService" class="com.huangjiabin.service.impl.UserServiceImpl"/>
+    <bean id="userService" class="com.huangjiabin.stream.service.impl.UserServiceImpl"/>
 
     <!-- 多个服务注册-->
     <!--
         version         用于区分相同类型的服务
         retries="2"     访问次数，访问两次，如果第一次失败会访问第二次 -->
-    <dubbo:service interface="com.huangjiabin.service.UserService" ref="userService2"
+    <dubbo:service interface="com.huangjiabin.stream.service.UserService" ref="userService2"
                    retries="2" version="2.0.0"/>
-    <bean id="userService2" class="com.huangjiabin.service.impl.UserServiceImpl2"/>
+    <bean id="userService2" class="com.huangjiabin.stream.service.impl.UserServiceImpl2"/>
 
 
 </beans>

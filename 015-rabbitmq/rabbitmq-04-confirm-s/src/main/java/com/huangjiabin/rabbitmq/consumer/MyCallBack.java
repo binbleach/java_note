@@ -28,13 +28,13 @@ public class MyCallBack implements RabbitTemplate.ConfirmCallback,RabbitTemplate
         rabbitTemplate.setReturnsCallback(this);
     }
 
-    @Override
-    //交换机
-    /*  回调方法,只要发布消息就会调用回调函数，得知交换机是否接收到消息。
-        参数 1 对调消息的ID及相关信息，在发送时设置
-        参数 2 交换机是否收到消息 true收到，false未收到
-        参数 3 cause未收到原因，如果收到就是null.
+    /*
+        1、ConfirmCallback接口方法：消息发送到交换机后的回调方法
+            参数 1 对调消息的ID及相关信息，在发送时设置
+            参数 2 交换机是否收到消息 true收到，false未收到
+            参数 3 cause未收到原因，如果收到就是null.
     */
+    @Override
     public void confirm(CorrelationData correlationData, boolean b, String cause) {
         String id=correlationData!=null?correlationData.getId():"";
         if(b){
@@ -44,9 +44,10 @@ public class MyCallBack implements RabbitTemplate.ConfirmCallback,RabbitTemplate
         }
     }
 
-    //路由
     /*
-       退回方法 ：当消息在传递过程中到达不了目的地时将消息退回给生产者
+       1、ReturnCallback接口方法：此方法是在交换器路由不到队列时的回调方法
+        注：该方法可以不使用，因为交换器和队列是在代码里绑定的，如果消息成功投递到Broker后几乎不存在绑定队列失败，除非你代码写错了。
+
     */
     @Override
     public void returnedMessage(ReturnedMessage returnedMessage) {

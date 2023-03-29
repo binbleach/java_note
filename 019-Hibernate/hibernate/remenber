@@ -1,0 +1,95 @@
+一、注意事项
+    1、hibernate只会加载hibernate.cfg.xml。映射文件不会加载
+    2、映射文件的位置和名称没有固定有要求
+    3、column属性可以省略。省略则和name属性值是一样的
+    4、property标签有type属性，设置生成表字段的类型，自动对应类型
+    5、 核心配置文件名称和位置是固定的，名称hibernate.cfg.xml和路径src
+二、hibernate api
+    1、configuration：
+        （1）加载默认位置默认名称的配置文件
+            new Configuration().configure();
+        （2）加载任意位置任意名称的配置文件
+            new Configuration().config("xml 文件位置")
+
+    2、SessionFactory(重点)
+        （1）使用configuration对象创建sessionFactory对象，此过程中会创建数据表：
+            <property name="hibernate.hbm2ddl.auto">update</property>
+        （2）创建sessionFactory过程会特别耗费资源。所以建议一个项目创建一个sessionFactory(但伦理模式)
+
+    3、Session
+        创建session对象：Session session = sessionFactory.openSession();
+        （1）类似于jdbc中connection
+        （2）调用session里面不同的方法实现crud操作：
+            save添加  update修改    delete删除    get根据id查询
+        （3）session是单线程对象：不能共用，只能自己使用
+
+    4、Transaction
+        开启事务：Transaction tx = session.beginTransaction();
+        （2）commit提交
+        （3）rollback回滚
+        （4）原子性，隔离性，一致性，持久性
+
+三、hibernate要求必须有一个唯一的值做id，生成策略有：
+    increment   每次增量为1，非线程安全，不能再集群下使用
+    identity    只支持支持自增的数据库。如mysql
+    sequence    只支持支持序列的数据库，如oracle
+    native      会根据数据库选择用increment或sequence
+    uuid        128位的UUID算法来生成的标识符，长度32位的16进制的字符串
+    assigned    由java程序负责生成，不指定生成策略默认用这个，使用于自然主键，其他策略适用于代理主键
+
+四、实体类对象的状态
+    （1）瞬时态（临时状态）：对象里面没有id，与session没有关联
+    （2）持久态（持久状态）：对象里面有id，与session关联
+    （3）脱管态（游离状态）：对象里面有id，与session没有关联
+    注：jpa的话还有删除状态，就是remove后commit之前的状态
+
+五、Hibernate一级缓存
+    （1）默认打开的
+    （2）有使用范围：使用范围是session的范围，就是session的创建到关闭
+    （3）存储的额数据必须是持久态数据
+    （4）一级缓存存的是对象（地址相同），二级缓存存的是零散数据（地址不同）
+    （5）一级缓存特性：修改持久态数据commit后会同步修改数据库中数据，过程：
+        hibernate会比较缓存区和快照区内容，若内容不一致会修改数据库，修改持久态对象只会修改缓存区，快照区不发生改变，所以会修改数据库中内容
+六、Hibernate二级缓存
+    （1）目前已经不使用了，用redis替代
+    （2）二级缓存默认是不打开的，需要配置
+    （3）二级缓存使用范围，是sessionFactory范围
+
+七、事务的隔离级别
+    （1）设置：<property name="hibernate.connection.isolation">4</property>
+    （2）隔离级别：
+        1 —— Read uncommitted.isolation
+        2 —— Read committed.isolation
+        3 —— Repeatable read isolation
+        4 —— Serializable isolation
+
+八、Hibernate绑定session
+    （1）配置本地线程绑定session：<property name="hibernate.current_session_context_class">thread</property>
+    （2）获取本地线程绑定的session：sessionFactory.getCurrentSession()
+    （3）无需手动关闭session
+
+九、级联操作：
+    （1）联级操作重要属性inverse和cascade：
+        inverse：是否放弃外键维护，设置为true则放弃，那cascade的save-update则会维护不了，
+                delete不受影响，因为他并没有外键维护。所以delete级联操作时只设置主表的主键删除时，副表的数据只会删除外键，不会删除数据
+    （2）级联保存：
+        1 —— 可以先保存Customer对象再保存LinkMan对象
+        2 —— 在hnm文件中设置：<set name="setLinkMan" inverse="true" cascade="save-update">
+             则只需要将Customer对象设置LinkMan属性，保存Customer对象即可
+
+十、hibernate检索策略:
+    （1）立即查询：根据id查询，调用get方法，一调用get方法马上发送语句查询数据库
+    （2）延迟查询：根据id查询，还有load方法，调用load方法不会马上发送语句查询数据，只调用获取结果对象里面的值时才会发送语句查询数据库
+        1、类级别延迟：根据id查询返回的实体类对象，调用load方法不会马上发送查询语句
+        2、关联级别延迟：查询某个客户的所有联系人（对象导航查询），你从主表对象然获取副表对象不会发送查询，得调用副表对象的值才会查询
+    （3）在映射文件set标签中的属性
+        lazy为：false立即检索（对象导航查询为例，直接发送两条sql），true延迟检索（默认），extra及其延迟（要什么给什么）
+        fetch为join + lazy为：false或true或extra采用迫切左外连接检索
+
+十一、批量抓取：
+    1、场景：查询所有客户，返回list集合，遍历集合得到客户对象，再得到每个客户的所有联系人对象。正常会发送很多查询语句效率低（每个结果加载一条语句）
+    2、批量抓取：在映射文件set标签中设置batch-size="10"其中值是抓取样本数量，值越大查询语句越少
+
+十二、get、find、load区别
+    get不到返回null、load不到返回org.hibernate.ObjectNotFoundException异常、load是延迟检索。
+    find在JPA才有。

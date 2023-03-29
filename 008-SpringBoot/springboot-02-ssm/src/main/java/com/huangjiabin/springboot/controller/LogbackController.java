@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
         3）log4j： apache 出 的日志框架。
         4）logback：log4j的创始人做的日志框架。相比log4j它有更好的特性。
         5）log4j2：apache对log4j的升级。
-    5、springboot的logging配置：在yml种看吧
+    5、springboot的logging配置：在yml中看吧
 
 
 */

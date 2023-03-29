@@ -26,7 +26,7 @@
         <property name="basePackage" value="com.com.huangjiabin.dao"/>
     </bean>
 
-    <bean id="studentService" class="com.huangjiabin.service.impl.StudentServiceImpl">
+    <bean id="studentService" class="com.huangjiabin.stream.service.impl.StudentServiceImpl">
         <property name="studentDao" ref="studentDao"/>
     </bean>
 

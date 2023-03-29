@@ -23,9 +23,9 @@
     ref:接口所用的实现类在spring容器的标识(id)，这里就是下面配置的实现类名
     registry:如果不使用注册中心(直连) 就是N/A
     -->
-    <dubbo:service interface="com.huangjiabin.service.UserService" ref="userServiceImpl" registry="N/A" timeout="15000"/>
+    <dubbo:service interface="com.huangjiabin.stream.service.UserService" ref="userServiceImpl" registry="N/A" timeout="15000"/>
 
     <!--spring注册是(创建)类-->
-    <bean id="userServiceImpl" class="com.huangjiabin.service.impl.UserServiceImpl"/>
+    <bean id="userServiceImpl" class="com.huangjiabin.stream.service.impl.UserServiceImpl"/>
 
 </beans>
