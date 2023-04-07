@@ -27,6 +27,14 @@ import org.springframework.web.bind.annotation.RestController;
         2、配置nacos的mysql数据库：
             1）mysql创建库nacos_config，执行 nacos/conf/nacos-mysql.sql 脚本，创建表
             2）在 nacos/conf/application.properties 中配置数据库连接。
+    四、linux中安装配置集群nacos:
+        1、安装配置和window一样，只是linux的mysql配置多了一个&useSSL=false（必须）
+        2、在 nacos/conf/cluster.conf 文件中配置集群：
+            192.168.8.128 3333
+            192.168.8.128 4444
+            192.168.8.128 5555
+        3、更改 nacos/bin/startup.sh 文件使其支持以不同端口的形式启动
+        4、
 
 
 */

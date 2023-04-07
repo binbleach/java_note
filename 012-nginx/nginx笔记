@@ -10,14 +10,15 @@ Nginx主要应用：
     正向代理就像vpn，你访问外网翻墙需要的跳板
 
 2、Nginx安装：
-    1）官网下载linux安装包，并解压到linux
+    1）检查是否安装过所需库：yum list installed | grep gcc（或者openssl/pcre/zlib）
     2）安装所需库：yum install gcc openssl openssl-devel pcre pcre-devel zlib zlib-devel -y
-    3）设置安装位置：./configure --prefix=/usr/local/nginx
-    4）执行命令进行编译：make
-    5）执行命令进行安装：make install
+    3）官网下载nginx安装包，上传并解压到 /opt/azb
+    4）设置安装位置：安装包下执行 ./configure --prefix=/usr/local/nginx
+    5）编译nginx：安装包下执行 make
+    6）安装nginx：安装包下执行 make install
 
 3、启动Nginx:
-    1）在sbin目录下运行./nginx
+    1）在nginx->sbin目录下运行./nginx
         启动成功，会有一个进程master,一个worker
     2）配置文件启动：./nginx -c /usr/local/nginx/conf/nginx.conf -t
         如：/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx1.conf -t
@@ -30,10 +31,10 @@ Nginx主要应用：
 5、重启Nginx:./nginx -s reload
 
 6、配置文件：
-    1）worker_processes 1:配置工作worker进程数目，根据自身硬件调整，通常是cpu数量或者低于cpu两倍数量
-    2）日志级别：[debug、info、notice、warn、error、crit]，默认是error
-       如 ：error_log logs/error.log notice
-    3）logs/nginx.pid #配置经常pid文件（里面就一串数字）
+    1）worker_processes 1 ：配置工作worker进程数目，根据自身硬件调整，通常是cpu数量或者低于cpu两倍数量
+    2）error_log logs/error.log error：错误日志存放路径。不要配置info等级较低的级别，会带来大量的磁盘I/O消耗。
+        notice是nginx的日志级别，除此还有[debug、info、notice、warn、error、crit]，默认是error。
+    3）logs/nginx.pid ：pid（进程标识符）的存放路径。
     4）worker进程的连接上限：
         events {
             worker_connections  1024;  #这是连接上限，总的（上限65535）=进程数*连接数量
@@ -45,42 +46,42 @@ Nginx主要应用：
            #如果在mime里没有，默认文件类型 流类型，可以理解为支持任意类型
            default_type  application/octet-stream;
 
-           #配置日志格式
+           #配置日志格式，main是变量名
            #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
            #                  '$status $body_bytes_sent "$http_referer" '
            #                  '"$http_user_agent" "$http_x_forwarded_for"';
 
-           #配置access.log日志及存放路径。并使用上面定义的main日志格式
+           #配置http访问日。并使用上面定义的main日志格式
            #access_log  logs/access.log  main;
 
            sendfile        on;  #开启高效文件传输模式
-           #tcp_nopush     on;  #防止网络堵塞
+           #tcp_nopush     on;  #防止网络堵塞，上线就开
 
            #keepalive_timeout  0;
            keepalive_timeout  65; #长连接超时时间，单位是秒
 
-           #gzip  on;   #开启gzip压缩传输
+           #gzip  on;   #开启gzip压缩传输，上线就开
 
     6）配置server虚拟主机，一个http可以有多个server(端口号和域名不能两个都相同)
         server {
-                listen       80;             #端口号
-                server_name  localhost;      #域名
+                listen       80;             #监听端口
+                server_name  localhost;      #ip或域名可以有多个，用空格隔开
 
                 #charset koi8-r;            #配置字符集
 
-            #access_log  logs/host.access.log  main;   #虚拟主机的访问日志
+                #access_log  logs/host.access.log  main;   #配置虚拟主机的访问日志
 
                 # 拦截/请求
                 location / {
                     #root是配置服务器的默认网站根目录位置，默认为nginx安装主目录下的html目录
                     root   html;
-                    index  index.html index.htm;    #配置文件的名称
+                    index  index.html index.htm;    #默认欢迎页面
                 }
                 #/是根路径 root也是根路径，请求用/替代，找文件加上root就好。ip/ace/index.html->/opt/www/ace/index.html下的文件
                 #注：不管上面或者下面的地址有没有在后面添加"/"
                 location /ace {
                     root /opt/www;
-                    index login.html; #默认欢迎页面
+                    index login.html;
                 }
 
                 #error_page  404              /404.html; #配置404页面
@@ -96,7 +97,7 @@ Nginx主要应用：
 
 7、负载均衡：将请求均匀的分摊到集群中的多个服务器节点上执行.两种方式，一种软件，一种硬件贵好
     1、负载均衡部署  ：
-        a、以上面为起点，解压两个tomcat,两台服务器,一台2，一台3。
+        a、以上面为起点，解压两个tomcat,两台服务器,一台tomcat，一台tomcat2。
 
         b、配置启动一台tomcat端口号，在conf->server.xml
             改一：<Server port="8004" shutdown="SHUTDOWN" debug="0">的8005改为其它的端口。
@@ -268,12 +269,12 @@ Nginx主要应用：
             }
         c）配置本地dns映射：
             在C:\Windows\System32\drivers\etc\hosts 加：
-            192.168.235.128 beijing.myweb.com
-            192.168.235.128 nanjing.myweb.com
-            192.168.235.128 tianjin.myweb.com
-    4、上面一样的不过是独立配置：
-        需要在nginx配置文件http下server外加 include + 配置文件路径。
-        配置文件内容：就是上面的内容，叫啥都行。
+            192.168.8.128 beijing.myweb.com
+            192.168.8.128 nanjing.myweb.com
+            192.168.8.128 tianjin.myweb.com
+    4、配置虚拟主机的另一种方式，上面一样的不过是独立配置：
+        1）创建 vhost.conf，内容就是 server{...} server{...} server{...}
+        2）需要在nginx配置文件http下server外加 include /usr/local/nginx/conf/vhost/vhost.conf;。
 
 实验室：
     tomcat1：8005、8080、8009
@@ -294,18 +295,18 @@ Nginx主要应用：
         }
         server{
             location /myweb {
-                proxy_pass http://www.myweb.com;    #192.168.8.128/myweb 访问得到项目正常
+                proxy_pass http://www.myweb.com;    #192.168.8.128/myweb 访问得到项目正常（强烈建议就这样配置）
             }
         }
         server{
             location /myweb {
-                proxy_pass http://www.myweb.com/;    #192.168.8.128/mywebmyweb/ 才能访问得到
+                proxy_pass http://www.myweb.com/;    #192.168.8.128/mywebmyweb 或 192.168.8.128/myweb/myweb 才能访问得到（结尾带'/'则负载均衡失效）
             }
         }
 
         server{
             location /myweb/ {
-                proxy_pass http://www.myweb.com/;    #192.168.8.128/myweb/myweb 才能访问得到
+                proxy_pass http://www.myweb.com/;    #192.168.8.128/myweb/myweb 才能访问得到（结尾带'/'则负载均衡失效）
             }
         }
         server{

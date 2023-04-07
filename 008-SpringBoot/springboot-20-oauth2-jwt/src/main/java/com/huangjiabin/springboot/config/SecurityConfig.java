@@ -10,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@EnableWebSecurity  //表示启动webSecurity
+@EnableWebSecurity  // 启用spring security 在5.X版本之后可以不用加，默认就是开启的
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean

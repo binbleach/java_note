@@ -11,5 +11,6 @@ public class Test_AfterThrowing {
         ApplicationContext context=new ClassPathXmlApplicationContext("applicationContext.xml");
         SomeService some=(SomeService) context.getBean("SomeServiceImpl4");
         some.doSome("aa",12);
+        System.out.println("你好");
     }
 }

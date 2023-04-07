@@ -26,7 +26,7 @@ ROLE_USER和 ROLE_ADMIN 应用在所有的 URL 请求上。对于默认的 Acces
 */
 
 /*  1、AbstractSecurityInterceptor SpringSecurity中的父亲
-    2、1Manager授权接口，AuthenticationManager认证接口
+    2、AccessDecisionManager授权接口，AuthenticationManager认证接口
     3、AccessDecisionVoter投票器的父接口(默认实现类WebExpressionVoter)有三个属性1 表示赞成；0 表示弃权；-1 表示拒绝
     4、表决机制：
        AffirmativeBased：有一个投票器同意了，就通过。

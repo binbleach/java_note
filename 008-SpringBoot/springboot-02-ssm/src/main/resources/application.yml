@@ -37,7 +37,7 @@ mybatis:
 #  type-aliases-package: com.huangjiabin.springboot.domain # 所有Entity别名类所在包
 
 #（1）mapper文件在src目录下
-#  mapper文件在src目录下不会被编译，在pom文件配置编译即可。只要编译后和dao在同一包下，就不需要指定编译后位位置
+#  mapper文件在src目录下不会被编译，在pom文件配置编译即可。只要编译后和dao在同一包下，就不需要指定编译后位置
 #  mapper-locations: classpath:mapper/*.xml
 
 #（2）mapper文件在resources目录下

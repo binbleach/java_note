@@ -5,7 +5,9 @@ import com.huangjiabin.springboot.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +17,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import javax.sql.DataSource;
 
 @Configuration
+//@EnableWebSecurity  // 启用spring security 在5.X版本之后可以不用加，默认就是开启的
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //引入自定义异常类
     @Autowired
@@ -22,6 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //引入登录逻辑类
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
+
+
     //引入dataSource
     @Autowired
     private DataSource dataSource;

@@ -23,7 +23,12 @@ public class MyAround {
      */
     void around(ProceedingJoinPoint pjp) throws Throwable { //特有固定参数,ProceedingJoinPoint继承了JoinPoint.
         System.out.println("================Around通知方法执行==============");
-        Object someService= pjp.proceed(); //执行目标方法，相当于method.invoke(target,args)
+
+        try{
+            Object someService= pjp.proceed(); //执行目标方法，相当于method.invoke(target,args)
+        }catch (Throwable e){
+            System.out.println("Around======"+e.toString());
+        }
         System.out.println("================Around通知方法执行==============");
     }
 }

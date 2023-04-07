@@ -11,6 +11,7 @@
 
     <bean id="SomeServiceImpl3" class="com.huangjiabin.Around.SomeServiceImpl"/>
     <bean id="MyAround" class="com.huangjiabin.Around.MyAround"/>
+    <bean id="MyAfterThrowing2" class="com.huangjiabin.Around.MyAfterThrowing"/>
 
     <bean id="SomeServiceImpl4" class="com.huangjiabin.AfterThrowing.SomeServiceImpl"/>
     <bean id="MyAfterThrowing" class="com.huangjiabin.AfterThrowing.MyAfterThrowing"/>

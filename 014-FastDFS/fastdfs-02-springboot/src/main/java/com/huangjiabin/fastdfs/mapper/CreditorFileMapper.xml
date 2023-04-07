@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.com.huangjiabin.fastdfs.mapper.CreditorFileMapper">
-  <resultMap id="BaseResultMap" type="com.com.huangjiabin.fastdfs.com.huangjiabin.hibernate.model.CreditorFile">
+<mapper namespace="com.huangjiabin.fastdfs.mapper.CreditorFileMapper">
+  <resultMap id="BaseResultMap" type="com.huangjiabin.fastdfs.model.CreditorFile">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="group_name" jdbcType="VARCHAR" property="groupName" />
     <result column="remote_file_name" jdbcType="VARCHAR" property="remoteFileName" />
@@ -14,7 +14,7 @@
     id, group_name, remote_file_name, old_filename, file_size, file_type, ci_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from creditor_file
     where id = #{id,jdbcType=INTEGER}
@@ -23,15 +23,15 @@
     delete from creditor_file
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.com.huangjiabin.fastdfs.com.huangjiabin.hibernate.model.CreditorFile">
-    insert into creditor_file (id, group_name, remote_file_name, 
-      old_filename, file_size, file_type, 
+  <insert id="insert" parameterType="com.huangjiabin.fastdfs.model.CreditorFile">
+    insert into creditor_file (id, group_name, remote_file_name,
+      old_filename, file_size, file_type,
       ci_id)
-    values (#{id,jdbcType=INTEGER}, #{groupName,jdbcType=VARCHAR}, #{remoteFileName,jdbcType=VARCHAR}, 
-      #{oldFilename,jdbcType=VARCHAR}, #{fileSize,jdbcType=BIGINT}, #{fileType,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{groupName,jdbcType=VARCHAR}, #{remoteFileName,jdbcType=VARCHAR},
+      #{oldFilename,jdbcType=VARCHAR}, #{fileSize,jdbcType=BIGINT}, #{fileType,jdbcType=VARCHAR},
       #{ciId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.com.huangjiabin.fastdfs.com.huangjiabin.hibernate.model.CreditorFile">
+  <insert id="insertSelective" parameterType="com.huangjiabin.fastdfs.model.CreditorFile">
     insert into creditor_file
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -80,7 +80,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.com.huangjiabin.fastdfs.com.huangjiabin.hibernate.model.CreditorFile">
+  <update id="updateByPrimaryKeySelective" parameterType="com.huangjiabin.fastdfs.model.CreditorFile">
     update creditor_file
     <set>
       <if test="groupName != null">
@@ -104,7 +104,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.com.huangjiabin.fastdfs.com.huangjiabin.hibernate.model.CreditorFile">
+  <update id="updateByPrimaryKey" parameterType="com.huangjiabin.fastdfs.model.CreditorFile">
     update creditor_file
     set group_name = #{groupName,jdbcType=VARCHAR},
       remote_file_name = #{remoteFileName,jdbcType=VARCHAR},

@@ -265,7 +265,7 @@ opt:存放linux系统下额外的软件，相当于windows系统下的 Program f
     8）mysql安装后需要修改目录权限和所有者让其他组的也能写：
         改所有者和组：chown -R mysql:mysql /opt/azb/mysql-5.7.18/
         改权限：chmod 777 /opt/azb/mysql-5.7.18/
-    9）启动mysql:mysql-bin 下执行 ./mysqld_safe & 注：&表示后台启动，没有他就是前台启动会占用命令行终端。
+    9）启动mysql:mysql->bin下执行 ./mysqld_safe & 注：&表示后台启动，没有他就是前台启动会占用命令行终端。
     10）登录：进入mysql->bin下执行 ./mysql -uroot -p 回车输入密码 ，密码是第六步复制的密码。
     11）修改密码:alter user '用户名'@'主机域名或ip' identified by '新密码'
                如：alter user 'root'@'localhost' identified by 'root';
@@ -281,6 +281,10 @@ opt:存放linux系统下额外的软件，相当于windows系统下的 Program f
                        set collation_database=utf8;
                        set collation_server=utf8;
                        查看数据库编码：show variables where Variable_name like '%char%';
+    15）使用mysql：
+        查看数据库：   show databases;
+        切换数据库：   use 库名;
+        查看表：      show tables
 
 22、导入crm项目
     1）导入数据库
