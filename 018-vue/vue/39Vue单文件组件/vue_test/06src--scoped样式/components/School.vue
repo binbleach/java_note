@@ -36,4 +36,7 @@ scoped作用：让样式直在当前布局生效，防止冲突，一般不在Ap
   .demo{
     background-color: beige;
   }
+  .ant-form-item label{
+    position: absolute;
+  }
 </style>

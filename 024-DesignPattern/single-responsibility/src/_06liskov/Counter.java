@@ -1,4 +1,7 @@
 package _06liskov;
+/*
+    里氏替换原则：任何使用父类的地方都能完美的替换成子类
+*/
 
 class Counter  {
         public int add(int i,int j) {

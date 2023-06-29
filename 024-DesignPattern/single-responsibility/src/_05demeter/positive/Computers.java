@@ -1,5 +1,8 @@
 package _05demeter.positive;
 
+/*
+    迪米特法则，一个对象应当对其他对象尽可能少的了解
+*/
 class Computers{
     public  void  closeFile(){
         System.out.println("关闭文件");

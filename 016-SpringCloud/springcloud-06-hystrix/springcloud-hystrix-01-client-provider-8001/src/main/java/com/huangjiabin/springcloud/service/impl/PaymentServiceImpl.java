@@ -34,13 +34,24 @@ public class PaymentServiceImpl implements PaymentService {
         return "线程池："+Thread.currentThread().getName()+"， 方法：failHandler。描述：降级了d=====(￣▽￣*)b";
     }
 
-    //熔断器
+    /*
+        熔断器：5秒内，请求数量达到3条，且错误率达到60%打开断路器开始熔断。
+             熔断10秒后断路器半开，允许一个请求通过。请求成功则关闭断路器停止熔断，失败则继续熔断10s重复以往。
+    */
     @HystrixCommand(fallbackMethod = "providerCircuitBreaker_fallback",commandProperties = {
             @HystrixProperty(name = "circuitBreaker.enabled",value = "true"),// 是否开启断路器，默认开启
-            @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds",value = "5000"),// 5s内 （统计时间窗口期）
-            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold",value = "3"),// 请求达到3条 （统计时间窗口内的请求阈值）
-            @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage",value = "60"),// 错误率达到60% 触发跳闸。此时断路器打开 （统计时间窗口内的错误数量百分比阈值）
-            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds",value = "10000"), // 断路器打开后，每隔10秒，尝试一次请求 此时熔断器半开，请求成功则关闭断路器（恢复时间窗口期）
+            // 指定统计滑动窗口的时间（窗口期），默认值是 10000，单位是 ms。即一个滑动窗口默认统计的是 10s 内的请求数据。
+            @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds",value = "5000"),
+            // 指定统计滑动窗口的桶数量，默认值是 10。即窗口期会被分成十份，每份1000毫秒。第11份会顶调第1份成为窗口期，2-11为窗口期
+            @HystrixProperty(name = "metrics.rollingStats.numBuckets",value = "10"),
+            // 记录health 快照（用来统计成功和错误率）的间隔，默认值是500，单位ms。即每500ms计算一次成功率和失败率
+            @HystrixProperty(name = "metrics.healthSnapshot.intervalInMilliseconds",value = "500"),
+            // 窗口期内 触发熔断的最小请求个数，默认20。建议设置为 QPS * 窗口秒数 * 60%
+            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold",value = "3"),
+            // 窗口期内 触发熔断的请求失败率，单位是 %，默认50。
+            @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage",value = "60"),
+            // 熔断多少秒后，断路器为半开状态，单位 ms，默认 5000
+            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds",value = "10000"), // 断路器打开后10秒内拒绝所以请求，10s后，熔断器半开，此时可以通过一个请求，成功就关闭断路器，不成功就继续打开等再10s（称为熔断时间窗口 或 活动时间窗口）
     }
     )
     public String providerCircuitBreaker(Integer id){

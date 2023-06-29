@@ -4,6 +4,6 @@ package _02openclose;
 class DiscountCar extends Car{
         @Override
         public void setPrice(float price) {
-            super.setPrice(price*0.08f);
+            super.setPrice(price*0.8f);
         }
 }

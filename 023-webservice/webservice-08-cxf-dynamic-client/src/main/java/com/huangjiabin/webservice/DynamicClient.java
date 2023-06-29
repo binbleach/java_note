@@ -26,25 +26,26 @@ public class DynamicClient {
                 在webservice-90-cxf-hmhn-client 中利用线程池调用，也会耗尽端口。
 
         */
-        for(int i=0;i<100000;i++){
+        for(int i=0;i<1000;i++){
             Thread thread = new Thread(() -> {
                 for(int j=0;j<100;j++) {
                     try {
                         //System.out.println("当前输出=" + Thread.currentThread().getName());
 
                         //测试 client.invoke()，端口被耗尽异常
-                        Object[] result2 = client.invoke("queryWeather", "北凉");
-                        System.out.println(result2[0]);
+//                        Object[] result2 = client.invoke("queryWeather", "北凉");
+//                        System.out.println(result2[0]);
 
                         //测试正常情况下端口是否会耗尽，创建连接太慢，测试结果不理想
-//                        JaxWsDynamicClientFactory clientFactory2 = JaxWsDynamicClientFactory.newInstance();
-//                        Client client2 = clientFactory2.createClient("http://127.0.0.1:12345/weather?wsdl");
-//                        Object[] result2 = client2.invoke("queryWeather", "北凉");
-//                        System.out.println(result2[0]);
+                        JaxWsDynamicClientFactory clientFactory2 = JaxWsDynamicClientFactory.newInstance();
+                        Client client2 = clientFactory2.createClient("http://127.0.0.1:12345/weather?wsdl");
+                        Object[] result2 = client2.invoke("queryWeather", "北凉");
+                        System.out.println(result2[0]);
                     }catch (IllegalStateException e){
                         createClient_IllegalStateException_ExceptionNum++;
                         System.out.println("当前程序createClient_IllegalStateException_ExceptionNum："+createClient_IllegalStateException_ExceptionNum);
-                    }catch (Exception e) {
+                    }
+                    catch (Exception e) {
                         e.printStackTrace();
                         System.out.println("当前程序存在未捕获异常！！！");
                     }

@@ -15,11 +15,7 @@ import java.io.File;
 import java.util.List;
 
 /**
- * @author puwei
- * @email puwei@yinhai.com
- * @date 2020/7/27
- * @time 9:56
- * @since 1.0
+ *
  */
 public class PoolCxfClientFactory extends BaseKeyedPooledObjectFactory<String, Client> {
     /**连接配置*/

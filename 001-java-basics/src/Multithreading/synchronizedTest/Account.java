@@ -6,16 +6,17 @@ public class Account {
     private String name; //账户名字
     private double balance;  //账户余额
 
+    //取款
     void withdraw(double money){
         /*一个对象一个锁，拿了锁才能进*/
         synchronized(this){         /*传进去的很重要必须是两个线程共享的对象*/
-            double newBalance=this.getBalance()-money;
+            double newBalance=getBalance()-money;
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            this.setBalance(newBalance);
+            setBalance(newBalance);
             System.out.println(getName()+"账户取走"+money+"还剩:"+getBalance());
         }
     }

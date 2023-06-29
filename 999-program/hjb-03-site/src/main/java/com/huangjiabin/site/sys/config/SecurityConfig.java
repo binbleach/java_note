@@ -126,6 +126,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                     "/sys/captcha",     //验证码
                                     "/sys/downloads"    //下载文件
                                     ,"/sys/upload"  //上传文件
+                        ,"/sys/test"
                         ,"/sys/downloadRegisterModel"   //下载批量注册模板
                         ,"/sys/login/**"    //登录下所有
                         ,"/sys/sendEmail/**"    //发送邮件

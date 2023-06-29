@@ -34,11 +34,11 @@ import javax.annotation.Resource;
 //@SpringBootConfiguration
 @EnableAutoConfiguration
 @ComponentScan
-@Import(TeacherServiceImpl.class)   //导入TeacherServiceImpl类到容器中使成为bean对象
+//@Import(TeacherServiceImpl.class)   //导入TeacherServiceImpl类到容器中使成为bean对象
 /*
     1、@SpringBootApplication = @SpringBootConfiguration + @EnableAutoConfiguration + @ComponentScan
     2、@SpringBootConfiguration ：
-        1）包含@Configuration 标识配置类，主启动类并不靠它标识配置类，所以没啥用。
+        1）包含@Configuration 标识配置类，主启动类并不靠它标识配置类，所以看不出来有啥用。
         2）配置类本身又是bean对象：是spring所管理的，可以被注入的。因为@Configuration中包含@Component有声明bean的作用
         3）springboot2中引入了一个重要的属性，用来解决bean之间的依赖问题：
             Full模式：@Configuration(proxyBeanMethods = true) 表示开启代理bean方发，每次调用bean中方发会去容器中寻找bean对象。
@@ -110,8 +110,8 @@ public class Application implements CommandLineRunner {
     }
 
     //测试 @SpringBootConfiguration对主启动类的影响，结果没任何影响，不用它主启动类也可以配置bean，@import(TeacherServiceImpl.class)也可以
-//    @Bean
-//    public TeacherService teacherService(){
-//        return new TeacherServiceImpl();
-//    }
+    @Bean
+    public TeacherService teacherService(){
+        return new TeacherServiceImpl();
+    }
 }

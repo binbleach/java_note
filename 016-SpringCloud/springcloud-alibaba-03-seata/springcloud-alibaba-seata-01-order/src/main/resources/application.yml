@@ -1,0 +1,67 @@
+server:
+  port: 2001
+
+spring:
+  application:
+    name: cloudalibaba-seata-order
+  cloud:
+    alibaba:
+      seata:
+        tx-service-group: default_tx_group #老版本配置
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        username: nacos
+        password: nacos
+        group: SEATA_GROUP
+        namespace: 38563c64-30e6-4a78-ad82-d4e6d70ce254
+#        dataId: "seataServer.properties"
+  datasource:
+#    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/seata_order?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useSSL=false
+    username: root
+    password: 1220.dbggl.mysql
+
+seata:
+  enabled: true
+  application-id: ${spring.application.name}
+  tx-service-group: default_tx_group
+  service:
+    vgroup-mapping:
+      default_tx_group: default
+  enable-auto-data-source-proxy: true
+  data-source-proxy-mode: AT
+  config:
+    type: nacos
+    nacos:
+      server-addr: 127.0.0.1:8848
+      username: "nacos"
+      password: "nacos"
+      namespace: "38563c64-30e6-4a78-ad82-d4e6d70ce254"
+      # 微服务必须在一个组，否则服务发现不了，但Seata-server 可以在不同的组中
+      group: SEATA_GROUP
+      data-id: seataServer.properties
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      server-addr: 127.0.0.1:8848
+      group: "SEATA_GROUP"
+      namespace: "38563c64-30e6-4a78-ad82-d4e6d70ce254"
+      username: "nacos"
+      password: "nacos"
+      # 微服务必须在一个组，否则服务发现不了，但Seata-server 可以在不同的组中
+
+feign:
+  hystrix:
+    enabled: false
+
+logging:
+  level:
+    io:
+      seata: info
+    com.lucifer.springboot.cache.mapper: debug
+
+mybatis:
+  mapperLocations: classpath:mapper/*.xml

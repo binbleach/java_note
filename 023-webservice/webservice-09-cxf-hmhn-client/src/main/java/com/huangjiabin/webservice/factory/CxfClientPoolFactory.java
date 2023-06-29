@@ -6,7 +6,8 @@ import org.apache.commons.pool2.impl.GenericKeyedObjectPool;
 import org.apache.commons.pool2.impl.GenericKeyedObjectPoolConfig;
 import org.apache.cxf.endpoint.Client;
 
-public class CxfClientPoolFactory {
+public class
+CxfClientPoolFactory {
     public static GenericKeyedObjectPool<String, Client> createPool(){
         return createPool(new PoolCxfClientProperties(),new CxfClientPoolProperties());
     }
