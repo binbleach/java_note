@@ -42,7 +42,12 @@ public class StreamMain {
         List<Author> authors = Author.getAuthors();
         authors.stream()    //将集合转为流
                 .distinct() //去重
-                .filter(author -> author.getAge() < 18)    //过滤
+                .filter(new Predicate<Author>() {
+                    @Override
+                    public boolean test(Author author) {
+                        return author.getAge() < 18;
+                    }
+                })    //过滤
                 .forEach(author -> System.out.print(author.getName()+"，")); //循环（是终结操作必须要有，还要其他的）
     }
 

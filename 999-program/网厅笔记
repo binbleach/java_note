@@ -1,0 +1,12 @@
+首页地图 ：
+    泸州、达州在用，调用的是发放的补贴项目
+账号管理：
+    南充：区县管乡镇，乡镇管村，区县管理员-教育局管学校
+环节处理方法：
+    Pb10ProcessEngine.getInstance(pb10Domain).completePb07
+评议：
+    1、作为服务事项：7007（班级评议）、7008（年级评议）、7009（校级评议）页面都是 REVIEW.template.html
+    2、作为服务事项的组件：评议阶段，页面是 public_comment.template.html
+    3、评议弹窗：7003 页面是 POP_REVIEW.template.html
+    4、困难弹窗:   7005 页面是 POP_REVIEWINFO.template.html
+    1和2同级，它们包含了3，3包含了4

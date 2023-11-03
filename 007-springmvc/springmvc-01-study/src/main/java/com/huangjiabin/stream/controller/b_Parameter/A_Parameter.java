@@ -21,7 +21,8 @@ public class A_Parameter {
         始终记住：json字符串，"application/json”，@RequestBody 这三者之间是一一对应的，要有都有，要没有都没有。
       5、如果发送的是json对象（不通过），contentType不能设置为"application/json”，需使用默认的类型（application/x-www-form-urlencoded，
         为什么呢？这种类型最后还是会把json对象类型的参数转为user=username&pass=password这种形式后再发送。
-      6、@RequestParam：默认的可以忽略不写，用于接收 application/x-www-form-urlencoded类型的参数，
+      6、@RequestParam：默认的可以忽略不写（当你用Map<String,Object> map 去接受参数时必须写！！！），
+                        用于接收 application/x-www-form-urlencoded类型的参数，
         @RequestParam(value="参数名" required=true) required：表示请求中必须要有这个参数。
     */
 
