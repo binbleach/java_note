@@ -1,0 +1,25 @@
+server:
+  port: 6002
+spring:
+  #设置连接数据库配置
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    #docker02-1.0.0
+#    url: jdbc:mysql://8.134.146.51:6387/docker02?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&useSSL=false
+    #docker02-2.0.0
+    url: jdbc:mysql://mysql:3306/docker02?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&useSSL=false
+    username: root
+    password: root
+  # ========================redis相关配置=====================
+  redis:
+#    host: 8.134.146.51   #docker02-1.0.0
+    host: redis           #docker02-2.0.0
+#    port: 6388           #docker02-1.0.0
+    port: 6379            #docker02-2.0.0
+  swagger2:
+    enabled: true
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  type-aliases-package: com.huangjiabin.docker.po
+
+

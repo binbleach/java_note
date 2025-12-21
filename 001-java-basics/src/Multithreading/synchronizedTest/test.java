@@ -13,7 +13,7 @@ package Multithreading.synchronizedTest;
 
 public class test {
     public static void main(String[] args) {
-        Account acc_1 = new Account("黄家宾",11000);
+        Account acc_1 = new Account("黄家宾",10000);
         System.out.println(acc_1.getName()+"账号余额还有"+acc_1.getBalance());
         Thread t = new Thread(new ThreadAccount(acc_1));
         Thread t2 = new Thread(new ThreadAccount(acc_1));

@@ -4,12 +4,13 @@ package _06liskov;
 */
 
 class Counter  {
-        public int add(int i,int j) {
-            return i+j;
-        }
+    public int add(int i,int j) {
+        return i+j;
     }
+}
 
 class soonCounter extends Counter{
+    //这样是不允许的（子类覆盖了父类的非抽象方法）
     @Override
     public int add(int i, int j) {
     return i-j;

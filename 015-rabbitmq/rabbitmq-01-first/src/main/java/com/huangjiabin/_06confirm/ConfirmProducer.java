@@ -5,6 +5,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.ConfirmCallback;
 import com.rabbitmq.client.MessageProperties;
 
+import java.io.IOException;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
@@ -77,19 +78,22 @@ public class ConfirmProducer {
         ConcurrentSkipListMap<Long, String> outstandingConfirms = new ConcurrentSkipListMap<>();
 
         //消息发布成功回调
-        ConfirmCallback ackCallback = (sequenceNumber, multiple) -> {
-            if (multiple) {
-                // 返回的是小于等于当前序列号的未确认消息 是一个 map
-                ConcurrentNavigableMap<Long, String> confirmed = outstandingConfirms.headMap(sequenceNumber, true);
-                // 清除该部分未确认消息
-                confirmed.clear();
-                System.out.println("批量确认的消息"+sequenceNumber);
-                System.out.println("multiple:"+multiple);
-            }else{
-                // 只清除当前序列号的消息
-                outstandingConfirms.remove(sequenceNumber);
-                System.out.println("确认的消息"+sequenceNumber);
-                System.out.println("multiple:"+multiple);
+        ConfirmCallback ackCallback = new ConfirmCallback() {
+            @Override
+            public void handle(long sequenceNumber, boolean multiple) throws IOException {
+                if (multiple) {
+                    // 返回的是小于等于当前序列号的未确认消息 是一个 map
+                    ConcurrentNavigableMap<Long, String> confirmed = outstandingConfirms.headMap(sequenceNumber, true);
+                    // 清除该部分未确认消息
+                    confirmed.clear();
+                    System.out.println("批量确认的消息" + sequenceNumber);
+                    System.out.println("multiple:" + multiple);
+                } else {
+                    // 只清除当前序列号的消息
+                    outstandingConfirms.remove(sequenceNumber);
+                    System.out.println("确认的消息" + sequenceNumber);
+                    System.out.println("multiple:" + multiple);
+                }
             }
         };
 
@@ -101,7 +105,6 @@ public class ConfirmProducer {
 
         //添加监听器
         channel.addConfirmListener(ackCallback, nackCallback);
-
         Long starTIme=System.currentTimeMillis();
         for(int i=0;i<1000;i++){
             String message = "信息"+i;

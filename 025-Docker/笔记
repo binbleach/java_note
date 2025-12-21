@@ -3,7 +3,7 @@
                 早期的Docker for Windows也是在windows上创建Linux 虚拟机来使用，windows10才后正式提供Windows容器，底层与linux类似
 二、解决了什么痛点：应用运行的环境(切换/配置)问题、应用之间隔离问题
 三、docker和传统虚拟机的区别：
-    虚拟机也是应用隔离的一种解决方案，相比之下，docker作用与操作系统层虚拟化，更轻量更迅速。传统虚拟机是作用域硬件层的虚拟化，占用大冗余大启动慢。
+    虚拟机也是应用隔离的一种解决方案，相比之下，docker作用与操作系统层虚拟化，更轻量更迅速。r，占用大冗余大启动慢。
 四、docker三要素
     • 容器：可以把他看做是“应用”和“简易版的linux环境/window环境”（包括root用户权限、进程空间、用户空间和网络空间等）组成的独立程序(用的是宿主机的内核)
     • 镜像：可以看作是创建容器的构造函数，应用不同、应用版本不同、应用配置不同，镜像也就不同
@@ -82,6 +82,7 @@
        查看上一个创建容器：docker ps -l
        查看容器id列表(不包含非运行)：docker ps -q
     • 查看容器详细信息：docker inspect [容器id/name]
+    • 查看容器出错日志：docker logs <container-id>
     • 查看容器linux版本信息：在容器/bin/bash中输入命令 cat /etc/issue
     • 拷贝容器上的文件到主机：docker cp dc8679bbc0c5:/data/test.txt /opt/test.txt   |dc8679bbc0c5是容器id,/data/test.txt是文件容器内路径，/opt/test.txt是主机路径
     //用以下两个导出导入redis正常，镜像运行却异常，可以运行/bin/bash但是文件丢失。ubuntu镜像运行时也异常，但是运行/bin/bash成功且文件不丢失
@@ -140,6 +141,11 @@
                 -v /opt/docker/dataVolumes/redis/data:/data
                 -d redis:6.0.8 redis-server /etc/redis/redis.conf --appendonly yes
         ◦ --appendonly yes 是开启数据持久化
+    • 安装zookeeper：
+        docker run -d --name zookeeper --privileged=true -p 2181:2181
+            -v /opt/docker/dataVolumes/zookeeper357/data:/data
+            -v /opt/docker/dataVolumes/zookeeper357/conf:/conf
+            -v /opt/docker/dataVolumes/zookeeper357/logs:/datalog zookeeper:3.5.7
 
 十四、高级搭建
     一）mysql高级安装：docker run -p 3307:3306 --name mysql-master
@@ -377,13 +383,13 @@
         1、在 /opt/docker/dockerAndJar 目录下放下springboot项目打的jar包
             注意jar包的pom.xml文件需加上：
             <build>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.springframework.boot</groupId>
-                            <artifactId>spring-boot-maven-plugin</artifactId>
-                        </plugin>
-                    </plugins>
-                </build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
             否则无法找到main无法启动
         2、在 /opt/docker/dockerAndJar 目录下创建文件 Dockerfile，内容：
             # 基础镜像使用java
@@ -431,4 +437,132 @@
             3）通过容器名访问：
                 ① docker exec -it tomcate81 bash
                 ② ping tomcat82 #之前用的不通过，现在通过了
+十七、compose
+    一）：安装docker-conpose
+        1、下载：curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        2、修改写权限：chmod +x /usr/local/bin/docker-compose
+        3、检查是否下载：docker-compose --version
+    二）：常用命令
+        docker-compose -h                           # 查看帮助
+        docker-compose up                           # 启动所有docker-compose服务
+        docker-compose up -d                        # 启动所有docker-compose服务并后台运行
+        docker-compose down                         # 停止并删除容器、网络、卷、镜像。
+        docker-compose exec  yml里面的服务id                 # 进入容器实例内部  docker-compose exec docker-compose.yml文件中写的服务id /bin/bash
+        docker-compose ps                      # 展示当前docker-compose编排过的运行的所有容器
+        docker-compose top                     # 展示当前docker-compose编排过的容器进程
+
+        docker-compose logs  yml里面的服务id     # 查看容器输出日志
+        docker-compose config     # 检查配置
+        docker-compose config -q  # 检查配置，有问题才有输出
+        docker-compose restart   # 重启服务
+        docker-compose start     # 启动服务
+        docker-compose stop      # 停止服务
+    三）：不使用compose部署：
+        1、搭建mysql
+            1）运行mysql容器：
+                docker run -p 6387:3306 --name mysql57 --privileged=true
+                    -v /opt/docker/dataVolumes/mysql57/conf:/etc/mysql/conf.d
+                    -v /opt/docker/dataVolumes/mysql57/log:/var/log/mysql
+                    -v /opt/docker/dataVolumes/mysql57/data:/var/lib/mysql
+                    -e MYSQL_ROOT_PASSWORD=root -d mysql:5.7
+            2）进入mysql容器：docker exec -it mysql57 /bin/bash
+            3）进入msyql：mysql -uroot -p
+            4）创建数据库：create database db2024;
+            5）使用数据库：use db2024;
+            6）创建表：
+                CREATE TABLE `t_user` (
+                    `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+                    `username` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '用户名',
+                    `password` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '密码',
+                    `sex` TINYINT(4) NOT NULL DEFAULT '0' COMMENT '性别 0=女 1=男 ',
+                    `deleted` TINYINT(4) UNSIGNED NOT NULL DEFAULT '0' COMMENT '删除标志，默认0不删除，1删除',
+                    `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                    `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                    PRIMARY KEY (`id`)
+                ) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
+        2、搭建redis：
+            1）运行redis容器：
+                docker run  -p 6388:6379 --name redis57 --privileged=true -v /opt/docker/dataVolumes/redis57/redis.conf:/etc/redis/redis.conf -v /opt/docker/dataVolumes/redis57/data:/data -d redis:6.0.8 redis-server /etc/redis/redis.conf
+        3、部署docker02：
+            1）编写Dockerfile
+                # 基础镜像使用java
+                FROM openjdk:8
+                # 作者
+                MAINTAINER hjbin<2901038144@qq.com>
+                # VOLUME 指定临时文件目录为/tmp，在主机/var/lib/docker目录下创建了一个临时文件并链接到容器的/tmp
+                VOLUME /tmp/docker02-1.0.0.jar
+                # 将jar包添加到容器中并更名为hjbin_docker.jar
+                ADD docker02-1.0.0.jar docker02-1.0.0.jar
+                # 运行jar包
+                RUN bash -c 'touch /docker02-1.0.0.jar'
+                ENTRYPOINT ["java","-jar","/docker02-1.0.0.jar"]
+                #暴露6002端口作为微服务
+                EXPOSE 6002
+            2）执行命令（注意结尾有个点）：docker build -t docker02:1.0.0 .
+            3）启动容器：docker run -d -p 6002:6002 docker02:1.0.0
+        4、缺点：要按顺序，要执行多个run，ip变了后无法通信
+    四）、使用compose部署：
+        1、编写docker-compose.yml文件：
+            version: "3"    #compose版本
+            services:
+              microService:                 #自定义服务名
+                image: docker02:2.0.0       #镜像名
+                container_name: ms01        #自定义容器名
+                ports:
+                  - "6002:6002"             #端口
+                volumes:                    #数据卷
+                  - /opt/docker/dataVolumes/docke02-2.0.0:/data
+                networks:
+                  - hjbin_network           #相当于 --network hjbin_network
+                depends_on:                 #依赖的服务
+                  - redis
+                  - mysql
+              redis:
+                image: redis:6.0.8
+                ports:
+                  - "6388:6379"
+                volumes:
+                  - /opt/docker/dataVolumes/redis58/redis.conf:/etc/redis/redis.conf
+                  - /opt/docker/dataVolumes/redis58/data:/data
+                networks:
+                  - hjbin_network
+                command: redis-server /etc/redis/redis.conf #启动时执行的命令，指定使用挂载的redis.conf作为Redis服务器配置文件。
+              mysql:
+                image: mysql:5.7
+                environment:
+                  MYSQL_ROOT_PASSWORD: 'root'
+                  MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
+                  MYSQL_DATABASE: 'docker02'
+                  MYSQL_USER: 'hjb'        #新建用户
+                  MYSQL_PASSWORD: 'root'    #新建用户的密码
+                ports:
+                  - "6387:3306"
+                volumes:
+                  - /opt/docker/dataVolumes/mysql58/data:/var/lib/mysql
+                  - /opt/docker/dataVolumes/mysql58/conf/my.cnf:/etc/my.cnf #my.cnf是文件，/etc/mysql/conf.d是目录
+                  - /opt/docker/dataVolumes/mysql58/log:/var/log/mysql@Repository
+                  - /opt/docker/dataVolumes/mysql58/init:/docker-entrypoint-initdb.d    #初始化脚本（可选）
+                networks:
+                  - hjbin_network
+                command: --default-authentication-plugin=mysql_native_password #解决外部无法访问
+            networks:
+              hjbin_network:   #相当于docker network create hjbin_network
+        2、升级docker02：
+            1）修改docker02的掉用方式，不通过ip掉用，而是通过服务名掉用。把ip直接换成服务名即可。
+            2）错错错：不仅仅是换ip还要换端口，要换成内部端口如3306、6379
+            3）第二步你是不是选项posts的映射端口写成一致的都是外部端口，错错错这样无法访问
+            4）重新打包，重新构建镜像。
+        3、启动compose定义服务：docker-compose up -d
+            注：服务和网络没命名的，名字分别为：docker02-200_hjbin_network、docker02-200_mysql_1、docker02-200_redis_1
+        4、关闭compose定义服务：docker-compose stop
+            注：启动和关闭compose比不会造成镜像和容器的增加，只会再原有的镜像或容器上更新，嘎嘎整洁舒服
+十八、Portainer（docker可视化工具）
+    1、下载安装：
+        docker run -d -p 8000:8000 -p 9000:9000 --name portainer --restart=always
+        -v /var/run/docker.sock:/var/run/docker.sock
+        -v portainer_data:/data
+        portainer/portainer-ce:latest
+    2、登录：
+        1）地址：http://8.134.146.51:9000/
+        2）用户名：admin 密码：1220...
 

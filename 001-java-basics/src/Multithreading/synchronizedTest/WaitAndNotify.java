@@ -10,13 +10,20 @@ import java.util.List;
 * */
 public class WaitAndNotify {
     public static void main(String[] args) {
-        List list = new ArrayList();
-        Thread producer = new Producer(list); //生产线程
-        Thread consumer = new Consumer(list); //消费线程
-        producer.setName("生产者");
-        consumer.setName("消费者");
-        producer.start();
-        consumer.start();
+//        List list = new ArrayList();
+//        Thread producer = new Producer(list); //生产线程
+//        Thread consumer = new Consumer(list); //消费线程
+//        producer.setName("生产者");
+//        consumer.setName("消费者");
+//        producer.start();
+//        consumer.start();
+        int a = 1;
+        try {
+            Thread.sleep((long)a*100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("你和");
 
     }
 }

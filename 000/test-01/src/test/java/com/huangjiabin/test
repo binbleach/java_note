@@ -1,0 +1,26 @@
+select '1' AS rn, '监管预警总条数' as "统计信息", count(case when cdc463  = '0' then cdc463 end ) as "统计值" from db50p
+union
+select '2' AS rn, '监管预警总人数' as "统计信息", count(DISTINCT case when cdc463  = '0' then aac002 end ) as "统计值" from db50p
+union
+select '3' AS rn, '重点人数群应用预警人数' as "统计信息", count(DISTINCT case when cdc41l = '01' then aac002 end ) as "统计值" from db50p
+union
+select '4' AS rn, '重点人数群预警人数' as "统计信息", count(DISTINCT case when cdc463  = '0' AND zdrq_aac002 IS NOT NULL then zdrq_aac002 end ) as "统计值" from db50p
+union
+select '5' AS rn, '监管预警总金额' as "统计信息", sum(case when cdc463  = '0' then AAE019 end ) as "统计值" from db50p
+union
+select '6' AS rn, '重点人群应用预警金额' as "统计信息", sum(case when cdc41l = '01' then AAE019 end ) as "统计值" from db50p
+union
+select '7' AS rn, '重点人群预警金额' as "统计信息", sum(case when cdc463  = '0' AND zdrq_aac002 IS NOT null then AAE019 end ) as "统计值" from db50p
+union
+select '8' AS rn, '疑点核查_未违规人数' as "统计信息", count(DISTINCT case when 数据核查_审核结果 = '0' then aac002 end ) as "统计值" from db50p
+union
+select '9' AS rn, '疑点核查_已违规人数' as "统计信息", count(DISTINCT case when 数据核查_审核结果 != '0' then aac002 end ) as "统计值" from db50p
+union
+select '10' AS rn, '重点人群应用_疑点核查_未违规人数' as "统计信息", count(DISTINCT case when 数据核查_审核结果 = '0' AND  cdc41l = '01' then aac002 end ) as "统计值" from db50p
+union
+select '11' AS rn, '重点人群应用_疑点核查_已违规人数' as "统计信息", count(DISTINCT case when 数据核查_审核结果 != '0' AND  cdc41l = '01' then aac002 end ) as "统计值" from db50p
+union
+select '12' AS rn, '重点人群_疑点核查_未违规人数' as "统计信息", count(DISTINCT case when 数据核查_审核结果 = '0' AND  zdrq_aac002 IS NOT null then aac002 end ) as "统计值" from db50p
+union
+select '13' AS rn, '重点人群_疑点核查_已违规人数' as "统计信息", count(DISTINCT case when 数据核查_审核结果 != '0' AND  zdrq_aac002 IS NOT null then aac002 end ) as "统计值" from db50p
+ORDER BY rn;

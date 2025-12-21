@@ -4,7 +4,7 @@
   </ul>
 </template>
 
-<scr11src--全局事件总线ipt>
+<script>
 import MyItem from "./MyItem";
 export default {
   name: "MyList",
@@ -13,7 +13,7 @@ export default {
     MyItem,
   }
 }
-</scr11src--全局事件总线ipt>
+</script>
 
 <style scoped>
 /*main*/

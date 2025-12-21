@@ -10,7 +10,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /*
-*   自定义线程池，会覆盖名称是asyncExecutor ，用得时候@Async(value=""asyncExecutor)，不指定应该也可以
+*   自定义线程池，会覆盖名称是asyncExecutor ，用得时候@Async(value="asyncExecutor")，不指定应该也可以
  */
 @EnableAsync
 @Configuration

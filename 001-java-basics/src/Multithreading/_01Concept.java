@@ -30,7 +30,7 @@ package Multithreading;
 *
 * 实例方法：
 * void setPriority(int newPriority)设置线程的优先级1级最低，默认是5，最高是10优先级高的抢到的时间片多一些
-*int getPriority() 获取线程优先级
+* int getPriority() 获取线程优先级
 * 静态方法：Thread.yield();让位法，不是阻塞，是回到就绪继续抢不过会一定降低成功率
 *
 * 2、均分式调度模型

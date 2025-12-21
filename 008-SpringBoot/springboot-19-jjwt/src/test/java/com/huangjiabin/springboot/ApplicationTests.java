@@ -34,7 +34,7 @@ class ApplicationTests {
 									//自定义还可以传map
 									//.addClaims(map)
 									//编码和盐，盐是保存在服务器的，签发和认证都靠他，别让人知道
-									.signWith(SignatureAlgorithm.HS256,"xxxx");
+									.signWith(SignatureAlgorithm.HS256,"asfvae");
 		//获取jwt的token
 		String token = jwtBuilder.compact();
 		System.out.println(token);
@@ -49,7 +49,7 @@ class ApplicationTests {
 	}
 	@Test
 	public void testParseToken(){
-		String token="eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI4ODgiLCJzdWIiOiJSb3NlIiwiaWF0IjoxNjQ0MDkwODE2LCJleHAiOjE2NDQwOTA5MzYsIm15SWRlYSI6IuaIkeaDs-S9oOS6hiIsInJlYWxpdHkiOiLmiJHml6Dog73kuLrlipsifQ.Pp1g4WG1YkaBTJk_heIrwLHSpRTUxhgYYBtxdmWFmsc";
+		String token="eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI4ODgiLCJzdWIiOiJSb3NlIiwiaWF0IjoxNzIxMjAyNjc0LCJleHAiOjE3MjEyMDI5NzQsIm15SWRlYSI6IuaIkeaDs-S9oOS6hiIsInJlYWxpdHkiOiLmiJHml6Dog73kuLrlipsifQ.Zi8pv5wFHLHeA76crlFEkpvAqPmJI2h6kSUFr4sMoSk";
 		//解析token，获取负载中声明的对象
 		Claims claims=Jwts.parser()
 							//设置的盐

@@ -10,3 +10,14 @@
     3、评议弹窗：7003 页面是 POP_REVIEW.template.html
     4、困难弹窗:   7005 页面是 POP_REVIEWINFO.template.html
     1和2同级，它们包含了3，3包含了4
+
+服务事项组件配置：有效人次、chb00c1、人次、count、icon-overview-sbrzs.png、1
+
+权限：
+    内江学校：班级账号（教育局）、年级账号（教育局）、校级账号（教育局）
+
+改字段 servicesid
+CMS_SERVICE_AUTHORITY_SUBSITE、
+CMS_SERVICE_ASSEMBLY_RELA（非必要，有就改）、
+CMS_SERVICE_ITEM、
+CMS_SERVICE_ITEM_EXT

@@ -1,0 +1,44 @@
+version: "3"    #compose版本
+services:
+  microService:                 #自定义服务名
+    image: docker02:2.0.0       #镜像名
+    container_name: ms01        #自定义容器名
+    ports:
+      - "6002:6002"             #端口
+    volumes:                    #数据卷
+      - /opt/docker/dataVolumes/docke02-2.0.0:/data
+    networks:
+      - hjbin_network           #相当于 --network hjbin_network
+    depends_on:                 #依赖的服务
+      - redis
+      - mysql
+  redis:
+    image: redis:6.0.8
+    ports:
+      - "6388:6379"
+    volumes:
+      - /opt/docker/dataVolumes/redis58/redis.conf:/etc/redis/redis.conf
+      - /opt/docker/dataVolumes/redis58/data:/data
+    networks:
+      - hjbin_network
+    command: redis-server /etc/redis/redis.conf #启动时执行的命令，指定使用挂载的redis.conf作为Redis服务器配置文件。
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
+      MYSQL_DATABASE: 'docker02'
+      MYSQL_USER: 'hjb'        #新建用户
+      MYSQL_PASSWORD: 'root'    #新建用户的密码
+    ports:
+      - "6387:3306"
+    volumes:
+      - /opt/docker/dataVolumes/mysql58/data:/var/lib/mysql
+      - /opt/docker/dataVolumes/mysql58/conf/my.cnf:/etc/my.cnf #my.cnf是文件，/etc/mysql/conf.d是目录
+      - /opt/docker/dataVolumes/mysql58/log:/var/log/mysql@Repository
+      - /opt/docker/dataVolumes/mysql58/init:/docker-entrypoint-initdb.d    #初始化脚本（可选）
+    networks:
+      - hjbin_network
+    command: --default-authentication-plugin=mysql_native_password #解决外部无法访问
+networks:
+  hjbin_network:   #相当于docker network create hjbin_network

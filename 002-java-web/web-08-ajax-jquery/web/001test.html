@@ -5,7 +5,8 @@
     <title>Title</title>
     <!--使用jQuery，首先要将jQuery库引入。-->
     <script type="text/javascript" src="jquery-3.4.1.js"></script>
-
+    <script type="text/javascript" src="crypto-js.min.js"></script>
+    <script type="text/javascript" src="jsencrypt.js"></script>
     <style>
         item{
             color: dodgerblue;
@@ -56,8 +57,19 @@
 
         console.log("$ul=========",$("#aaa"))
         console.log("$ul.length======",$("#aaa").length)
+        encryptaaa("aaaaaa")
 
     })
+    function encryptaaa(data) {
+        var key ="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCacxb" +
+            "kvaUzMbNjpCDhcxV7ZY3AtVsXVewdzjkAN81bJWx7HIZg1qhArVNjKwA2t7ncpAd3Z5-sniuSYhRN1rJcTz43f6L" +
+            "VbYDLkbsYEJlkN63g8PfQFJdquG9VPXEKmfEjoI1NCLeuIRqLZe2PyZGvx8K54-AfjmtmgmBiRGO0cwIDAQAB";
+        var aaa = new JSEncrypt();
+        aaa.setPublicKey(key);
+        var encrypted = aaa.encrypt("{'aac002':'511011199006152517','aac003':'张向杰'}");
+        console.log("aaa：",key);
+        console.log("ddd：",encrypted);
+    }
 </script>
 
 </html>

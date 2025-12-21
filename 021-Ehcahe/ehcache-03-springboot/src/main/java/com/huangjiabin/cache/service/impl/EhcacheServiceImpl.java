@@ -7,6 +7,9 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.Random;
+
 
 @Service
 public class EhcacheServiceImpl implements EhcacheService {
@@ -26,7 +29,13 @@ public class EhcacheServiceImpl implements EhcacheService {
     )
     @Override
     public User findById(String id) {
-        System.out.println("execute findById....");
+        System.out.println("execute findById...."+id);
+        if(!"1002".equals(id)){
+            id += new Random().nextInt();
+            System.out.println(id);
+            return new User(id,"徐凤年","123");
+        }
+        System.out.println(id);
         return new User(id,"徐凤年","123");
     }
 }
