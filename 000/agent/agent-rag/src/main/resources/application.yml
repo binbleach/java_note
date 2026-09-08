@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: agent-rag
+  ai:
+    dashscope:
+      api-key: sk-1e1a5e1570454cff9c090e6661ba219a
+      chat:
+        options:
+          model: qwen3.7-max
+      embedding:
+        options:
+          model: qwen3.7-text-embedding
+          dimensions: 768 #维度（默认1024）
+    vectorstore:  #向量存储
+      pgvector:
+        # 向量索引类型
+        index-type: HNSW
+        # 距离度量，余弦值
+        distance-type: COSINE_DISTANCE
+        # 向量维度
+        dimensions: 768
+        # 批量处理大小
+        max-document-batch-size: 9  #这个限制在embed之后，在你用的模型限制之后
+        # 启动时是否自动创建表（如果初始化过表了就设为false，避免启动时连接失败）
+        initialize-schema: false
+        # 创建的表名
+        table-name: vector_st
+  datasource:
+    url: jdbc:postgresql://localhost:5432/agent_rag_test # 记得改成你自己的
+    username: root # 记得改成你自己的
+    password: root # 记得改成你自己的
+  elasticsearch:
+    uris: http://localhost:9200
+
+minio:
+  url: http://localhost:9000 # 记得改成你自己的
+  accessKey: minioadmin # 记得改成你自己的
+  secretKey: minioadmin # 记得改成你自己的
+  bucketName: rag-test # 记得改成你自己的
+  endpoint: http://localhost:9000 # 记得改成你自己的
+
+server:
+  port: 8080

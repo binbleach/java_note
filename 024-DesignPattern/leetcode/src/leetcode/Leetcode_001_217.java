@@ -15,7 +15,7 @@ public class Leetcode_001_217 {
         }
         arr[0] = 99999;
         long b = System.currentTimeMillis();
-        System.out.println(containsDuplicate3(arr));
+        System.out.println(containsDuplicate(arr));
         long e = System.currentTimeMillis();
         System.out.println("耗时："+(e-b));
 

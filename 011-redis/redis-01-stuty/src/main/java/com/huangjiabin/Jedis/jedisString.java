@@ -5,7 +5,7 @@ import redis.clients.jedis.Jedis;
 public class jedisString {
     public static void main(String[] args) {
         //连接redis服务
-        Jedis jedis = new Jedis("192.168.8.128",6379);
+        Jedis jedis = new Jedis("127.0.0.1",6379);
 
         //使用jedis对象对redis 字符串类型的数据进行操作
         String ret=jedis.set("k3","v3");  //OK

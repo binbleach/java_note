@@ -19,6 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if(!"admin".equals(username)){
             throw new UsernameNotFoundException("用户名不存在");
         }
+        //ai说这一步不需要，security内部会直接用密码matches数据库加密的密码不报错是因为encode对matches不影响
         String password=pw.encode("123");
         //ROLE_abc ：abc是角色
         return new User(username,password, AuthorityUtils.commaSeparatedStringToAuthorityList("admin,normal,ROLE_abc,/main.html"));

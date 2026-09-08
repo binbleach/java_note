@@ -1,7 +1,6 @@
 package com.huangjiabin;
 
 
-import com.alibaba.fastjson.JSON;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.junit.Test;
 import com.auth0.jwt.JWT;
@@ -15,6 +14,9 @@ import java.util.Map;
 
 public class Test01 {
 
+    /**
+        jwt
+    */
     @Test
     public void test01() {
         String token = "";

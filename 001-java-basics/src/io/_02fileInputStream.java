@@ -40,35 +40,32 @@ public class _02fileInputStream {
             }
         }
         /*
-        快的读取方法这里涉及两个关键点
-        第一个readCount=read(byte[n]) //返回的是读的字节数，数组byte[]存储的是读到的，第二次读取如果超出数组长度
-        会从头开始覆盖不过后面的元素保留
-        第二个new String(byte[n])会将数组转成字符串；不够用所以new String(byte[n],0,readCount)
+            批量读取
+            byte[] bytes = new byte[3]；
+            1、readCount=fil.read(bytes) //返回的是读的字节数，
+            2、bytes存储的是读到的字节。数组装满的话会从头开始覆盖。
+            不能用new String(bytes)会有脏数据，要用new String(bytes,0,readCount)
+            或者用fil.available()剩余可读的直接将数组长度设置为文件字节长度。
          */
         FileInputStream fil = null;
         try {
             /* 01创建输入通道*/
-            fil = new FileInputStream("FileInputStream.txt");
+            fil = new FileInputStream("javaio.txt");
 
             Long a=fil.skip(2);//这里就跳过了两个字节了,返回Long
             System.out.println("============================");
             System.out.println(a);
-
-            /*
-                int readCount = 0;
-                if(readCount=fil.read(byte[4])!=-1){
-                System.out.print(new String(bytes,0,readCount)); //读到几个转几个
-                }
-            }*/
             /* 02 创建byte数组*/
-            byte[] bytes = new byte[fil.available()] ; //剩余可读的
-            //这里直接传available可以不用循环了//这种方式不适合大文件因为数组不易过大
+            int available = fil.available();
+            //这里直接传new byte[available]可以不用循环了；这种方式不适合大文件因为数组不易过大
+            byte[] bytes = new byte[3] ; //
             int readCount=0;
             /* 03将数据读到数组里*/
-           while((readCount = fil.read(bytes))!=-1){
-               /*04转换成字符输出*/
-               System.out.print(new String(bytes,0,readCount)); //数组转字符串
-           }
+            while((readCount = fil.read(bytes))!=-1){
+                /*04转换成字符输出*/
+                System.out.println("------------");
+                System.out.println(new String(bytes,0,readCount)); //数组转字符串
+            }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

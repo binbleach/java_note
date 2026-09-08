@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 import java.net.URI;
 import java.util.List;
 
-/*
+/**
     内容讲解：
         一、restTemplate的负载均衡：
             1、ip端口形式调用 restTemplate不能开启负载均衡。服务名形式调用 restTemplate必须开启负载均衡。

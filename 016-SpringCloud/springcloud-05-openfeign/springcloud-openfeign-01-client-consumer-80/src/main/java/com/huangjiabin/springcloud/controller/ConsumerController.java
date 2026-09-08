@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 @RestController
 @Slf4j
 public class ConsumerController {
-/*
+/**
 内容讲解：
     一、搭建feign环境：
         1、创建一个服务消费者 consumer-80，注册到 springcloud-02-eureka模块中的provider-7001和provider-7002中。

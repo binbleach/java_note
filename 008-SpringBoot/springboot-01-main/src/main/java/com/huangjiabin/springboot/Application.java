@@ -84,7 +84,6 @@ public class Application implements CommandLineRunner {
                 .bannerMode(Banner.Mode.OFF)
                 .run(args);
 
-
         //第一种，调用spring创建的bean对象的方式
         StudentService studentService=(StudentService) context.getBean("studentServiceImpl");
         System.out.println("second... "+studentService.query());

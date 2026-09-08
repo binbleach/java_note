@@ -20,8 +20,8 @@ public class WebserviceCall {
         CxfClientPoolProperties cxfClientPoolProperties = new CxfClientPoolProperties();
         //连接池最大值
         cxfClientPoolProperties.setMaxTotal(3000);
-        //每个Key最大值
-        cxfClientPoolProperties.setMaxTotalPerKey(20);
+        //每个Key最大值，超过8有问题
+        cxfClientPoolProperties.setMaxTotalPerKey(8);
         //设置为true时，池中无可用连接，borrow时进行阻塞；为false时，当池中无可用连接，抛出NoSuchElementException异常
         cxfClientPoolProperties.setBlockWhenExhausted(true);
         // 每个key对应的连接池最小空闲连接数

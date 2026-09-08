@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: agent-springai
+  ai:
+    dashscope:
+      api-key: sk-1e1a5e1570454cff9c090e6661ba219a
+      chat:
+        options:
+          model: deepseek-v4-flash
+    chat:
+      memory:
+        repository:
+          jdbc:
+            platform: mysql
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        model: qwen3.5:0.8b
+  datasource:
+    url: jdbc:mysql://localhost:3306/springai?useUnicode=true&characterEncoding=UTF-8  # 记得改成你自己的
+    username: root  # 记得改成你自己的
+    password: 1220.dbggl.mysql  # 记得改成你自己的
+    driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  port: 8080

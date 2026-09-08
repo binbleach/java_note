@@ -30,7 +30,14 @@ public class configObject {
     */
     /*
         第五种：
-        @PropertySource注解，可以读默认配置文件外的配置文件，也是配合@Value使用
+        @PropertySource注解，可以读默认配置文件外的配置文件，也是配合@Value、@ConfigurationProperties使用
+        一个负责读取到environment、一个负责读到变量或对象上
+        @Component
+        @PropertySource("classpath:redis‑custom.properties") //加载自定义文件，添加到Environment
+        @ConfigurationProperties(prefix = "redis") //从Environment里面绑定
+        public class RedisConfig {
+            private String host;
+        }
     */
 
     @RequestMapping(value = "/say")

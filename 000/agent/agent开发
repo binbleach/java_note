@@ -1,0 +1,202 @@
+一、HuggingFace（ai界的github）、ModelScope(国内替代)、Ollama（模型本地部署管理工具）、
+    百炼（阿里云端模型）、硅基流动（类似百炼，不过都是别人的模型）
+二、通过python代码调用百炼（python_test包里）：
+    import os
+    from openai import OpenAI
+    client = OpenAI(
+        api_key="sk-1e1a5e1570454cff9c090e6661ba219a",
+        base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+    )
+    completion = client.chat.completions.create(
+        model="qwen3.6-plus",
+        messages=[{'role': 'user', 'content': '你是谁，称呼我为憋嘴？'}]
+    )
+    print(completion.choices[0].message.content)
+三、通过curl调用本地ollama部署的模型
+    curl http://localhost:11434/api/generate -d '{
+      "model": "qwen3.5:0.8b",
+      "prompt": "你是谁?"
+    }'
+    1）可直接粘贴到cmd里运行的格式
+    curl -X POST -H "Content-Type: application/json" -d "{\"model\":\"qwen3.5:0.8b\",\"prompt\":\"你是谁?\"}" http://localhost:11434/api/generate
+三、openai-api：
+    1）api_key：密钥
+    2）bas_url：模型地址
+    3）model：模型名称
+    4）messages：消息队列
+    5）temperature：温度系数（提高回答的随机性或多样性。取值范围：0~2.0，默认是1保持原始概率不变。
+        原理：本质是一个token概率分布的平滑/锐化控制参数。大于1时分布更平坦，概率差异小，低概率更多机会被选中。
+        小于1时分布陡峭，概率差异大，低概率不容易被选中；=0时，最高概率 token 趋近于1，为确定性输出
+    6）top_p：核采样（和温度系数类似，区别是会舍弃掉概率极低的token。取值范围0~1，temperature=0时top_p无效
+        原理：假设值为0.9，只会取token预测概率从高到低相加达到0.9后一部分，剩下的token会直接丢弃掉。）
+    7）max_tokens：限制模型最大输出长度（单位token）
+    8）n：生成次数（用于生成n个回答，如果设置stream=True，则 n 必须为 1）
+    9）stream：流式输出（一个个输出，true/false）
+    10）stop：停止标记（生成到指定字符串就停止生成，停止词不会被输出，最多4个停止词）
+    11）presence_penalty：存在惩罚（鼓励换话题/引入新概念。-2.0~2.0，默认0不做任何干预）
+    12）frequency_penalty：频率惩罚（减少机械性重复。-2.0~2.0）
+    13）seed：复现性种子（控制模型输出可复现性，范围任意整数）
+四、输出参数：
+    1）usege：toekn消费统计。
+    2）content：输出内容
+    3）tool_calls：工具调用
+    4）finish_reason：停止原因。正常停止时stop
+三、提示词基础框架：
+    1）角色：给模型定位（例：“你是一位拥有10年经验的资深新媒体运营…”）
+    2）背景：提供任务的上下文信息。（例：“我们公司即将推出一款面向大学生的平价蓝牙耳机…”）
+    3）任务：明确要做什么（例：“请为我撰写3条小红书种草文案…”）
+    4）格式：规定输出的形式（例：“请以表格形式输出，包含标题、正文、标签三列…”）
+    5）约束：设定限制条件和风格（例：“字数控制在300字以内，语气要活泼、多用Emoji，不要使用专业晦涩的术语。”）
+四、设计技巧
+    6）少样本提示词 (Few-shot prompting)：提供几个示例，让模型学习你的“模式”和“标准”
+    7）角色沉浸与视角切换：不仅赋予角色，还可以让 AI 从多个视角审视问题，或者进行“自我对抗”。
+    8）结构化提示词：按照特定模板、标签或格式来组织提示词的内容，从而减少歧义、方便复用。
+    9）提示词链：拆解任务，引导模型一步步思考。
+五、高阶提示：
+    1）思维链(CoT)：对于复杂的逻辑、数学或推理问题，强制模型显式写出思考过程，降低逻辑断层。
+    2）自我一致性：对同一问题多次提问（温度设高些），取出现次数最多的答案，提高可靠性。
+    3）思维树：让模型探索多条推理路径，自我评估后选择最优解。
+    4）反思机制：让模型自我批判自我反思。并找出错误进行优化。
+    5）ReAct方式：让模型在“推理”和“行动”之间交替，适合需要调用工具或获取外部信息的任务。
+    6）元提示：让模型自己设计提示词：“请为‘将英文邮件翻译成正式中文’这个任务设计一个优秀提示词”。
+六、通过java通过http形式调用百炼：
+    springai模块里的HttpClientCaller类
+七、java里的流式调用：
+    springai模块里的StreamController类
+六、langchain框架（构造一个翻译系统）：
+    1）创建一个目录langchain_test里面有main.py、.env配置文件
+    3）创建独立隔离的Python运行环境（避免依赖冲突）：python -m venv .venv
+    4）激活虚拟环境：.venv\Scripts\activate.bat
+    5）在虚拟机内下载相关依赖：pip3 install langchain langchain-openai fastapi uvicorn python-dotenv
+    6）在虚拟机内运行main.py：python main.py
+    7）浏览器调用接口：http://127.0.0.1:8000/translate?text=我爱编程&source=中文&target=英文
+七、langchain框架写法区别：
+    1）PromptTemplate（老式纯文本模板）、ChatPromptTemplate.from_messages（聊天消息模板）
+八、关键类：
+    DashScopeChatModel（阿里巴巴的） implements ChatModel（spring的，有call和stream两类方法）
+九、springAi持久化记忆：
+    1、用的是MessageWindowChatMemory这个类，具体实现是用
+        InMemoryChatMemoryRepository 基于内存，默认
+        JdbcChatMemoryRepository    基于jdbc连接的数据库
+        还有几个没写用到再补充，都是实现了ChatMemoryRepository接口的
+    2、引入依赖spring-ai-starter-model-chat-memory-repository-jdbc
+        它包含了spring-ai-autoconfigure-model-chat-memory
+        默认基于内存持久化，可以配置成基于mysql，以配置为准
+    3、根据引入依赖提供的语句建表：schema-mysql文件
+    4、定义一个配置类JdbcChatMemoryConfiguration创建ChatMemory
+    5、注入ChatMemory使用。
+十、langchain4j文档：https://docs.langchain4j.dev/tutorials/structured-outputs#json-schema
+十一、如何定义好一个function：
+    1、函数名称、描述、参数描述要清晰明了。
+    2、扁平化的参数结构，避免多层嵌套。
+    3、不要有太多参数。
+    4、可以使用枚举限定参数
+    5、提供few shot少样本示例
+    6、友好的错误提示
+    7、返回值要让大模型理解
+    8、不要做复杂的工具调用链
+十二、mcp：
+    json-rpc
+    host、client、server
+    Stdio本地；Sse双端连接、不支持断点重连，自己实现；Streamable 单连接、支持断点重连
+十三、安装mcp调试工具 mcp inspector命令： inpx  @modelcontextprotocol/inspector
+十四、跳过mcp工具调用的二次总结，因为通常会有多个agent，还有一个总结agent，不需要每个agent去总结。浪费资源。
+    1）returnDirect = true。直接调用支持，换成mcp就不支持
+    2）mcp跳过二次总结：继承SyncMcpToolCallBack、SyncMcpToolCallbackProvider方法，重写方法传入returnDirect，
+    最后通过实现的SyncMcpToolCallbackProvider去调用即可
+十五、mcp工具过滤分组，不用每次都将所有工具传给模型，提高准确率，避免过度消耗。
+    SyncMcpToolCallbackProvider.builder()
+                    .mcpClients(clientList)
+                    .toolFilter((cone, tool) -> tool.name().startsWith("goods"))
+                    .build();
+十六、RAG（检索增强生成），相当于一个模型外接的知识库，核心是解决大模型 “知识滞后”和“容易产生幻觉”的问题。
+    1、工作流程：
+        1）索引阶段：将外部知识库（如企业文档、PDF等）进行清洗和分块（Chunk），然后通过 Embedding 模型进行向量化后，
+            存储到向量数据库中（如 Milvus、FAISS），并构建索引。
+        2）检索阶段：当用户提出问题时，在向量数据库中进行相似度计算，召回最相关的 Top-K 个文档片段。
+        3）生成阶段：将“检索到的文档片段”+“用户的原始问题”拼接成 Prompt，输入给大模型，大模型根据这些上下文生成最终的答案
+    2、优化：落地常见难点是检索精度不足，一般通过混合检索（向量+ES 全文检索）、优化分块策略（滑动窗口、语义切割）、重排模型（Rerank）、多轮记忆来优化。
+    3、进化：模块化rag（具有“可拓展”、“灵活性”和“可维护性”）
+    怎么看向量相似度：余弦相似度、欧几里得距离、点积（重合度）
+十七、llamaIndex（构建rag的框架）
+    1、执行命令：uv init llamaIndex_test
+    2、创建虚拟环境：uv venv
+    3、激活虚拟环境：.venv\Scripts\activate（windows）；source .venv/bin/activate（linux）
+    4、下载依赖：uv add  python-dotenv llama-index llama-index-llms-dashscope llama-index-embeddings-dashscope
+    uv add llama-index greenlet==3.0.3 python-dotenv llama-index-llms-dashscope llama-index-embeddings-dashscope
+    5、运行：uv run main.py
+    6、退出虚拟环境：deactivate
+十八、RAG类型：Naive RAG(朴素)、Advanced RAG(高级)、Modular RAG(模块化)、Graph RAG(图)和Agentic RAG(智能体)五种类型
+十九、文档分块等级：固定大小->递归分块（其实是按符号分块，有递归代码）->基于文档分块（markdown等）->语义分块（NLP）->基于LLM分块（用大模型）
+    分块工具网站：https://chunkviz.up.railway.app/
+二十、rag的向量库（视频74集19分钟）用的是PostgreSql的向量检索扩展pgvector，我没下载
+二一、pgvector拓展
+    -- 1.确认扩展存在+所属schema
+    SELECT extname, extnamespace::regnamespace FROM pg_extension WHERE extname='vector';
+    -- 2.手动测试vector类型能否正常解析
+    SELECT '[1,2,3]'::vector;
+    -- 3.如果不存在就创建扩展
+    CREATE EXTENSION IF NOT EXISTS vector;
+二二、直接在数据库执行这条 SQL，一劳永逸，彻底避开 initialize-schema 各种版本坑
+    CREATE EXTENSION IF NOT EXISTS vector;
+
+    CREATE TABLE IF NOT EXISTS public.vector_st (
+        id UUID PRIMARY KEY,
+        content TEXT,
+        metadata JSONB,
+        embedding vector(1024)
+    );
+
+    CREATE INDEX IF NOT EXISTS vector_st_embedding_idx
+    ON public.vector_st USING hnsw (embedding vector_cosine_ops);
+二三、可用PostgresML插件代替百炼的embeddingModel要自己配bean。（只是桥梁，用的是HuggingFace里的模型，要翻墙）
+二四、向量数据库的选型
+    数据库	    最佳向量规模	    是否分布式	运维难度	过滤性能	核心定位
+    PGVector	≤100 万	        弱（依赖PG分片） 低	一般	    PG 附加向量能力
+    Chroma	    ≤50 万（仅限开发）	❌单机	      极低	一般	    本地原型调试
+    Qdrant	    100 万～数亿	    ✅集群	      中等	优秀	    通用原生向量库（均衡首选）
+    Milvus	    千万～百亿	    ✅云原生分布式   高	优秀	    企业级海量向量底座
+    Elasticsearch	百万级	    ✅集群	       高	一般	    搜索引擎附带向量、混合检索（关键词+语义）
+二五、离线向量模型：Langchain4j-Bge或者Ollama
+二六、SpringAi里的ETL：
+    索引构建流程：文档提取、清洗、分割、向量化、存储。其实就是一个ETL（Extract提取-Transform转换-Load存储）
+    1、TextReader implements DocumentReader
+    2、TextSplitter implements DocumentTransformer
+       ContentFormatTransformer implements DocumentTransformer（这没讲，做metadata的）
+       KeywordMetadataEnricher implements DocumentTransformer 这没讲，做metadata的）
+       SummaryMetaEnricher implements DocumentTransformer 这没讲，做metadata的）
+    3、PgVectorStore implements VectorStore extends DocumentWriter
+二七、SpringAi和Langchain4j区别
+    在线文档、用阿里云 DashScope + Spring Boot 做标准知识库问答 → Spring AI（spring-ai-alibaba-dashscope 最省心）
+    离线文档、需要复杂分块、混合检索、重排等高级 RAG，或重度 Agent 编排 → LangChain4j
+二八、设置元数据Metadata作用：提供参考源、精确过滤、访问权限控制
+二九、rag优化（提高检索命中率，适用提示词工程）：
+    1、元数据过滤
+    2、问题改写：分解、丰富（指代消除：添加历史补充信息消除歧义）、分解、多样化、回溯提示
+        HyDE（问题改写的一种方案，先让模型根据用户提问生成一个答案，再用答案+问题去检索）
+    3、查询路由：向量数据库/关系型数据库/图数据库（知识图谱）
+    4、查询构造（生成关系型数据库sql）
+    5、问题澄清（一些针对性问题，让模型通过问答的方式收集关键信息再去检索）
+    6、混合检索：向量检索（语义检索）+关键词检索（DM25）等并行多路召回——>然后对结果融合再去查询（加权求和/重排序等）
+        实现：Langchain里EnsembleRetriever或者llamaIndex里也有实现。SpringAi：向量检索+es
+    7、Graph Rag：知识图谱融入RAG的检索增强生成方案，解决传统向量 RAG 不擅长多跳推理、跨文档关联、全局总结的痛点。
+        实现：llm调用文档三元组（实体-关系-实体）+neo4j图数据库存储
+三十、重排序：
+    1、RRF算法：完全抛弃原始分数，只使用文档在各自列表里的排名位置进行融合。SpringAi没实现、Langchain4j有
+        计算公式
+        $$RRF(d) = \sum_{i=1}^{n} \frac{1}{k + rank_i(d)}$$
+        \(rank_i(d)\)：文档 d 在第 i 条结果列表中的排名，从 1 开始计数；文档不在这条列表则不计分（贡献 0）
+        k：平滑常数，学术界标准经验值 60
+        最后按照 RRF 总分降序排序，得到融合后的最终列表
+        举个最简例子（k=60）
+        文档 A：向量检索第 1 名、BM25 第 5 名
+        得分 = 1/(60+1) + 1/(60+5) ≈0.0164 + 0.0154 = 0.0318
+        文档 B：向量第 4 名，BM25 第 1 名
+        得分 =1/64 +1/61 ≈0.0156+0.0164=0.0320
+        最终 B 排名高于 A。
+三一、模块化rag：
+    DefaultRetrievalAugmentor（LangChain4J） vs RetrievalAugmentationAdvisor（Spring‑AI）
+    两者都是模块化高级 RAG 编排器，目标都是：查询改写→多源检索→结果合并重排→把检索上下文注入 Prompt，只是所属框架、编程模型、组件命名、扩展点不一样。
+三二、多模态rag：就是处理文本+表格+公式+图片的能力，流程：
+        定位图片->将图片传给大模型解析成文本->将文本顺序还原->结构化输出（图片描述则被特殊的 <image>...</image> 标签包裹）
+三三、agent：

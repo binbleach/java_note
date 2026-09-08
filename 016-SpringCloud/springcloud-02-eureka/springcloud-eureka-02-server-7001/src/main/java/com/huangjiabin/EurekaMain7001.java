@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
-/*
+/**
     内容讲解：
         一、单机版eureka环境搭建
             1、创建一个eureka注册中心server-7001，将自己注册进去：

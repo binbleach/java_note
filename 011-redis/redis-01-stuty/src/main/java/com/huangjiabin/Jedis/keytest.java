@@ -7,7 +7,8 @@ import java.util.Set;
 public class keytest {
     public static void main(String[] args) {
         //连接redis
-        Jedis jedis = new Jedis("192.168.8.128",6379);//一个ip是linux服务器的ip一个端口号
+        Jedis jedis = new Jedis("127.0.0.1",6379);
+//        Jedis jedis = new Jedis("192.168.20.154",6379);//一个ip是linux服务器的ip一个端口号
         //使用Jedis对象操作redis服务
 
         //查看redis服务是否正常运行：ping 如果正常---返回pong

@@ -3,6 +3,9 @@ package com.huangjiabin.docker;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/*
+    将springboot的jar打成镜像
+*/
 @SpringBootApplication
 public class DockerApplication {
 

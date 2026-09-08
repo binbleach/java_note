@@ -7,6 +7,8 @@ import com.huangjiabin.webservice.client.WeatherInterfaceImplService;
     客户端连接第一种方法
     1）生成客户端代码，在java包下打开控制台，输入：
     wsimport -s . -p com.huangjiabin.webservice.clinet http://127.0.0.1:123456/weather?wsdl
+    优点：省事、类型安全、开发快
+    缺点：改接口要重新生成、臃肿、版本容易对不上
 */
 public class WeatherClient {
 

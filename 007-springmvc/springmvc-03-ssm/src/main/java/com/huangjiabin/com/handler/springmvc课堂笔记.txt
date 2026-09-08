@@ -1,26 +1,26 @@
-SpringMVC£ºÊÇ»ùÓÚspringµÄÒ»¸ö¿ò¼Ü£¬ Êµ¼ÊÉÏ¾ÍÊÇspringµÄÒ»¸öÄ£¿é£¬ ×¨ÃÅÊÇ×öweb¿ª·¢µÄ¡£
-           Àí½âÊÇservletµÄÒ»¸öÉı¼¶
+SpringMVCï¼šæ˜¯åŸºäºspringçš„ä¸€ä¸ªæ¡†æ¶ï¼Œ å®é™…ä¸Šå°±æ˜¯springçš„ä¸€ä¸ªæ¨¡å—ï¼Œ ä¸“é—¨æ˜¯åšwebå¼€å‘çš„ã€‚
+           ç†è§£æ˜¯servletçš„ä¸€ä¸ªå‡çº§
 
-	   web¿ª·¢µ×²ãÊÇservlet £¬ ¿ò¼ÜÊÇÔÚservlet»ù´¡ÉÏÃæ¼ÓÈëÒ»Ğ©¹¦ÄÜ£¬ÈÃÄã×öweb¿ª·¢·½±ã¡£
+	   webå¼€å‘åº•å±‚æ˜¯servlet ï¼Œ æ¡†æ¶æ˜¯åœ¨servletåŸºç¡€ä¸Šé¢åŠ å…¥ä¸€äº›åŠŸèƒ½ï¼Œè®©ä½ åšwebå¼€å‘æ–¹ä¾¿ã€‚
 
-SpringMVC¾ÍÊÇÒ»¸öSpring¡£ SpringÊÇÈİÆ÷£¬iocÄÜ¹»¹ÜÀí¶ÔÏó£¬Ê¹ÓÃ<bean>, @Component, @Repository, @Service, @Controller
-  SpringMVCÄÜ¹»´´½¨¶ÔÏó£¬ ·ÅÈëµ½ÈİÆ÷ÖĞ£¨SpringMVCÈİÆ÷£©£¬ springmvcÈİÆ÷ÖĞ·ÅµÄÊÇ¿ØÖÆÆ÷¶ÔÏó£¬
+SpringMVCå°±æ˜¯ä¸€ä¸ªSpringã€‚ Springæ˜¯å®¹å™¨ï¼Œiocèƒ½å¤Ÿç®¡ç†å¯¹è±¡ï¼Œä½¿ç”¨<bean>, @Component, @Repository, @Service, @Controller
+  SpringMVCèƒ½å¤Ÿåˆ›å»ºå¯¹è±¡ï¼Œ æ”¾å…¥åˆ°å®¹å™¨ä¸­ï¼ˆSpringMVCå®¹å™¨ï¼‰ï¼Œ springmvcå®¹å™¨ä¸­æ”¾çš„æ˜¯æ§åˆ¶å™¨å¯¹è±¡ï¼Œ
 
-  ÎÒÃÇÒª×öµÄÊÇ Ê¹ÓÃ@Contorller´´½¨¿ØÖÆÆ÷¶ÔÏó£¬ °Ñ¶ÔÏó·ÅÈëµ½springmvcÈİÆ÷ÖĞ£¬ °Ñ´´½¨µÄ¶ÔÏó×÷Îª¿ØÖÆÆ÷Ê¹ÓÃ
-  Õâ¸ö¿ØÖÆÆ÷¶ÔÏóÄÜ½ÓÊÕÓÃ»§µÄÇëÇó£¬ ÏÔÊ¾´¦Àí½á¹û£¬¾Íµ±×öÊÇÒ»¸öservletÊ¹ÓÃ¡£
+  æˆ‘ä»¬è¦åšçš„æ˜¯ ä½¿ç”¨@Contorlleråˆ›å»ºæ§åˆ¶å™¨å¯¹è±¡ï¼Œ æŠŠå¯¹è±¡æ”¾å…¥åˆ°springmvcå®¹å™¨ä¸­ï¼Œ æŠŠåˆ›å»ºçš„å¯¹è±¡ä½œä¸ºæ§åˆ¶å™¨ä½¿ç”¨
+  è¿™ä¸ªæ§åˆ¶å™¨å¯¹è±¡èƒ½æ¥æ”¶ç”¨æˆ·çš„è¯·æ±‚ï¼Œ æ˜¾ç¤ºå¤„ç†ç»“æœï¼Œå°±å½“åšæ˜¯ä¸€ä¸ªservletä½¿ç”¨ã€‚
 
-  Ê¹ÓÃ@Controller×¢½â´´½¨µÄÊÇÒ»¸öÆÕÍ¨ÀàµÄ¶ÔÏó£¬ ²»ÊÇServlet¡£ springmvc¸³ÓèÁË¿ØÖÆÆ÷¶ÔÏóÒ»Ğ©¶îÍâµÄ¹¦ÄÜ¡£
+  ä½¿ç”¨@Controlleræ³¨è§£åˆ›å»ºçš„æ˜¯ä¸€ä¸ªæ™®é€šç±»çš„å¯¹è±¡ï¼Œ ä¸æ˜¯Servletã€‚ springmvcèµ‹äºˆäº†æ§åˆ¶å™¨å¯¹è±¡ä¸€äº›é¢å¤–çš„åŠŸèƒ½ã€‚
 
 
-  web¿ª·¢µ×²ãÊÇservlet£¬ springmvcÖĞÓĞÒ»¸ö¶ÔÏóÊÇServlet £º DispatherServlet(ÖĞÑëµ÷¶ÈÆ÷)
-  DispatherServlet: ¸ºÔğ½ÓÊÕÓÃ»§µÄËùÓĞÇëÇó£¬ ÓÃ»§°ÑÇëÇó¸øÁËDispatherServlet£¬ Ö®ºóDispatherServlet°ÑÇëÇó×ª·¢¸ø
-                    ÎÒÃÇµÄController¶ÔÏó£¬ ×îºóÊÇController¶ÔÏó´¦ÀíÇëÇó¡£
+  webå¼€å‘åº•å±‚æ˜¯servletï¼Œ springmvcä¸­æœ‰ä¸€ä¸ªå¯¹è±¡æ˜¯Servlet ï¼š DispatherServlet(ä¸­å¤®è°ƒåº¦å™¨)
+  DispatherServlet: è´Ÿè´£æ¥æ”¶ç”¨æˆ·çš„æ‰€æœ‰è¯·æ±‚ï¼Œ ç”¨æˆ·æŠŠè¯·æ±‚ç»™äº†DispatherServletï¼Œ ä¹‹åDispatherServletæŠŠè¯·æ±‚è½¬å‘ç»™
+                    æˆ‘ä»¬çš„Controllerå¯¹è±¡ï¼Œ æœ€åæ˜¯Controllerå¯¹è±¡å¤„ç†è¯·æ±‚ã€‚
 
 		   
 
    
 
-  index.jsp-----DispatherServlet(Servlet)----×ª·¢£¬·ÖÅä¸ø---Controller¶ÔÏó£¨@Controller×¢½â´´½¨µÄ¶ÔÏó£©
+  index.jsp-----DispatherServlet(Servlet)----è½¬å‘ï¼Œåˆ†é…ç»™---Controllerå¯¹è±¡ï¼ˆ@Controlleræ³¨è§£åˆ›å»ºçš„å¯¹è±¡ï¼‰
   main.jsp                                                   MainController
   addUser.jsp                                                UserController
 
@@ -28,34 +28,34 @@ SpringMVC¾ÍÊÇÒ»¸öSpring¡£ SpringÊÇÈİÆ÷£¬iocÄÜ¹»¹ÜÀí¶ÔÏó£¬Ê¹ÓÃ<bean>, @Component,
 
 ---------------------------------------------------------------------------------------------------------
 
-springmvcÇëÇóµÄ´¦ÀíÁ÷³Ì
+springmvcè¯·æ±‚çš„å¤„ç†æµç¨‹
 
- 1£©·¢Æğsome.do
- 2£©tomcat(web.xml--url-patternÖªµÀ *.doµÄÇëÇó¸øDispatcherServlet)
- 3£©DispatcherServlet£¨¸ù¾İspringmvc.xmlÅäÖÃÖªµÀ some.do---doSome()£©
- 4£©DispatcherServlet°Ñsome.do×ª·¢¸öMyController.doSome()·½·¨
- 5£©¿ò¼ÜÖ´ĞĞdoSome£¨£©°ÑµÃµ½ModelAndView½øĞĞ´¦Àí£¬ ×ª·¢µ½show.jsp
+ 1ï¼‰å‘èµ·some.do
+ 2ï¼‰tomcat(web.xml--url-patternçŸ¥é“ *.doçš„è¯·æ±‚ç»™DispatcherServlet)
+ 3ï¼‰DispatcherServletï¼ˆæ ¹æ®springmvc.xmlé…ç½®çŸ¥é“ some.do---doSome()ï¼‰
+ 4ï¼‰DispatcherServletæŠŠsome.doè½¬å‘ä¸ªMyController.doSome()æ–¹æ³•
+ 5ï¼‰æ¡†æ¶æ‰§è¡ŒdoSomeï¼ˆï¼‰æŠŠå¾—åˆ°ModelAndViewè¿›è¡Œå¤„ç†ï¼Œ è½¬å‘åˆ°show.jsp
 
 
-ÉÏÃæµÄ¹ı³Ì¼ò»¯µÄ·½Ê½
+ä¸Šé¢çš„è¿‡ç¨‹ç®€åŒ–çš„æ–¹å¼
   some.do---DispatcherServlet---MyController
 --------------------------------------------------------------------------------------------------------
-springmvcÖ´ĞĞ¹ı³ÌÔ´´úÂë·ÖÎö
-1. tomcatÆô¶¯£¬´´½¨ÈİÆ÷µÄ¹ı³Ì
-   Í¨¹ıload-on-start±êÇ©Ö¸¶¨µÄ1£¬´´½¨DisaptcherServlet¶ÔÏó£¬ 
-   DisaptcherServletËüµÄ¸¸ÀàÊÇ¼Ì³ĞHttpServletµÄ£¬ ËüÊÇÒ»¸öserlvet£¬ ÔÚ±»´´½¨Ê±£¬»áÖ´ĞĞinit£¨£©·½·¨¡£
-   ÔÚinit£¨£©·½·¨ÖĞ
-   //´´½¨ÈİÆ÷£¬¶ÁÈ¡ÅäÖÃÎÄ¼ş
+springmvcæ‰§è¡Œè¿‡ç¨‹æºä»£ç åˆ†æ
+1. tomcatå¯åŠ¨ï¼Œåˆ›å»ºå®¹å™¨çš„è¿‡ç¨‹
+   é€šè¿‡load-on-startæ ‡ç­¾æŒ‡å®šçš„1ï¼Œåˆ›å»ºDisaptcherServletå¯¹è±¡ï¼Œ 
+   DisaptcherServletå®ƒçš„çˆ¶ç±»æ˜¯ç»§æ‰¿HttpServletçš„ï¼Œ å®ƒæ˜¯ä¸€ä¸ªserlvetï¼Œ åœ¨è¢«åˆ›å»ºæ—¶ï¼Œä¼šæ‰§è¡Œinitï¼ˆï¼‰æ–¹æ³•ã€‚
+   åœ¨initï¼ˆï¼‰æ–¹æ³•ä¸­
+   //åˆ›å»ºå®¹å™¨ï¼Œè¯»å–é…ç½®æ–‡ä»¶
     WebApplicationContext ctx = new ClassPathXmlApplicationContext("springmvc.xml");
-    //°ÑÈİÆ÷¶ÔÏó·ÅÈëµ½ServletContextÖĞ
+    //æŠŠå®¹å™¨å¯¹è±¡æ”¾å…¥åˆ°ServletContextä¸­
     getServletContext().setAttribute(key, ctx);
 
-  ÉÏÃæ´´½¨ÈİÆ÷×÷ÓÃ£º ´´½¨@controller×¢½âËùÔÚµÄÀàµÄ¶ÔÏó£¬ ´´½¨MyController¶ÔÏó£¬
-   Õâ¸ö¶ÔÏó·ÅÈëµ½ springmvcµÄÈİÆ÷ÖĞ£¬ ÈİÆ÷ÊÇmap £¬ ÀàËÆ map.put("myController",MyController¶ÔÏó)
+  ä¸Šé¢åˆ›å»ºå®¹å™¨ä½œç”¨ï¼š åˆ›å»º@controlleræ³¨è§£æ‰€åœ¨çš„ç±»çš„å¯¹è±¡ï¼Œ åˆ›å»ºMyControllerå¯¹è±¡ï¼Œ
+   è¿™ä¸ªå¯¹è±¡æ”¾å…¥åˆ° springmvcçš„å®¹å™¨ä¸­ï¼Œ å®¹å™¨æ˜¯map ï¼Œ ç±»ä¼¼ map.put("myController",MyControllerå¯¹è±¡)
 
 
-2.ÇëÇóµÄ´¦Àí¹ı³Ì
-  1£©Ö´ĞĞservletµÄservice()
+2.è¯·æ±‚çš„å¤„ç†è¿‡ç¨‹
+  1ï¼‰æ‰§è¡Œservletçš„service()
        protected void service(HttpServletRequest request, HttpServletResponse response)
 
        protected void doService(HttpServletRequest request, HttpServletResponse response)
@@ -63,21 +63,21 @@ springmvcÖ´ĞĞ¹ı³ÌÔ´´úÂë·ÖÎö
 
       DispatcherServlet.doDispatch(request, response){
 
-          µ÷ÓÃMyControllerµÄ.doSome()·½·¨
+          è°ƒç”¨MyControllerçš„.doSome()æ–¹æ³•
       }
 
-   doDispatch£ºspringmvcÖĞDispatcherServletµÄºËĞÄ·½·¨£¬ ËùÓĞµÄÇëÇó¶¼ÔÚÕâ¸ö·½·¨ÖĞÍê³ÉµÄ¡£
+   doDispatchï¼šspringmvcä¸­DispatcherServletçš„æ ¸å¿ƒæ–¹æ³•ï¼Œ æ‰€æœ‰çš„è¯·æ±‚éƒ½åœ¨è¿™ä¸ªæ–¹æ³•ä¸­å®Œæˆçš„ã€‚
 
 
 
-Ã»ÓĞ¼ÓÈë×¢½âÇı¶¯±êÇ©Ê±µÄ×´Ì¬
+æ²¡æœ‰åŠ å…¥æ³¨è§£é©±åŠ¨æ ‡ç­¾æ—¶çš„çŠ¶æ€
 org.springframework.http.converter.ByteArrayHttpMessageConverter 
 org.springframework.http.converter.StringHttpMessageConverter
 org.springframework.http.converter.xml.SourceHttpMessageConverter
 org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter
 
 
-¼ÓÈë×¢½âÇı¶¯±êÇ©Ê±µÄ×´Ì¬
+åŠ å…¥æ³¨è§£é©±åŠ¨æ ‡ç­¾æ—¶çš„çŠ¶æ€
 org.springframework.http.converter.ByteArrayHttpMessageConverter
 org.springframework.http.converter.StringHttpMessageConverter
 org.springframework.http.converter.ResourceHttpMessageConverter
@@ -88,19 +88,19 @@ org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter
 org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 
 ==========================================================================
-·¢ÆğµÄÇëÇóÊÇÓÉÄÄĞ©·şÎñÆ÷³ÌĞò´¦ÀíµÄ¡£
+å‘èµ·çš„è¯·æ±‚æ˜¯ç”±å“ªäº›æœåŠ¡å™¨ç¨‹åºå¤„ç†çš„ã€‚
 
-http://localhost:8080/ch05_url_pattern/index.jsp £ºtomcat£¨jsp»á×ªÎªservlet£©
-http://localhost:8080/ch05_url_pattern/js/jquery-3.4.1.js £º tomcat
-http://localhost:8080/ch05_url_pattern/images/p1.jpg £º tomcat
-http://localhost:8080/ch05_url_pattern/html/test.html£º tomcat
-http://localhost:8080/ch05_url_pattern/some.do £º  DispatcherServlet£¨springmvc¿ò¼Ü´¦ÀíµÄ£©
-
-
-tomcat±¾ÉíÄÜ´¦Àí¾²Ì¬×ÊÔ´µÄ·ÃÎÊ£¬ Ïñhtml£¬ Í¼Æ¬£¬ jsÎÄ¼ş¶¼ÊÇ¾²Ì¬×ÊÔ´
+http://localhost:8080/ch05_url_pattern/index.jsp ï¼štomcatï¼ˆjspä¼šè½¬ä¸ºservletï¼‰
+http://localhost:8080/ch05_url_pattern/js/jquery-3.4.1.js ï¼š tomcat
+http://localhost:8080/ch05_url_pattern/images/p1.jpg ï¼š tomcat
+http://localhost:8080/ch05_url_pattern/html/test.htmlï¼š tomcat
+http://localhost:8080/ch05_url_pattern/some.do ï¼š  DispatcherServletï¼ˆspringmvcæ¡†æ¶å¤„ç†çš„ï¼‰
 
 
-tomcatµÄweb.xmlÎÄ¼şÓĞÒ»¸öservlet Ãû³ÆÊÇ default £¬ ÔÚ·şÎñÆ÷Æô¶¯Ê±´´½¨µÄ¡£
+tomcatæœ¬èº«èƒ½å¤„ç†é™æ€èµ„æºçš„è®¿é—®ï¼Œ åƒhtmlï¼Œ å›¾ç‰‡ï¼Œ jsæ–‡ä»¶éƒ½æ˜¯é™æ€èµ„æº
+
+
+tomcatçš„web.xmlæ–‡ä»¶æœ‰ä¸€ä¸ªservlet åç§°æ˜¯ default ï¼Œ åœ¨æœåŠ¡å™¨å¯åŠ¨æ—¶åˆ›å»ºçš„ã€‚
  <servlet>
         <servlet-name>default</servlet-name>
         <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
@@ -117,184 +117,184 @@ tomcatµÄweb.xmlÎÄ¼şÓĞÒ»¸öservlet Ãû³ÆÊÇ default £¬ ÔÚ·şÎñÆ÷Æô¶¯Ê±´´½¨µÄ¡£
 
 	  <servlet-mapping>
         <servlet-name>default</servlet-name>
-        <url-pattern>/</url-pattern>  ±íÊ¾¾²Ì¬×ÊÔ´ºÍÎ´Ó³ÉäµÄÇëÇó¶¼Õâ¸ödefault´¦Àí
+        <url-pattern>/</url-pattern>  è¡¨ç¤ºé™æ€èµ„æºå’Œæœªæ˜ å°„çš„è¯·æ±‚éƒ½è¿™ä¸ªdefaultå¤„ç†
     </servlet-mapping>
 
 
-defaultÕâ¸öservlet×÷ÓÃ£º 
+defaultè¿™ä¸ªservletä½œç”¨ï¼š 
 The default servlet for all web applications, that serves static  
 resources.  It processes all requests that are not mapped to other  
 servlets with servlet mappings (defined either here or in your own   
 web.xml file).
 
-1.´¦Àí¾²Ì¬×ÊÔ´
-2.´¦ÀíÎ´Ó³Éäµ½ÆäËüservletµÄÇëÇó¡£
+1.å¤„ç†é™æ€èµ„æº
+2.å¤„ç†æœªæ˜ å°„åˆ°å…¶å®ƒservletçš„è¯·æ±‚ã€‚
 
 
 ========================================================================
-ÔÚjsp £¬ htmlÖĞÊ¹ÓÃµÄµØÖ·£¬ ¶¼ÊÇÔÚÇ°¶ËÒ³ÃæÖĞµÄµØÖ·£¬¶¼ÊÇÏà¶ÔµØÖ·
+åœ¨jsp ï¼Œ htmlä¸­ä½¿ç”¨çš„åœ°å€ï¼Œ éƒ½æ˜¯åœ¨å‰ç«¯é¡µé¢ä¸­çš„åœ°å€ï¼Œéƒ½æ˜¯ç›¸å¯¹åœ°å€
 
-µØÖ··ÖÀà£º
- 1.¾ø¶ÔµØÖ· £¬ ´øÓĞĞ­ÒéÃû³ÆµÄÊÇ¾ø¶ÔµØÖ·£¬  http://www.baidu.com , ftp://202.122.23.1
- 2.Ïà¶ÔµØÖ·£¬ Ã»ÓĞĞ­Òé¿ªÍ·µÄ£¬ ÀıÈç user/some.do  , /user/some.do
-              Ïà¶ÔµØÖ·²»ÄÜ¶ÀÁ¢Ê¹ÓÃ£¬±ØĞëÓĞÒ»¸ö²Î¿¼µØÖ·¡£ Í¨¹ı²Î¿¼µØÖ·+Ïà¶ÔµØÖ·±¾Éí²ÅÄÜÖ¸¶¨×ÊÔ´¡£
+åœ°å€åˆ†ç±»ï¼š
+ 1.ç»å¯¹åœ°å€ ï¼Œ å¸¦æœ‰åè®®åç§°çš„æ˜¯ç»å¯¹åœ°å€ï¼Œ  http://www.baidu.com , ftp://202.122.23.1
+ 2.ç›¸å¯¹åœ°å€ï¼Œ æ²¡æœ‰åè®®å¼€å¤´çš„ï¼Œ ä¾‹å¦‚ user/some.do  , /user/some.do
+              ç›¸å¯¹åœ°å€ä¸èƒ½ç‹¬ç«‹ä½¿ç”¨ï¼Œå¿…é¡»æœ‰ä¸€ä¸ªå‚è€ƒåœ°å€ã€‚ é€šè¿‡å‚è€ƒåœ°å€+ç›¸å¯¹åœ°å€æœ¬èº«æ‰èƒ½æŒ‡å®šèµ„æºã€‚
 
-				  ÕÅÈıÍ¬Ñ§£¬ 1°àÓĞÕÅÈı£¬ 2°àÒ²ÓĞÕÅÈı
+				  å¼ ä¸‰åŒå­¦ï¼Œ 1ç­æœ‰å¼ ä¸‰ï¼Œ 2ç­ä¹Ÿæœ‰å¼ ä¸‰
 
- 3.²Î¿¼µØÖ·
-    1£© ÔÚÄãµÄÒ³ÃæÖĞµÄ£¬·ÃÎÊµØÖ·²»¼Ó "/"
+ 3.å‚è€ƒåœ°å€
+    1ï¼‰ åœ¨ä½ çš„é¡µé¢ä¸­çš„ï¼Œè®¿é—®åœ°å€ä¸åŠ  "/"
 
-	 ·ÃÎÊµÄÊÇ£º http://localhost:8080/ch06_path/index.jsp
-      Â·¾¶£º http://localhost:8080/ch06_path/
-		×ÊÔ´£º index.jsp
+	 è®¿é—®çš„æ˜¯ï¼š http://localhost:8080/ch06_path/index.jsp
+      è·¯å¾„ï¼š http://localhost:8080/ch06_path/
+		èµ„æºï¼š index.jsp
 
-    ÔÚindex.jsp·¢Æğ user/some.doÇëÇó£¬·ÃÎÊµØÖ·±äÎª http://localhost:8080/ch06_path/user/some.do
-	   µ±ÄãµÄµØÖ· Ã»ÓĞĞ±¸Ü¿ªÍ·,ÀıÈç user/some.do , µ±Äãµã»÷Á´½ÓÊ±£¬ ·ÃÎÊµØÖ·ÊÇµ±Ç°Ò³ÃæµÄµØÖ·
-		¼ÓÉÏÁ´½ÓµÄµØÖ·¡£
+    åœ¨index.jspå‘èµ· user/some.doè¯·æ±‚ï¼Œè®¿é—®åœ°å€å˜ä¸º http://localhost:8080/ch06_path/user/some.do
+	   å½“ä½ çš„åœ°å€ æ²¡æœ‰æ–œæ å¼€å¤´,ä¾‹å¦‚ user/some.do , å½“ä½ ç‚¹å‡»é“¾æ¥æ—¶ï¼Œ è®¿é—®åœ°å€æ˜¯å½“å‰é¡µé¢çš„åœ°å€
+		åŠ ä¸Šé“¾æ¥çš„åœ°å€ã€‚
       http://localhost:8080/ch06_path/ + user/some.do
 
 
      -------------------------------------------------------------
-	  index.jsp  ·ÃÎÊ user/some.do  £¬ ·µ»ØºóÏÖÔÚµÄµØÖ·£º http://localhost:8080/ch06_path/user/some.do
+	  index.jsp  è®¿é—® user/some.do  ï¼Œ è¿”å›åç°åœ¨çš„åœ°å€ï¼š http://localhost:8080/ch06_path/user/some.do
 
 	  http://localhost:8080/ch06_path/user/some.do
-	  Â·¾¶£º	  http://localhost:8080/ch06_path/user/
-	  ×ÊÔ´£º   some.do
+	  è·¯å¾„ï¼š	  http://localhost:8080/ch06_path/user/
+	  èµ„æºï¼š   some.do
 
-	  ÔÚindex.jspÔÚ user/some.do £¬¾Í±äÎª http://localhost:8080/ch06_path/user/user/some.do
+	  åœ¨index.jspåœ¨ user/some.do ï¼Œå°±å˜ä¸º http://localhost:8080/ch06_path/user/user/some.do
 
-	  ½â¾ö·½°¸£º
-	   1.¼ÓÈë${pageContext.request.contextPath}
-		2.¼ÓÈëÒ»¸öbase±êÇ©£¬ ÊÇhtmlÓïÑÔÖĞµÄ±êÇ©¡£ ±íÊ¾µ±Ç°Ò³ÃæÖĞ·ÃÎÊµØÖ·µÄ»ùµØÖ·¡£
-		  ÄãµÄÒ³ÃæÖĞËùÓĞ Ã»ÓĞ¡°/¡±¿ªÍ·µÄµØÖ·£¬¶¼ÊÇÒÔbase±êÇ©ÖĞµÄµØÖ·Îª²Î¿¼µØÖ·
-        Ê¹ÓÃbaseÖĞµÄµØÖ· + user/some.do ×é³É·ÃÎÊµØÖ·
-
-
+	  è§£å†³æ–¹æ¡ˆï¼š
+	   1.åŠ å…¥${pageContext.request.contextPath}
+		2.åŠ å…¥ä¸€ä¸ªbaseæ ‡ç­¾ï¼Œ æ˜¯htmlè¯­è¨€ä¸­çš„æ ‡ç­¾ã€‚ è¡¨ç¤ºå½“å‰é¡µé¢ä¸­è®¿é—®åœ°å€çš„åŸºåœ°å€ã€‚
+		  ä½ çš„é¡µé¢ä¸­æ‰€æœ‰ æ²¡æœ‰â€œ/â€å¼€å¤´çš„åœ°å€ï¼Œéƒ½æ˜¯ä»¥baseæ ‡ç­¾ä¸­çš„åœ°å€ä¸ºå‚è€ƒåœ°å€
+        ä½¿ç”¨baseä¸­çš„åœ°å€ + user/some.do ç»„æˆè®¿é—®åœ°å€
 
 
-   2£©ÔÚÄãµÄÒ³ÃæÖĞµÄ£¬·ÃÎÊµØÖ·¼Ó "/"
-      ·ÃÎÊµÄÊÇ£º http://localhost:8080/ch06_path/index.jsp
-      Â·¾¶£º http://localhost:8080/ch06_path/
-		×ÊÔ´£º index.jsp
-
-		µã»÷ /user/some.do, ·ÃÎÊµØÖ·±äÎª http://localhost:8080/user/some.do
-		²Î¿¼µØÖ·ÊÇ ÄãµÄ·şÎñÆ÷µØÖ·£¬ Ò²¾ÍÊÇ http://localhost:8080
 
 
-		Èç¹ûÄãµÄ×ÊÔ´²»ÄÜ·ÃÎÊ£º ¼ÓÈë${pageContext.request.contextPath}
-		<a href="${pageContext.request.contextPath}/user/some.do">·¢Æğuser/some.doµÄgetÇëÇó</a>
+   2ï¼‰åœ¨ä½ çš„é¡µé¢ä¸­çš„ï¼Œè®¿é—®åœ°å€åŠ  "/"
+      è®¿é—®çš„æ˜¯ï¼š http://localhost:8080/ch06_path/index.jsp
+      è·¯å¾„ï¼š http://localhost:8080/ch06_path/
+		èµ„æºï¼š index.jsp
+
+		ç‚¹å‡» /user/some.do, è®¿é—®åœ°å€å˜ä¸º http://localhost:8080/user/some.do
+		å‚è€ƒåœ°å€æ˜¯ ä½ çš„æœåŠ¡å™¨åœ°å€ï¼Œ ä¹Ÿå°±æ˜¯ http://localhost:8080
+
+
+		å¦‚æœä½ çš„èµ„æºä¸èƒ½è®¿é—®ï¼š åŠ å…¥${pageContext.request.contextPath}
+		<a href="${pageContext.request.contextPath}/user/some.do">å‘èµ·user/some.doçš„getè¯·æ±‚</a>
 
 
 	
 
-index.jsp--addStudent.jsp---student/addStudent.do( serviceµÄ·½·¨£¬µ÷ÓÃdaoµÄ·½·¨)--result.jsp
+index.jsp--addStudent.jsp---student/addStudent.do( serviceçš„æ–¹æ³•ï¼Œè°ƒç”¨daoçš„æ–¹æ³•)--result.jsp
 
 =======================================================================================================
 
-ch08-forard-redirect:×ª·¢ºÍÖØ¶¨Ïò
+ch08-forard-redirect:è½¬å‘å’Œé‡å®šå‘
 
-forward£º±íÊ¾×ª·¢
-redirect£º±íÊ¾ÖØ¶¨Ïò
-forwardºÍredirect¶¼ÊÇ¹Ø¼ü×Ö£¬ ÓĞÒ»¸ö¹²Í¬µÄÌØµã²»ºÍÊÓÍ¼½âÎöÆ÷Ò»Í¬¹¤×÷
+forwardï¼šè¡¨ç¤ºè½¬å‘
+redirectï¼šè¡¨ç¤ºé‡å®šå‘
+forwardå’Œredirectéƒ½æ˜¯å…³é”®å­—ï¼Œ æœ‰ä¸€ä¸ªå…±åŒçš„ç‰¹ç‚¹ä¸å’Œè§†å›¾è§£æå™¨ä¸€åŒå·¥ä½œ
 
 
-À©Õ¹£º
-forwardºÍredirectËûÃÇ¶¼¿ÉÒÔ·ÃÎÊ ÊÓÍ¼ÎÄ¼ş£¬±ÈÈçÄ³¸öjsp £¬html
+æ‰©å±•ï¼š
+forwardå’Œredirectä»–ä»¬éƒ½å¯ä»¥è®¿é—® è§†å›¾æ–‡ä»¶ï¼Œæ¯”å¦‚æŸä¸ªjsp ï¼Œhtml
  forward:/hello.jsp  forward:/main.html
 
-forwardºÍredirectËûÃÇ¶¼¿ÉÒÔ·ÃÎÊÆäËüµÄcontroller
+forwardå’Œredirectä»–ä»¬éƒ½å¯ä»¥è®¿é—®å…¶å®ƒçš„controller
  forward:/some.do , redirect:/other.do
 
-´¦ÀíÆ÷·½·¨¿ÉÒÔ·µ»ØModelAndView, String , void ¶¼¿ÉÒÔÊ¹ÓÃforward£¬redirect
+å¤„ç†å™¨æ–¹æ³•å¯ä»¥è¿”å›ModelAndView, String , void éƒ½å¯ä»¥ä½¿ç”¨forwardï¼Œredirect
     
 ============================================================================================
-Òì³£´¦Àí£º
-springmvc¿ò¼Ü²ÉÓÃµÄÊÇÍ³Ò»£¬È«¾ÖµÄÒì³£´¦Àí¡£
-°ÑcontrollerÖĞµÄËùÓĞÒì³£´¦Àí¶¼¼¯ÖĞµ½Ò»¸öµØ·½¡£ ²ÉÓÃµÄÊÇaopµÄË¼Ïë¡£°ÑÒµÎñÂß¼­ºÍÒì³£´¦Àí´úÂë·Ö¿ª¡£½âñîºÏ¡£
+å¼‚å¸¸å¤„ç†ï¼š
+springmvcæ¡†æ¶é‡‡ç”¨çš„æ˜¯ç»Ÿä¸€ï¼Œå…¨å±€çš„å¼‚å¸¸å¤„ç†ã€‚
+æŠŠcontrollerä¸­çš„æ‰€æœ‰å¼‚å¸¸å¤„ç†éƒ½é›†ä¸­åˆ°ä¸€ä¸ªåœ°æ–¹ã€‚ é‡‡ç”¨çš„æ˜¯aopçš„æ€æƒ³ã€‚æŠŠä¸šåŠ¡é€»è¾‘å’Œå¼‚å¸¸å¤„ç†ä»£ç åˆ†å¼€ã€‚è§£è€¦åˆã€‚
 
-Ê¹ÓÃÁ½¸ö×¢½â
+ä½¿ç”¨ä¸¤ä¸ªæ³¨è§£
 1.@ExceptionHandler
 2.@ControllerAdvice
 
 
 
-À¹½ØÆ÷£º
-1£©À¹½ØÆ÷ÊÇspringmvcÖĞµÄÒ»ÖÖ£¬ĞèÒªÊµÏÖHandlerInterceptor½Ó¿Ú¡£
-2£©À¹½ØÆ÷ºÍ¹ıÂËÆ÷ÀàËÆ£¬¹¦ÄÜ·½Ïò²àÖØµã²»Í¬¡£ ¹ıÂËÆ÷ÊÇÓÃÀ´¹ıÂËÆ÷ÇëÇó²ÎÊı£¬ÉèÖÃ±àÂë×Ö·û¼¯µÈ¹¤×÷¡£
-    À¹½ØÆ÷ÊÇÀ¹½ØÓÃ»§µÄÇëÇó£¬×öÇëÇó×öÅĞ¶Ï´¦ÀíµÄ¡£
-3£©À¹½ØÆ÷ÊÇÈ«¾ÖµÄ£¬¿ÉÒÔ¶Ô¶à¸öController×öÀ¹½Ø¡£ 
-   Ò»¸öÏîÄ¿ÖĞ¿ÉÒÔÓĞ0¸ö»ò¶à¸öÀ¹½ØÆ÷£¬ ËûÃÇÔÚÒ»ÆğÀ¹½ØÓÃ»§µÄÇëÇó¡£
-	À¹½ØÆ÷³£ÓÃÔÚ£ºÓÃ»§µÇÂ¼´¦Àí£¬È¨ÏŞ¼ì²é£¬ ¼ÇÂ¼ÈÕÖ¾¡£
+æ‹¦æˆªå™¨ï¼š
+1ï¼‰æ‹¦æˆªå™¨æ˜¯springmvcä¸­çš„ä¸€ç§ï¼Œéœ€è¦å®ç°HandlerInterceptoræ¥å£ã€‚
+2ï¼‰æ‹¦æˆªå™¨å’Œè¿‡æ»¤å™¨ç±»ä¼¼ï¼ŒåŠŸèƒ½æ–¹å‘ä¾§é‡ç‚¹ä¸åŒã€‚ è¿‡æ»¤å™¨æ˜¯ç”¨æ¥è¿‡æ»¤å™¨è¯·æ±‚å‚æ•°ï¼Œè®¾ç½®ç¼–ç å­—ç¬¦é›†ç­‰å·¥ä½œã€‚
+    æ‹¦æˆªå™¨æ˜¯æ‹¦æˆªç”¨æˆ·çš„è¯·æ±‚ï¼Œåšè¯·æ±‚åšåˆ¤æ–­å¤„ç†çš„ã€‚
+3ï¼‰æ‹¦æˆªå™¨æ˜¯å…¨å±€çš„ï¼Œå¯ä»¥å¯¹å¤šä¸ªControlleråšæ‹¦æˆªã€‚ 
+   ä¸€ä¸ªé¡¹ç›®ä¸­å¯ä»¥æœ‰0ä¸ªæˆ–å¤šä¸ªæ‹¦æˆªå™¨ï¼Œ ä»–ä»¬åœ¨ä¸€èµ·æ‹¦æˆªç”¨æˆ·çš„è¯·æ±‚ã€‚
+	æ‹¦æˆªå™¨å¸¸ç”¨åœ¨ï¼šç”¨æˆ·ç™»å½•å¤„ç†ï¼Œæƒé™æ£€æŸ¥ï¼Œ è®°å½•æ—¥å¿—ã€‚
 
-À¹½ØÆ÷µÄÊ¹ÓÃ²½Öè£º
- 1.¶¨ÒåÀàÊµÏÖHandlerInterceptor½Ó¿Ú
- 2.ÔÚspringmvcÅäÖÃÎÄ¼şÖĞ£¬ÉùÃ÷À¹½ØÆ÷£¬ ÈÃ¿ò¼ÜÖªµÀÀ¹½ØÆ÷µÄ´æÔÚ¡£
+æ‹¦æˆªå™¨çš„ä½¿ç”¨æ­¥éª¤ï¼š
+ 1.å®šä¹‰ç±»å®ç°HandlerInterceptoræ¥å£
+ 2.åœ¨springmvcé…ç½®æ–‡ä»¶ä¸­ï¼Œå£°æ˜æ‹¦æˆªå™¨ï¼Œ è®©æ¡†æ¶çŸ¥é“æ‹¦æˆªå™¨çš„å­˜åœ¨ã€‚
 
-À¹½ØÆ÷µÄÖ´ĞĞÊ±¼ä£º
-  1£©ÔÚÇëÇó´¦ÀíÖ®Ç°£¬ Ò²¾ÍÊÇcontrollerÀàÖĞµÄ·½·¨Ö´ĞĞÖ®Ç°ÏÈ±»À¹½Ø¡£
-  2£©ÔÚ¿ØÖÆÆ÷·½·¨Ö´ĞĞÖ®ºóÒ²»áÖ´ĞĞÀ¹½ØÆ÷¡£
-  3£©ÔÚÇëÇó´¦ÀíÍê³ÉºóÒ²»áÖ´ĞĞÀ¹½ØÆ÷¡£
+æ‹¦æˆªå™¨çš„æ‰§è¡Œæ—¶é—´ï¼š
+  1ï¼‰åœ¨è¯·æ±‚å¤„ç†ä¹‹å‰ï¼Œ ä¹Ÿå°±æ˜¯controllerç±»ä¸­çš„æ–¹æ³•æ‰§è¡Œä¹‹å‰å…ˆè¢«æ‹¦æˆªã€‚
+  2ï¼‰åœ¨æ§åˆ¶å™¨æ–¹æ³•æ‰§è¡Œä¹‹åä¹Ÿä¼šæ‰§è¡Œæ‹¦æˆªå™¨ã€‚
+  3ï¼‰åœ¨è¯·æ±‚å¤„ç†å®Œæˆåä¹Ÿä¼šæ‰§è¡Œæ‹¦æˆªå™¨ã€‚
 
 
-À¹½ØÆ÷£º¿´×öÊÇ¶à¸öControllerÖĞ¹«ÓÃµÄ¹¦ÄÜ£¬¼¯ÖĞµ½À¹½ØÆ÷Í³Ò»´¦Àí¡£Ê¹ÓÃµÄaopµÄË¼Ïë
+æ‹¦æˆªå™¨ï¼šçœ‹åšæ˜¯å¤šä¸ªControllerä¸­å…¬ç”¨çš„åŠŸèƒ½ï¼Œé›†ä¸­åˆ°æ‹¦æˆªå™¨ç»Ÿä¸€å¤„ç†ã€‚ä½¿ç”¨çš„aopçš„æ€æƒ³
 
 =================================================================================
-¶à¸öÀ¹½ØÆ÷£º
-µÚÒ»¸öÀ¹½ØÆ÷preHandle=true , µÚ¶ş¸öÀ¹½ØÆ÷preHandle=true 
+å¤šä¸ªæ‹¦æˆªå™¨ï¼š
+ç¬¬ä¸€ä¸ªæ‹¦æˆªå™¨preHandle=true , ç¬¬äºŒä¸ªæ‹¦æˆªå™¨preHandle=true 
 
-111111-À¹½ØÆ÷µÄMyInterceptorµÄpreHandle()
-22222-À¹½ØÆ÷µÄMyInterceptorµÄpreHandle()
-=====Ö´ĞĞMyControllerÖĞµÄdoSome·½·¨=====
-22222-À¹½ØÆ÷µÄMyInterceptorµÄpostHandle()
-111111-À¹½ØÆ÷µÄMyInterceptorµÄpostHandle()
-22222-À¹½ØÆ÷µÄMyInterceptorµÄafterCompletion()
-111111-À¹½ØÆ÷µÄMyInterceptorµÄafterCompletion()
+111111-æ‹¦æˆªå™¨çš„MyInterceptorçš„preHandle()
+22222-æ‹¦æˆªå™¨çš„MyInterceptorçš„preHandle()
+=====æ‰§è¡ŒMyControllerä¸­çš„doSomeæ–¹æ³•=====
+22222-æ‹¦æˆªå™¨çš„MyInterceptorçš„postHandle()
+111111-æ‹¦æˆªå™¨çš„MyInterceptorçš„postHandle()
+22222-æ‹¦æˆªå™¨çš„MyInterceptorçš„afterCompletion()
+111111-æ‹¦æˆªå™¨çš„MyInterceptorçš„afterCompletion()
 
 ---------------------------------------------------
-µÚÒ»¸öÀ¹½ØÆ÷preHandle=true , µÚ¶ş¸öÀ¹½ØÆ÷preHandle=false
+ç¬¬ä¸€ä¸ªæ‹¦æˆªå™¨preHandle=true , ç¬¬äºŒä¸ªæ‹¦æˆªå™¨preHandle=false
 
-111111-À¹½ØÆ÷µÄMyInterceptorµÄpreHandle()
-22222-À¹½ØÆ÷µÄMyInterceptorµÄpreHandle()
-111111-À¹½ØÆ÷µÄMyInterceptorµÄafterCompletion()
+111111-æ‹¦æˆªå™¨çš„MyInterceptorçš„preHandle()
+22222-æ‹¦æˆªå™¨çš„MyInterceptorçš„preHandle()
+111111-æ‹¦æˆªå™¨çš„MyInterceptorçš„afterCompletion()
 
 ----------------------------------------------------------
-µÚÒ»¸öÀ¹½ØÆ÷preHandle=false , µÚ¶ş¸öÀ¹½ØÆ÷preHandle=true|false
+ç¬¬ä¸€ä¸ªæ‹¦æˆªå™¨preHandle=false , ç¬¬äºŒä¸ªæ‹¦æˆªå™¨preHandle=true|false
 
-111111-À¹½ØÆ÷µÄMyInterceptorµÄpreHandle()
+111111-æ‹¦æˆªå™¨çš„MyInterceptorçš„preHandle()
 
 
 ====================================================================
-À¹½ØÆ÷ºÍ¹ıÂËÆ÷µÄÇø±ğ
+æ‹¦æˆªå™¨å’Œè¿‡æ»¤å™¨çš„åŒºåˆ«
 
-1.¹ıÂËÆ÷ÊÇservletÖĞµÄ¶ÔÏó£¬  À¹½ØÆ÷ÊÇ¿ò¼ÜÖĞµÄ¶ÔÏó
-2.¹ıÂËÆ÷ÊµÏÖFilter½Ó¿ÚµÄ¶ÔÏó£¬ À¹½ØÆ÷ÊÇÊµÏÖHandlerInterceptor
-3.¹ıÂËÆ÷ÊÇÓÃÀ´ÉèÖÃrequest£¬responseµÄ²ÎÊı£¬ÊôĞÔµÄ£¬²àÖØ¶ÔÊı¾İ¹ıÂËµÄ¡£
-  À¹½ØÆ÷ÊÇÓÃÀ´ÑéÖ¤ÇëÇóµÄ£¬ÄÜ½Ø¶ÏÇëÇó¡£
-4.¹ıÂËÆ÷ÊÇÔÚÀ¹½ØÆ÷Ö®Ç°ÏÈÖ´ĞĞµÄ¡£
-5.¹ıÂËÆ÷ÊÇtomcat·şÎñÆ÷´´½¨µÄ¶ÔÏó
-  À¹½ØÆ÷ÊÇspringmvcÈİÆ÷ÖĞ´´½¨µÄ¶ÔÏó
-6.¹ıÂËÆ÷ÊÇÒ»¸öÖ´ĞĞÊ±¼äµã¡£
-  À¹½ØÆ÷ÓĞÈı¸öÖ´ĞĞÊ±¼äµã
-7.¹ıÂËÆ÷¿ÉÒÔ´¦Àíjsp£¬js£¬htmlµÈµÈ
-  À¹½ØÆ÷ÊÇ²àÖØÀ¹½Ø¶ÔControllerµÄ¶ÔÏó¡£ Èç¹ûÄãµÄÇëÇó²»ÄÜ±»DispatcherServlet½ÓÊÕ£¬ Õâ¸öÇëÇó²»»áÖ´ĞĞÀ¹½ØÆ÷ÄÚÈİ
-8.À¹½ØÆ÷À¹½ØÆÕÍ¨Àà·½·¨Ö´ĞĞ£¬¹ıÂËÆ÷¹ıÂËservletÇëÇóÏìÓ¦
+1.è¿‡æ»¤å™¨æ˜¯servletä¸­çš„å¯¹è±¡ï¼Œ  æ‹¦æˆªå™¨æ˜¯æ¡†æ¶ä¸­çš„å¯¹è±¡
+2.è¿‡æ»¤å™¨å®ç°Filteræ¥å£çš„å¯¹è±¡ï¼Œ æ‹¦æˆªå™¨æ˜¯å®ç°HandlerInterceptor
+3.è¿‡æ»¤å™¨æ˜¯ç”¨æ¥è®¾ç½®requestï¼Œresponseçš„å‚æ•°ï¼Œå±æ€§çš„ï¼Œä¾§é‡å¯¹æ•°æ®è¿‡æ»¤çš„ã€‚
+  æ‹¦æˆªå™¨æ˜¯ç”¨æ¥éªŒè¯è¯·æ±‚çš„ï¼Œèƒ½æˆªæ–­è¯·æ±‚ã€‚
+4.è¿‡æ»¤å™¨æ˜¯åœ¨æ‹¦æˆªå™¨ä¹‹å‰å…ˆæ‰§è¡Œçš„ã€‚
+5.è¿‡æ»¤å™¨æ˜¯tomcatæœåŠ¡å™¨åˆ›å»ºçš„å¯¹è±¡
+  æ‹¦æˆªå™¨æ˜¯springmvcå®¹å™¨ä¸­åˆ›å»ºçš„å¯¹è±¡
+6.è¿‡æ»¤å™¨æ˜¯ä¸€ä¸ªæ‰§è¡Œæ—¶é—´ç‚¹ã€‚
+  æ‹¦æˆªå™¨æœ‰ä¸‰ä¸ªæ‰§è¡Œæ—¶é—´ç‚¹
+7.è¿‡æ»¤å™¨å¯ä»¥å¤„ç†jspï¼Œjsï¼Œhtmlç­‰ç­‰
+  æ‹¦æˆªå™¨æ˜¯ä¾§é‡æ‹¦æˆªå¯¹Controllerçš„å¯¹è±¡ã€‚ å¦‚æœä½ çš„è¯·æ±‚ä¸èƒ½è¢«DispatcherServletæ¥æ”¶ï¼Œ è¿™ä¸ªè¯·æ±‚ä¸ä¼šæ‰§è¡Œæ‹¦æˆªå™¨å†…å®¹
+8.æ‹¦æˆªå™¨æ‹¦æˆªæ™®é€šç±»æ–¹æ³•æ‰§è¡Œï¼Œè¿‡æ»¤å™¨è¿‡æ»¤servletè¯·æ±‚å“åº”
 
 ===========================================================================
-ApplicationContext ctx = new ClassPathXmlApplication("applicationContext.xml") applicationContextÒ²¾ÍÊÇSpringÅäÖÃÎÄ¼ş
+ApplicationContext ctx = new ClassPathXmlApplication("applicationContext.xml") applicationContextä¹Ÿå°±æ˜¯Springé…ç½®æ–‡ä»¶
 
-springMVC´¦ÀíÇëÇóÁ÷³Ì: doDispatcher·½·¨ÖĞ¿ÉÒÔ²é¿´¹ı³Ì
-1¡¢·¢ÆğÇëÇó some.do
-2¡¢DispatcherServlet(ÖĞÑëµ÷¶ÈÆ÷)½ÓÊÕÇëÇó£¬½«ÇëÇó½»¸ø ¡°´¦ÀíÆ÷Ó³ÉäÆ÷¡±¡£
-                ´¦ÀíÆ÷Ó³ÉäÆ÷£ºÊÇÒ»ÖÖ¶ÔÏó£¬¿ò¼Ü°ÑÊµÏÖÁËHandlerMapping½Ó¿ÚµÄÀà¶¼½Ğ×öÓ³ÉäÆ÷¡£
-3¡¢´¦ÀíÆ÷Ó³ÉäÆ÷¸ù¾İÇëÇó´ÓspringMVCÈİÆ÷ÖÖ»ñÈ¡´¦ÀíÆ÷¶ÔÏó MyController controller = ctx.getBean("some.do")ÕâÑù¾Í²»ĞèÒªÊÖ¶¯´´½¨
-               °ÑÕÒµ½µÄ´¦ÀíÆ÷¶ÔÏó·Åµ½Ò»¸ö½Ğ ¡°´¦ÀíÆ÷Ö´ĞĞÁ´(HandlerExecutionChain)¡± µÄÀàÖĞ±£´æ¡£
-               ÁíÍâ»¹±£´æÓĞÀ¹½ØÆ÷£ºList<HandlerInterceptor> interceptor;·µ»Ø´¦ÀíÆ÷Ö´ĞĞÁ´¸øÖĞÑëµ÷¶ÈÆ÷
-4¡¢¡°ÖĞÑëµ÷¶ÈÆ÷¡± °Ñ ¡°´¦ÀíÆ÷Ö´ĞĞÁ´¡± ÖĞ ¡°ÀíÆ÷¶ÔÏó¡± ½»¸ø ¡°´¦ÀíÆ÷ÊÊÅäÆ÷¡±(¶à¸ö)¡£´¦ÀíÆ÷ÊÊÅäÆ÷Ö´ĞĞ·½·¨
-                ·µ»Ø½á¹ûsome.doµÄ·µ»ØÖµ ModelAndView¡£
-5¡¢DispatcherServlet °Ñ4ÖĞ»ñÈ¡µÄ ModelAndView½»¸øÊÓÍ¼½âÎöÆ÷¡£
-                ÊÓÍ¼½âÎö£ºspringMVCµÄ¶ÔÏóĞèÒªÊµÏÖViewResolver½Ó¿Ú(¿ÉÒÔÓĞ¶à¸ö)¡£
-                ×÷ÓÃ:×é³ÉÊÓÍ¼ÍêÕûÂ·¾¶£¬Ê¹ÓÃÇ°×º£¬ºó×º²¢´´½¨View¶ÔÏó£¬
-                viewÊÇÒ»¸ö½Ó¿Ú£¬¿ò¼ÜÖĞjsp,html²¢²»ÊÇString×é³ÉµÄ¶øÊÇview¼°ËüµÄÊµÏÖÀà±íÊ¾µÄÊÓÍ¼.
-                InternalResourceViewÀà ±íÊ¾jspÎÄ¼ş£¬ÊÓÍ¼½âÎöÆ÷´´½¨£¬ÀàÀïÃæÓĞÒ»¸öurl±íÊ¾Â·¾¶
-6¡¢DispatcherServlet °Ñ5ÖĞ»ñµÃµÄview¶ÔÏó£¬Í¨¹ıµ÷ÓÃview½Ó¿ÚÖĞ×Ô¼ºµÄ·½·¨£¬°ÑModelÊı¾İ·Åµ½request×÷ÓÃÓòÖĞ£¬
-                Ö´ĞĞÊÓÍ¼¶ÔÏóµÄforward()·½·¨£¬ÇëÇó½áÊø¡£
+springMVCå¤„ç†è¯·æ±‚æµç¨‹: doDispatcheræ–¹æ³•ä¸­å¯ä»¥æŸ¥çœ‹è¿‡ç¨‹
+1ã€å‘èµ·è¯·æ±‚ some.do
+2ã€DispatcherServlet(ä¸­å¤®è°ƒåº¦å™¨)æ¥æ”¶è¯·æ±‚ï¼Œå°†è¯·æ±‚äº¤ç»™ â€œå¤„ç†å™¨æ˜ å°„å™¨â€ã€‚
+                å¤„ç†å™¨æ˜ å°„å™¨ï¼šæ˜¯ä¸€ç§å¯¹è±¡ï¼Œæ¡†æ¶æŠŠå®ç°äº†HandlerMappingæ¥å£çš„ç±»éƒ½å«åšæ˜ å°„å™¨ã€‚
+3ã€å¤„ç†å™¨æ˜ å°„å™¨æ ¹æ®è¯·æ±‚ä»springMVCå®¹å™¨ç§è·å–å¤„ç†å™¨å¯¹è±¡ MyController controller = ctx.getBean("some.do")è¿™æ ·å°±ä¸éœ€è¦æ‰‹åŠ¨åˆ›å»º
+               æŠŠæ‰¾åˆ°çš„å¤„ç†å™¨å¯¹è±¡æ”¾åˆ°ä¸€ä¸ªå« â€œå¤„ç†å™¨æ‰§è¡Œé“¾(HandlerExecutionChain)â€ çš„ç±»ä¸­ä¿å­˜ã€‚
+               å¦å¤–è¿˜ä¿å­˜æœ‰æ‹¦æˆªå™¨ï¼šList<HandlerInterceptor> interceptor;è¿”å›å¤„ç†å™¨æ‰§è¡Œé“¾ç»™ä¸­å¤®è°ƒåº¦å™¨
+4ã€â€œä¸­å¤®è°ƒåº¦å™¨â€ æŠŠ â€œå¤„ç†å™¨æ‰§è¡Œé“¾â€ ä¸­ â€œç†å™¨å¯¹è±¡â€ äº¤ç»™ â€œå¤„ç†å™¨é€‚é…å™¨â€(å¤šä¸ª)ã€‚å¤„ç†å™¨é€‚é…å™¨æ‰§è¡Œæ–¹æ³•
+                è¿”å›ç»“æœsome.doçš„è¿”å›å€¼ ModelAndViewã€‚
+5ã€DispatcherServlet æŠŠ4ä¸­è·å–çš„ ModelAndViewäº¤ç»™è§†å›¾è§£æå™¨ã€‚
+                è§†å›¾è§£æï¼šspringMVCçš„å¯¹è±¡éœ€è¦å®ç°ViewResolveræ¥å£(å¯ä»¥æœ‰å¤šä¸ª)ã€‚
+                ä½œç”¨:ç»„æˆè§†å›¾å®Œæ•´è·¯å¾„ï¼Œä½¿ç”¨å‰ç¼€ï¼Œåç¼€å¹¶åˆ›å»ºViewå¯¹è±¡ï¼Œ
+                viewæ˜¯ä¸€ä¸ªæ¥å£ï¼Œæ¡†æ¶ä¸­jsp,htmlå¹¶ä¸æ˜¯Stringç»„æˆçš„è€Œæ˜¯viewåŠå®ƒçš„å®ç°ç±»è¡¨ç¤ºçš„è§†å›¾.
+                InternalResourceViewç±» è¡¨ç¤ºjspæ–‡ä»¶ï¼Œè§†å›¾è§£æå™¨åˆ›å»ºï¼Œç±»é‡Œé¢æœ‰ä¸€ä¸ªurlè¡¨ç¤ºè·¯å¾„
+6ã€DispatcherServlet æŠŠ5ä¸­è·å¾—çš„viewå¯¹è±¡ï¼Œé€šè¿‡è°ƒç”¨viewæ¥å£ä¸­è‡ªå·±çš„æ–¹æ³•ï¼ŒæŠŠModelæ•°æ®æ”¾åˆ°requestä½œç”¨åŸŸä¸­ï¼Œ
+                æ‰§è¡Œè§†å›¾å¯¹è±¡çš„forward()æ–¹æ³•ï¼Œè¯·æ±‚ç»“æŸã€‚

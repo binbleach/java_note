@@ -1,0 +1,17 @@
+#控制台要用于输入输出ai对话，保持日志关闭
+spring:
+  main:
+    #非 Web 程序，不启动内嵌Tomcat，无 HTTP 服务端口。
+    web-application-type: none
+    banner-mode: off  #关闭 Spring 艺术字、版本信息的输出（这个输出是底层直接用System.out输出的不走日志框架）
+  ai:
+    mcp:
+      server:
+        name: mcp-server
+        version: 1.0.0
+        stdio: true
+        type: SYNC
+        enabled: true
+logging:
+  level:
+    root: off #关闭调用Logback/Log4j2 日志框架的输出

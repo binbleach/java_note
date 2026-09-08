@@ -1,0 +1,43 @@
+1、删除证书：
+keytool -delete -alias local-ssl -keystore keystore.p12 -storepass 123456
+
+3、导出公钥证书（给客户端信任用，导出的sse-server只有公钥，无私钥，客户端导入信任库消除不安全提示。）：
+keytool -exportcert -alias local-ssl -storetype PKCS12 -keystore keystore.p12 -storepass 123456 -rfc -file sse-server.cer
+
+2、生成证书（服务端生成证书）：
+keytool -genkeypair ^
+-alias local-ssl ^
+-keyalg RSA -keysize 2048 ^
+-storetype PKCS12 ^
+-keystore keystore.p12 ^
+-storepass 123456 -keypass 123456 ^
+-validity 3650 ^
+-dname "CN=localhost,OU=Dev,O=Test,L=Haikou,S=Hainan,C=CN" ^
+-ext "SAN=ip:127.0.0.1,dns:localhost" ^
+-ext "BasicConstraints=CA:true"
+
+4、命令解释：在cmd里执行
+    1、-genkeypair：生成一对密钥 + 自签名证书
+    2、-alias：密钥别名
+    3、-keyalg RSA -keysize 2048：机密算法和密钥长度
+    4、-storetype PKCS12：指定密钥库文件格式
+    5、-keystore keystore.p12：指定输出文件名
+    6、-storepass 123456：密钥库文件整体密码，打开 / 读取 p12 文件需要。PKCS12 格式强制要求两个密码必须完全一致
+    7、-keypass 123456：内部私钥单独密码。SpringBoot 配置中 key-store-password 填这个密码。
+    8、-validity 3650：证书有效期
+    9、 -dname "CN=localhost,OU=Dev,O=Test,L=Haikou,S=Hainan,C=CN"：证书主体身份信息
+        CN=localhost：旧浏览器曾经用来匹配域名 / IP，现在基本只做展示，校验以 SAN 为准
+        OU=Dev：部门；,O=Test：公司/组织；S=Hainan省份；L=Haikou城市；C=CN国家
+    10、-ext "SAN=ip:127.0.0.1,dns:localhost"：允许使用的地址和域名。现代浏览器、Java、操作系统校验访问地址只看 SAN，不再看 CN
+    11、-ext "BasicConstraints=CA:true"：控制能不能签发子证书。SAN会设置地址和域名，一般一个主机用一个证书。
+        如果用SSL 终端证书（CA:false），那每新增一个服务，客户端都要安装一次，那太麻烦了。
+        如果用根CA 证书（CA:true），只需要安装一次根证书。新增的服务用它签发的证书，客户端自动信任所有服务。
+5、
+补充配套配置示例（SpringBoot yml）
+server:
+  port: 8443
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: 123456
+    key-store-type: PKCS12
+    key-alias: local-ssl # 和命令里-alias保持一致

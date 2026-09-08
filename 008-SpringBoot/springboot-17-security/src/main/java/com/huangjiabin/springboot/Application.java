@@ -8,8 +8,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 	1、只是通过导入SpringSecurity依赖什么都不设置，访问/login.html时会弹出SpringSecurity自己的登录验证
 	  用户名时user,密码是打在控制台的字符串
     2、自定义登录逻辑：
-    	1)通过创建配置类SecurityConfig 创建Bean对象 返回的是PasswordEncoder的实现类也就是new BCryptPasswordEncoder()，用来对密码操作比如加密判断是否匹配等
-    	2)创建UserDetailsService实现类，实现loadUserByUsername
+    	1)配置一个PasswordEncoder的bean，Security 内部的DaoAuthenticationProvider要用这个Bean 做登录密码比对
+    	2)实现 UserDetailsService 接口，重写loadUserByUsername（重写后PasswordEncoder就没了，所以要自己配）
 	3、更改登录界面（改成自己的login.html）:
 		1）让SpringSecurity配置类继承WebSecurityConfigurerAdapter类
 		2）实现configure(HttpSecurity http)方法，加代码：http.formLogin().loginPage("/login.html");

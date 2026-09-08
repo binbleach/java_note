@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "weather-stdio": {
+      "command": "java",
+      "args": ["-jar", "D:\\Java\\IDEA_WorkSpece\\java_notes\\000\\agent\\anget-mcp\\anget-mcp-stdio\\target\\anget-mcp-stdio-0.0.1-SNAPSHOT.jar"]
+    }
+  }
+}

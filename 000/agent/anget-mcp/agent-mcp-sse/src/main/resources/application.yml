@@ -1,0 +1,32 @@
+server:
+  port: 8081
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: 123456
+    key-store-type: PKCS12
+    key-alias: local-ssl # 和命令里-alias保持一致
+    enabled: false  #是否开启https设置，需访问：https://127.0.0.1:8081/sse
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+#    context-path: "/test"
+
+spring:
+  application:
+    name: agnet-mcp-sse
+  ai:
+    mcp:
+      server:
+        name: mcp-server
+        version: 1.0.0
+        type: sync
+        enabled: true
+        capabilities:
+          tool: true
+          resource: false
+          prompt: false
+          completion: false
+        sse-message-endpoint: /mcp/messages   # 客户端向 MCP Server 发送指令（"写信"）
+        sse-endpoint: /sse                    # 客户端订阅服务器推送消息（"听收音机"）
+#        base-url: /test

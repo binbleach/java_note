@@ -1,0 +1,27 @@
+server:
+  port: 8082
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+
+spring:
+  application:
+    name: agent-mcp-streamable
+  ai:
+    mcp:
+      server:
+        protocol: streamable
+        name: mcp-streamable-server
+        version: 1.0.0
+        type: sync
+        instructions: "这个服务是用来查询天气的。"
+        resource-change-notification: true
+        tool-change-notification: true
+        prompt-change-notification: true
+        annotation-scanner:
+          enabled: true
+        streamable-http:
+          mcp-endpoint: /mcp
+          keep-alive-interval: 30s

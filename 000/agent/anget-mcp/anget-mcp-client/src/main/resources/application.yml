@@ -1,0 +1,39 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: agent-mcp-client
+  ai:
+    openai:
+      api-key: sk-1e1a5e1570454cff9c090e6661ba219a
+      base-url: https://dashscope.aliyuncs.com/compatible-mode/
+      chat:
+        options:
+          model: deepseek-v4-flash
+          temperature: 0.7
+          maxTokens: 5000
+    mcp:
+      client:
+        enabled: true
+        name: agent-mcp-client
+        version: 1.0.0
+        request-timeout: 20s
+        type: sync
+        stdio:
+#          connections:
+#            weather-stdio:
+#              command: java
+#              args:
+#                - -jar
+#                - "D:\\Java\\IDEA_WorkSpece\\java_notes\\000\\agent\\anget-mcp\\anget-mcp-stdio\\target\\anget-mcp-stdio-0.0.1-SNAPSHOT.jar"
+          servers-configuration: classpath:/mcp-servers.json
+        sse:
+          connections:
+            weather-sse:
+              url: http://127.0.0.1:8081/
+              sse-endpoint: sse
+        streamable-http:
+          connections:
+            weather-streamable:
+              url: http://127.0.0.1:8082/
+              endpoint: mcp #这里好像不能用绝对路径，不能以/开头

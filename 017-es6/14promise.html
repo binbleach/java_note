@@ -7,6 +7,7 @@
 <body>
     <script type="text/javascript">
         //promise是ES6引入的异步编程新的解决方案，语法上来说是一个构造函数，通过它可以实例化对象，内部封装异步操作
+        // then 第二个回调只能捕获当前 Promise 的失败；catch 能捕获整条链式里所有异常，是全局兜底。就近生效一个
         const p = new Promise(function (resolve,reject){
             setTimeout(function (){
                 //let data = '数据库中的用户数据';
@@ -89,6 +90,18 @@
         }).then(reason=>{
         });
 
+        //async/await接收 Promise函数
+        const p4 = new Promise((resolve,reject)=> {
+            resolve('读取成功了了了');
+        });
+        // 必须在 async 函数里使用 await
+        // async function getResult() {
+        //     const res = await p4;
+        //     console.log(res); // 读取成功了了了
+        // }
+        // getResult();
+
+        (async () => console.log(await p4))();  //上面的简写
 
 
 

@@ -12,6 +12,7 @@ redis特点：
       注：如果编译和安装不设置PREFIX，则将redis所有可执行的bin拷贝到/usr/local/bin 之后在任何目录下都可执行redis了
 
 2、启动redis：
+    0）windows启动 redis-server redis.windows.conf
     1）前台启动：redis-server
     2）后台启动：redis-server &
     3）启动redis服务时，指定配置文件(改了配置文件用这个)：redis-server redis.conf &

@@ -10,21 +10,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /*
     logback使用：
-    1、resources目录下生成logback-spring.xml文件，配置日志输出文件路径和指定包。
-       相关配置不用logback-spring.xml配置文件也可以，在application.yml中配置即可
-    2、springboot集成logback不需要引入依赖。因为boot-start里面引入了。
+    1、springboot集成spring-boot-starter-logging，默认日志实现是 logback，不需要单独引入。
+    2、application.yml可以代替logback-spring.xml(推荐)/logback.xml文件，进行基础的配置
     3、使用logback：
-      1）添加依赖lombok，加@Slf4j注解。
-      2）或者 直接 Logger logger =LoggerFactory.getLogger(clazz) -> logger.ingo("...");
-    4、日志介绍：
-        1）common-logging：是早期的日志门面。本身包含了一个Simple Logger，但是功能很弱。在运行的时候它会先在CLASSPATH找log4j，
-            如果有，就使用log4j，如果没有，就找JDK1.4带的 java.util.logging，如果也找不到就用Simple Logger
+      1）添加依赖lombok，加@Slf4j注解。调用：log.info("参数：{}", data);
+      2）原生 SLF4J写法： private static final Logger log = LoggerFactory.getLogger(Demo.class);
+    4、log4j的使用类似，不过springboot的话要先排除默认依赖再引入，配置文件 log4j2.xml/log4j2-spring.xml
+    5、日志介绍：
+        1）门面：只提供 API（JCL 、SLF4J、jboss-logging）
+          实现：真正输出日志（logback、log4j1、log4j2、JUL java.util.logging）
+        1）common-logging（简称JCL,J代表Jakarta）：是早期的日志门面，采用的是“运行时动态查找"机制。
+            运行时会遍历classpath下配置，先找 log4j → 再找 JUL (java.util.logging) → 兜底 SimpleLog
+            缺陷：复杂的类加载器容易出现日志失效，动态查找的性能开销。 Spring Boot 2.x等主流框架基本淘汰了它。
+            老项目可以在 Maven 中排除 commons-logging，引入 jcl-over-slf4j 桥接包，实现 SLF4J+logback
         2）slf4j 也是日志门面，提供了接口，由日志框架实现。
         3）log4j： apache 出 的日志框架。
         4）logback：log4j的创始人做的日志框架。相比log4j它有更好的特性。
         5）log4j2：apache对log4j的升级。
-    5、springboot的logging配置：在yml中看吧
-
+    6、springboot的logging配置：在yml中看吧
 
 */
 @Controller

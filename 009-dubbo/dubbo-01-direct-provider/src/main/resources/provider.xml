@@ -7,9 +7,7 @@
         http://dubbo.apache.org/schema/dubbo
          http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
-    <!--注意这里选择的是apache的
-   服务提供者声明名称，必须保证服务名称的唯一性，它的名称是dubbo内部使用的唯一标识符，一般是项目名，不过我这里不是
-   -->
+    <!-- 服务名称，集群部署可相同-->
     <dubbo:application name="dubbo-01-direct-provider"/>
 
 

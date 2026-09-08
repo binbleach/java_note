@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.min.js"></script>
+</head>
+<body>
+    <!--
+        一、vue组件的使用的三大步骤
+            一、定义组件实例：使用Vue.extend({})创建，可以不要Vue.extend，直接定义。（.vue文件里定义组件就没有Vue.extend）
+            二、注册组件：component参数（如果是new Vue时通过render方式调用组件，不通过标签的方式调用可以不注册）
+            三、使用组件（通过标签使用<school></school>）
+        二、组件实例 和 vm实例(new Vue) 的 区别：
+            1、el不要写，为什么？—— 组件由vm管理，由vm指定挂载在哪就行
+            2、data必须写成函数？为什么？——写成对象会有数据共享风险
+        三、如何注册一个组件
+            1、局部注册：定义实例的时候传入components选项
+            2、全局注册：靠Vue.component('组件名',组件)
+    -->
+    <div id="root">
+        <!--第三步使用组件-->
+        <school></school>
+        <hr/>
+        <student></student>
+    </div>
+    <div id="root2">
+        <student></student>
+        <!--
+            关于使用，可以单标签<student/>但是只在脚手架中使用，否则使用多个标签只显示一个（就算是不同的标签也只显示一个）
+        -->
+    </div>
+
+    <script>
+        //第一步，定义一个组件Vue.extend
+        const school = Vue.extend({
+            template:`
+                    <div>
+                    <h2>{{name}}</h2>
+                    <h2>{{address}}</h2>
+                    </div>
+                `,
+            data(){
+                return {
+                    name:"电子科技大学成都学院",
+                    address:"百叶路一号"
+                }
+            }
+        })
+        //第一步，定义一个组件没有Vue.extend
+        const student = {
+            template:`
+                    <div>
+                    <h2>{{name}}</h2>
+                    <h2>{{age}}</h2>
+                    </div>
+                `,
+            data(){
+                return {
+                    name:"黄家宾",
+                    age:"21"
+                }
+            }
+        }
+        //全局注册,必须放在new Vue之前
+        Vue.component("student",student);
+        //第二步，注册组件
+        const vm1 = new Vue({
+            el:'#root',
+            //局部注册，用得多
+            components:{
+                school,
+            }
+        })
+        const vm2 = new Vue({
+            el:"#root2"
+        })
+    </script>
+
+</body>
+</html>

@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Controller
 @RequestMapping(value = "/student")
 public class StudentController {
-    @Resource
+    @Autowired
     private StudentService studentService;
 
     /*业务模块*/
@@ -77,6 +77,8 @@ public class StudentController {
         if(s.getName().equals("徐凤年")){
            throw new NameException("徐凤年不能来");
         }
+        ConcurrentHashMap<Object, Object> objectObjectConcurrentHashMap = new ConcurrentHashMap<>();
+        objectObjectConcurrentHashMap.put()
         if(s.getAge()<18||s.getAge()>80){
             throw new AgeException("年龄不允许");
         }

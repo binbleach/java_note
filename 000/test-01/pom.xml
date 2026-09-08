@@ -16,9 +16,9 @@
     <!--maven构建的字符集-->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!--编译java的jdk版本-->
-    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.source>21</maven.compiler.source>
     <!--项目应该在什么版本jdk运行-->
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.target>21</maven.compiler.target>
   </properties>
 
   <dependencies> <!--依赖-->
