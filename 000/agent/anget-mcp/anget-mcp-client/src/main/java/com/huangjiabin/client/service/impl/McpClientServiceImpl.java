@@ -17,6 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 1、配置yml后可直接使用，模型会调用
+ * 2、也可以注入McpSyncClient直接调用
+ */
 @Slf4j
 @Service
 public class McpClientServiceImpl implements McpClientService {

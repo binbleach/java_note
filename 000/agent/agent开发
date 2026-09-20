@@ -98,7 +98,7 @@
 十二、mcp：
     json-rpc
     host、client、server
-    Stdio本地；Sse双端连接、不支持断点重连，自己实现；Streamable 单连接、支持断点重连
+    Stdio本地；Sse只能推，需要两条连接、不支持断点重连，自己实现；Streamable 单连接搞定、支持断点重连
 十三、安装mcp调试工具 mcp inspector命令： inpx  @modelcontextprotocol/inspector
 十四、跳过mcp工具调用的二次总结，因为通常会有多个agent，还有一个总结agent，不需要每个agent去总结。浪费资源。
     1）returnDirect = true。直接调用支持，换成mcp就不支持
@@ -196,7 +196,8 @@
         最终 B 排名高于 A。
 三一、模块化rag：
     DefaultRetrievalAugmentor（LangChain4J） vs RetrievalAugmentationAdvisor（Spring‑AI）
-    两者都是模块化高级 RAG 编排器，目标都是：查询改写→多源检索→结果合并重排→把检索上下文注入 Prompt，只是所属框架、编程模型、组件命名、扩展点不一样。
+    两者都是模块化高级 RAG 编排器，目标都是：查询改写→多源检索→结果合并重排→把检索上下文注入
+    Prompt，只是所属框架、编程模型、组件命名、扩展点不一样。
 三二、多模态rag：就是处理文本+表格+公式+图片的能力，流程：
         定位图片->将图片传给大模型解析成文本->将文本顺序还原->结构化输出（图片描述则被特殊的 <image>...</image> 标签包裹）
 三三、agent：

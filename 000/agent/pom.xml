@@ -8,6 +8,8 @@
         <module>langchain4j</module>
         <module>anget-mcp</module>
         <module>agent-rag</module>
+        <module>agent-general</module>
+        <module>agent-know_engine</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

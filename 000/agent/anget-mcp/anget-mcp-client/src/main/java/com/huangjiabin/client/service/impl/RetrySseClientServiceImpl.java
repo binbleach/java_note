@@ -21,9 +21,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/*
-    sse的断点重连改造
-*/
+/**
+ * sse的断点重连改造
+ */
 @Service
 @Slf4j
 public class RetrySseClientServiceImpl implements McpClientService {

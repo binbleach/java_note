@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * 设置直接返回，不二次总结
+ */
 @Slf4j
 public class ReturnDirectMcpToolCallbackProvider extends SyncMcpToolCallbackProvider {
 

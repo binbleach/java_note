@@ -19,6 +19,9 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.time.Duration;
 
+/**
+ * 模拟客户端校验Https
+ */
 public class SseHttpsClientService {
 
     public static void createInsecureHttpsClient(String baseUrl, String endpoint) {

@@ -2,13 +2,14 @@
 
 ###一、安装
 ```
-一、vue-cli创建vue项目（基于webpack）
+一、vue-cli创建vue项目（基于webpack）已停止维护，交互式选择2还是3
     1、全局安装脚手架：npm install -g @vue/cli
     2、创建vue项目：vue create xxx
     3、启动项目：npm run serve
-二、create-vue创建vue项目（基于vite，官方推荐推荐）
+二、create-vue创建vue项目（基于vite，官方推荐，默认生成3，没有2选项）
     1、npm create vue@latest
-三、直接使用vite创建vue项目（vite+vue）
+    2、npm run dev
+三、Vite 原生命令创建 Vue 项目（--template vue = Vue3；--template vue2 = Vue2）
     1、创建项目：npm create vite@latest my-vue-app --template vue
     2、安装依赖：npm install
     3、启动项目：npm run dev

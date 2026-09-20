@@ -77,8 +77,6 @@ public class StudentController {
         if(s.getName().equals("徐凤年")){
            throw new NameException("徐凤年不能来");
         }
-        ConcurrentHashMap<Object, Object> objectObjectConcurrentHashMap = new ConcurrentHashMap<>();
-        objectObjectConcurrentHashMap.put()
         if(s.getAge()<18||s.getAge()>80){
             throw new AgeException("年龄不允许");
         }

@@ -24,7 +24,7 @@ import java.time.Duration;
 import java.util.List;
 
 /*
-*   手动创建mcpClient
+*   手动构建mcpClient配置到模型里调用
 */
 @Service
 public class ManualMcpClientServiceImpl implements McpClientService {

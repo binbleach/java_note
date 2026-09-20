@@ -26,4 +26,5 @@ public class _06ServletContext extends HttpServlet {
         ServletContext application=req.getServletContext();  //作用于_06ServletContext2
         application.setAttribute("ap",100);
     }
+
 }

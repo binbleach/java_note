@@ -18,7 +18,7 @@
     </properties>
 
     <dependencies>
-        <!--openai-提供chatModel支持-->
+        <!--langchain4j-提供chatModel支持-->
         <dependency>
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-open-ai-spring-boot-starter</artifactId>
