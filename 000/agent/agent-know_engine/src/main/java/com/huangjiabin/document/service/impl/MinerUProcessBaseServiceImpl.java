@@ -2,7 +2,6 @@ package com.huangjiabin.document.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.huangjiabin.document.constant.ContentType;
 import com.huangjiabin.document.constant.DocumentStatus;
 import com.huangjiabin.document.entity.KnowledgeDocument;
@@ -14,7 +13,10 @@ import dev.langchain4j.data.message.TextContent;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.classic.methods.HttpPut;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -22,6 +24,7 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.ParseException;
+import org.apache.hc.core5.http.io.entity.ByteArrayEntity;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.util.Timeout;
@@ -72,6 +75,14 @@ public abstract class MinerUProcessBaseServiceImpl implements FileProcessService
 
     @Value("${file.parse.api.responseTimeout:300000}")
     private int responseTimeout;
+
+    /** V1 API 轮询解析任务的间隔（毫秒） */
+    @Value("${file.parse.api.pollInterval:2000}")
+    private long pollIntervalMs;
+
+    /** V1 API 轮询解析任务的总超时（毫秒），超时后任务仍在服务端执行，可凭 job_id 继续轮询 */
+    @Value("${file.parse.api.pollTimeout:300000}")
+    private long pollTimeoutMs;
 
     /**
      * 处理文档转换 - Markdown 格式
@@ -202,12 +213,11 @@ public abstract class MinerUProcessBaseServiceImpl implements FileProcessService
         String extractDir = null;
 
         try {
-            // 生成一串数字，避免文件名的中文乱码
-            String docTitle = document.getDocTitle() + document.getDocTitle().hashCode();
+            // V1 API 的文件名通过 JSON（UTF-8）传输不会乱码，直接使用原始文件名（需保留扩展名用于文件类型识别）
+            String docTitle = document.getDocTitle();
 
-            // 1. 调用文档解析获取 ZIP 格式响应
-//            byte[] zipBytes = parseDocumentToZip(docTitle, inputStream); //本地部署
-            byte[] zipBytes = parseDocumentToZipForWeb(document.getDocUrl()); //官方调用
+            // 1. 调用文档解析获取 ZIP 格式响应（V1 API）
+            byte[] zipBytes = parseDocumentToZipV1(docTitle, inputStream); //本地部署
 
             // 2. 保存 ZIP 到本地临时目录
             String tempDir = System.getProperty("java.io.tmpdir");
@@ -516,103 +526,6 @@ public abstract class MinerUProcessBaseServiceImpl implements FileProcessService
     }
 
     /**
-     * 调用文件解析接口，获取 ZIP 格式响应
-     * 使用 Apache HttpClient 5，支持流式下载大文件
-     *
-     * @return ZIP 文件字节数组
-     */
-    private byte[] parseDocumentToZipForWeb(String docUrl) {
-//        HttpPost httpPost = new HttpPost("https://mineru.net/api/v4/extract/task");
-//        httpPost.addHeader("Authorization", "Bearer sk-8JOG6hEITFRNTvdJrzVpIvntdZKVAcgvxrRxHR1T206K7jik");
-//        httpPost.setHeader("Content-Type", "application/json");
-        // 1. 提交任务：multipart/form-data上传文件
-        String taskId;
-        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            org.apache.hc.client5.http.classic.methods.HttpPost httpPost = new org.apache.hc.client5.http
-                    .classic.methods.HttpPost("https://mineru.net/api/v4/extract/task");
-            httpPost.setHeader("Authorization", "Bearer " + "sk-8JOG6hEITFRNTvdJrzVpIvntdZKVAcgvxrRxHR1T206K7jik");
-
-            Map<String, Object> requestBody = new HashMap<>();
-            requestBody.put("url", "https://pdf.hanspub.org/ae20240300000_67060058.pdf"); // 请替换为实际文件URL
-            requestBody.put("model_version", "vlm");
-            String jsonBody = JSON.toJSONString(requestBody);
-            httpPost.setEntity(new StringEntity(jsonBody, org.apache.hc.core5.http.ContentType.APPLICATION_JSON));
-
-            try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
-                HttpEntity respEntity = response.getEntity();
-                String respJson = EntityUtils.toString(respEntity, StandardCharsets.UTF_8);
-                EntityUtils.consume(respEntity);
-
-                JSONObject jsonObj = JSON.parseObject(respJson);
-                if (!Integer.valueOf(0).equals(jsonObj.getInteger("code"))) {
-                    throw new RuntimeException("提交MinerU任务失败：" + respJson);
-                }
-                JSONObject data = jsonObj.getJSONObject("data");
-                taskId = data.getString("task_id");
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("提交任务异常", e);
-        }
-
-        // 2. 轮询查询任务状态
-        String zipUrl = null;
-        int pollCount = 0;
-        int MAX_POLL_COUNT = 60;
-        long POLL_INTERVAL = 30000;
-        while (pollCount < MAX_POLL_COUNT) {
-            pollCount++;
-            try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-                String taskUrl = "https://mineru.net/api/v4/extract/task/" + taskId;
-                org.apache.hc.client5.http.classic.methods.HttpGet httpGet = new org.apache.hc.client5.http.classic.methods.HttpGet(taskUrl);
-                httpGet.setHeader("Authorization", "Bearer " + "sk-8JOG6hEITFRNTvdJrzVpIvntdZKVAcgvxrRxHR1T206K7jik");
-
-                try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
-                    HttpEntity respEntity = response.getEntity();
-                    String respJson = EntityUtils.toString(respEntity, StandardCharsets.UTF_8);
-                    EntityUtils.consume(respEntity);
-                    JSONObject jsonObj = JSON.parseObject(respJson);
-                    if (!Integer.valueOf(0).equals(jsonObj.getInteger("code"))) {
-                        throw new RuntimeException("查询任务状态失败：" + respJson);
-                    }
-                    JSONObject data = jsonObj.getJSONObject("data");
-                    String state = data.getString("state");
-                    if ("done".equals(state)) {
-                        zipUrl = data.getString("full_zip_url");
-                        break;
-                    }
-                    if ("failed".equals(state)) {
-                        throw new RuntimeException("MinerU任务解析失败：" + jsonObj.getString("err_msg"));
-                    }
-                }
-            } catch (Exception e) {
-                throw new RuntimeException("轮询任务状态异常", e);
-            }
-            try {
-                Thread.sleep(POLL_INTERVAL);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new RuntimeException("轮询中断", e);
-            }
-        }
-        if (zipUrl == null) {
-            throw new RuntimeException("任务超时，超过最大轮询次数");
-        }
-
-        // 3. 下载zip二进制，返回byte[]
-        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            org.apache.hc.client5.http.classic.methods.HttpGet httpGet = new org.apache.hc.client5.http.classic.methods.HttpGet(zipUrl);
-            try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
-                HttpEntity respEntity = response.getEntity();
-                byte[] zipBytes = EntityUtils.toByteArray(respEntity);
-                EntityUtils.consume(respEntity);
-                return zipBytes;
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("下载zip失败", e);
-        }
-    }
-
-    /**
      * 调用 MinerU 文档解析接口，返回zip，有图片
      * 使用 Apache HttpClient 5，支持流式下载大文件
      *
@@ -666,6 +579,257 @@ public abstract class MinerUProcessBaseServiceImpl implements FileProcessService
         } finally {
             closeQuietly(fileStream);
         }
+    }
+
+    /**
+     * 调用 MinerU V1 API（4.0+ 新版接口），返回 ZIP（包含 Markdown 和图片）
+     * 旧版 /file_parse 接口已在 MinerU 4.0 移除，新流程为：
+     * 创建上传会话 -> 上传字节 -> 完成上传 -> 创建解析任务 -> 轮询任务终态 -> 下载 ZIP 产物
+     * 参考: https://opendatalab.github.io/MinerU/zh/usage/http_api/
+     *
+     * @param fileName   文件名（需保留扩展名，用于文件类型识别）
+     * @param fileStream 文件输入流
+     * @return ZIP 文件字节数组
+     */
+    private byte[] parseDocumentToZipV1(String fileName, InputStream fileStream) {
+        log.info("开始调用文件解析接口（V1 ZIP 模式）: {}", fileParseApiUrl);
+
+        try (CloseableHttpClient httpClient = createV1HttpClient()) {
+            // 创建上传会话需要提前告知文件大小，先读取全部字节
+            byte[] fileBytes = fileStream.readAllBytes();
+
+            // 1. 创建上传会话
+            JSONObject upload = createUploadSession(httpClient, fileName, fileBytes);
+
+            // 2. 上传字节并完成上传，得到 file_id（命中秒传时跳过上传两步）
+            String fileId = uploadFileAndGetFileId(httpClient, upload, fileBytes);
+
+            // 3. 创建解析任务，输出格式为 zip
+            String jobId = createParseJob(httpClient, fileId);
+
+            // 4. 轮询任务状态直到终态
+            JSONObject job = pollParseJob(httpClient, jobId);
+
+            // 5. 提取 zip 产物并下载
+            String zipFileId = extractZipFileId(job);
+            byte[] zipBytes = downloadFileContent(httpClient, zipFileId);
+            log.info("文件解析接口调用成功，ZIP 文件大小: {} bytes", zipBytes.length);
+            return zipBytes;
+        } catch (Exception e) {
+            log.error("调用文件解析接口异常", e);
+            throw new RuntimeException("调用文件解析接口失败: " + e.getMessage(), e);
+        } finally {
+            closeQuietly(fileStream);
+        }
+    }
+
+    /**
+     * 创建 V1 HTTP 客户端，复用统一超时配置
+     */
+    private CloseableHttpClient createV1HttpClient() {
+        RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(Timeout.ofMilliseconds(connectTimeout)).setResponseTimeout(Timeout.ofMilliseconds(responseTimeout)).build();
+        return HttpClients.custom().setDefaultRequestConfig(requestConfig).build();
+    }
+
+    /**
+     * 创建上传会话: POST /v1/uploads
+     */
+    private JSONObject createUploadSession(CloseableHttpClient httpClient, String fileName, byte[] fileBytes) throws Exception {
+        String url = fileParseApiUrl + "/v1/uploads";
+
+        JSONObject body = new JSONObject();
+        body.put("filename", fileName);
+        body.put("bytes", fileBytes.length);
+        body.put("mime_type", guessMimeType(fileName));
+        body.put("purpose", "parse");
+
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.setEntity(new StringEntity(body.toString(), org.apache.hc.core5.http.ContentType.APPLICATION_JSON));
+
+        JSONObject response = JSON.parseObject(executeExpectingOk(httpClient, httpPost, url));
+        Assert.notNull(response, "创建上传会话失败：响应为空");
+        return response;
+    }
+
+    /**
+     * 上传原始字节并完成上传，返回 file_id
+     * 创建上传响应状态为 completed 且携带 file 对象时为秒传，跳过字节上传和完成两步
+     */
+    private String uploadFileAndGetFileId(CloseableHttpClient httpClient, JSONObject upload, byte[] fileBytes) throws Exception {
+        // 秒传：文件已存在，直接返回 file_id
+        JSONObject file = upload.getJSONObject("file");
+        if (file != null && "completed".equals(upload.getString("status"))) {
+            log.info("文件秒传命中，跳过字节上传: {}", file.getString("id"));
+            return file.getString("id");
+        }
+
+        String uploadId = upload.getString("id");
+        Assert.hasText(uploadId, "创建上传会话失败：响应中缺少 upload_id");
+
+        // 上传原始字节：按响应返回的 upload_url 执行（相对路径基于 API 基地址解析）
+        String uploadUrl = resolveApiUrl(upload.getString("upload_url"));
+        Assert.notNull(uploadUrl, "创建上传会话失败：响应中缺少 upload_url");
+        HttpPut httpPut = new HttpPut(uploadUrl);
+        httpPut.setEntity(new ByteArrayEntity(fileBytes, org.apache.hc.core5.http.ContentType.APPLICATION_OCTET_STREAM));
+
+        // 响应返回的上传请求头原样附加（本地匿名部署无需鉴权头）
+        JSONObject uploadHeaders = upload.getJSONObject("upload_headers");
+        if (uploadHeaders != null) {
+            for (Map.Entry<String, Object> entry : uploadHeaders.entrySet()) {
+                httpPut.setHeader(entry.getKey(), String.valueOf(entry.getValue()));
+            }
+        }
+        executeExpectingOk(httpClient, httpPut, uploadUrl);
+        log.info("文件字节上传完成: {}", uploadId);
+
+        // 完成上传: POST /v1/uploads/{upload_id}/complete
+        String completeUrl = fileParseApiUrl + "/v1/uploads/" + uploadId + "/complete";
+        HttpPost completePost = new HttpPost(completeUrl);
+        JSONObject completed = JSON.parseObject(executeExpectingOk(httpClient, completePost, completeUrl));
+        JSONObject fileObject = completed != null ? completed.getJSONObject("file") : null;
+        Assert.notNull(fileObject, "完成上传失败：响应中缺少 file 对象");
+        return fileObject.getString("id");
+    }
+
+    /**
+     * 创建解析任务: POST /v1/parse/jobs
+     * tier=basic 对应旧版 backend=pipeline（本地轻量模型流程），输出格式为 zip
+     */
+    private String createParseJob(CloseableHttpClient httpClient, String fileId) throws Exception {
+        String url = fileParseApiUrl + "/v1/parse/jobs";
+
+        JSONObject source = new JSONObject();
+        source.put("type", "file_id");
+        source.put("file_id", fileId);
+        JSONObject fileEntry = new JSONObject();
+        fileEntry.put("source", source);
+
+        JSONObject body = new JSONObject();
+        body.put("files", List.of(fileEntry));
+        body.put("tier", "basic");
+        body.put("output_formats", List.of("zip"));
+
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.setEntity(new StringEntity(body.toString(), org.apache.hc.core5.http.ContentType.APPLICATION_JSON));
+
+        JSONObject response = JSON.parseObject(executeExpectingOk(httpClient, httpPost, url));
+        String jobId = response != null ? response.getString("job_id") : null;
+        Assert.hasText(jobId, "创建解析任务失败：响应中缺少 job_id");
+        log.info("解析任务已创建: {}", jobId);
+        return jobId;
+    }
+
+    /**
+     * 轮询解析任务状态: GET /v1/parse/jobs/{job_id}
+     * 终态: completed、partial、failed、canceled；轮询超时后任务仍在服务端执行，可凭 job_id 继续轮询
+     */
+    private JSONObject pollParseJob(CloseableHttpClient httpClient, String jobId) throws Exception {
+        String url = fileParseApiUrl + "/v1/parse/jobs/" + jobId;
+        long deadline = System.currentTimeMillis() + pollTimeoutMs;
+
+        while (true) {
+            HttpGet httpGet = new HttpGet(url);
+            JSONObject job = JSON.parseObject(executeExpectingOk(httpClient, httpGet, url));
+            Assert.notNull(job, "查询解析任务失败：响应为空");
+            String status = job.getString("status");
+            log.info("解析任务状态: {} -> {}", jobId, status);
+
+            if ("completed".equals(status) || "partial".equals(status)) {
+                return job;
+            }
+            if ("failed".equals(status) || "canceled".equals(status)) {
+                throw new RuntimeException("解析任务异常终态: " + status + ", " + job);
+            }
+
+            if (System.currentTimeMillis() + pollIntervalMs > deadline) {
+                throw new RuntimeException("轮询解析任务超时，任务未取消，可凭 job_id 继续轮询: " + jobId);
+            }
+            Thread.sleep(pollIntervalMs);
+        }
+    }
+
+    /**
+     * 从任务结果中提取 zip 产物的 file_id
+     */
+    private String extractZipFileId(JSONObject job) {
+        Assert.notEmpty(job.getJSONArray("files"), "解析任务结果中缺少文件信息");
+        JSONObject file = job.getJSONArray("files").getJSONObject(0);
+
+        if (!"completed".equals(file.getString("status"))) {
+            JSONObject error = file.getJSONObject("error");
+            throw new RuntimeException("文件解析失败: " + (error != null ? error.getString("message") : file.getString("status")));
+        }
+
+        JSONObject outputFiles = file.getJSONObject("output_files");
+        JSONObject zip = outputFiles != null ? outputFiles.getJSONObject("zip") : null;
+        Assert.notNull(zip, "解析结果中缺少 zip 产物");
+        return zip.getString("file_id");
+    }
+
+    /**
+     * 下载产物内容: GET /v1/files/{file_id}/content
+     * 可能返回 302 重定向，HttpClient 默认自动跟随
+     */
+    private byte[] downloadFileContent(CloseableHttpClient httpClient, String fileId) throws Exception {
+        String url = fileParseApiUrl + "/v1/files/" + fileId + "/content";
+        HttpGet httpGet = new HttpGet(url);
+
+        try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+            int statusCode = response.getCode();
+            HttpEntity responseEntity = response.getEntity();
+            if (statusCode == 200 && responseEntity != null) {
+                return EntityUtils.toByteArray(responseEntity);
+            }
+            String responseBody = responseEntity != null ? EntityUtils.toString(responseEntity, "UTF-8") : "";
+            log.error("下载解析产物失败，状态码: {}, 响应: {}", statusCode, responseBody);
+            throw new RuntimeException("下载解析产物失败: HTTP " + statusCode + ", " + responseBody);
+        }
+    }
+
+    /**
+     * 执行请求并校验响应为 2xx，返回响应体文本
+     */
+    private String executeExpectingOk(CloseableHttpClient httpClient, HttpUriRequestBase request, String url) throws Exception {
+        try (CloseableHttpResponse response = httpClient.execute(request)) {
+            int statusCode = response.getCode();
+            HttpEntity responseEntity = response.getEntity();
+            String responseBody = responseEntity != null ? EntityUtils.toString(responseEntity, "UTF-8") : "";
+            if (statusCode >= 200 && statusCode < 300) {
+                return responseBody;
+            }
+            log.error("接口调用失败，url: {}, 状态码: {}, 响应: {}", url, statusCode, responseBody);
+            throw new RuntimeException("接口调用失败: HTTP " + statusCode + ", " + responseBody);
+        }
+    }
+
+    /**
+     * 解析服务端返回的接口地址：相对路径基于 API 基地址解析
+     */
+    private String resolveApiUrl(String url) {
+        if (url == null) {
+            return null;
+        }
+        if (url.startsWith("http://") || url.startsWith("https://")) {
+            return url;
+        }
+        String base = fileParseApiUrl.endsWith("/") ? fileParseApiUrl.substring(0, fileParseApiUrl.length() - 1) : fileParseApiUrl;
+        return base + (url.startsWith("/") ? url : "/" + url);
+    }
+
+    /**
+     * 根据文件名推断 MIME 类型
+     */
+    private String guessMimeType(String fileName) {
+        String lowerName = fileName.toLowerCase();
+        if (lowerName.endsWith(".pdf")) return "application/pdf";
+        if (lowerName.endsWith(".doc")) return "application/msword";
+        if (lowerName.endsWith(".docx")) return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+        if (lowerName.endsWith(".ppt")) return "application/vnd.ms-powerpoint";
+        if (lowerName.endsWith(".pptx")) return "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+        if (lowerName.endsWith(".html")) return "text/html";
+        if (lowerName.endsWith(".png")) return "image/png";
+        if (lowerName.endsWith(".jpg") || lowerName.endsWith(".jpeg")) return "image/jpeg";
+        return "application/octet-stream";
     }
 
     /**
