@@ -2,17 +2,14 @@
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/know_engine?useUnicode=true&characterEncoding=UTF-8  # 记得改成你自己的
+    url: jdbc:mysql://192.168.124.6:3306/know_engine?useUnicode=true&characterEncoding=UTF-8  # 记得改成你自己的
     username: root  # 记得改成你自己的
     password: 1220.dbggl.mysql  # 记得改成你自己的
     driver-class-name: com.mysql.cj.jdbc.Driver
-#  data:
-#    redis:
-#      host: localhost
-#      port: 6379
-#      password: knowengine
-#      ssl:
-#        enabled: true
+  data:
+    redis:
+      host: 192.168.124.6
+      port: 6379
 #  redis:
 #    redisson:
 #      config: |
@@ -38,11 +35,11 @@ spring:
 #        transportMode: "NIO"
 
 minio:
-  url: http://localhost:9000 # 预留，返回给前端访问文件（endpoint连接可能是内网的）
+  url: http://127.0.0.1:9000 # 预留，返回给前端访问文件（endpoint连接可能是内网的）
   access-key: minioadmin # 记得改成你自己的
   secret-key: minioadmin # 记得改成你自己的
   bucketName: know-engine # 记得改成你自己的
-  endpoint: http://localhost:9000 # 记得改成你自己的
+  endpoint: http://127.0.0.1:9000 # 记得改成你自己的
 
 # MyBatis-Plus 配置
 mybatis-plus:
@@ -53,7 +50,7 @@ mybatis-plus:
 file:
   parse:
     api:
-      url: https://mineru.net/api/v4/extract/task # 文档解析接口地址，记得改成你自己的
+      url: http://127.0.0.1:8000 # 文档解析接口地址，记得改成你自己的
 
 langchain4j:
   open-ai:
@@ -69,3 +66,10 @@ langchain4j:
       base-url: https://dashscope.aliyuncs.com/compatible-mode/v1
       log-requests: true
       log-responses: true
+    # 图片描述用的视觉模型（必须是视觉理解模型，如 qwen3-vl-plus / qwen-vl-max；
+    # 纯文本、向量模型会报 404；qwen-image-* 是文生图模型，走 chat 接口会长时间无响应导致读超时）
+    # 未配置 api-key / base-url 时默认复用上面 chat-model 的配置
+    vision-model:
+      model-name: qwen3.8-omni-flash
+      # 单次请求超时（秒）：langchain4j 默认读超时仅 60s，大图生成描述可能不够
+      timeout-seconds: 180

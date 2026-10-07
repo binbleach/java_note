@@ -16,7 +16,7 @@ public class HttpClientCaller {
         //Text block literals（文本块，用 """ 多行字符串）是 Java 15 正式引入 的语法
         String requestBody = """
                 {
-                    "model": "qwen3.7-plus",
+                    "model": "qwen3.8-flash",
                     "messages": [
                         {
                             "role": "system",

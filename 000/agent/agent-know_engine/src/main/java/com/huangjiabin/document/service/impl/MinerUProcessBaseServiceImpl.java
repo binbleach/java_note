@@ -41,9 +41,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.Duration;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -60,6 +63,11 @@ import static com.huangjiabin.document.constant.ContentType.ZIP;
 public abstract class MinerUProcessBaseServiceImpl implements FileProcessService {
 
     private static final String CONVERTED_FILE_DIR = "converted/";
+
+    /** 解析服务可识别的文件扩展名（小写，不含点号），用于为无扩展名的文档标题补全文件名 */
+    private static final Set<String> KNOWN_EXTENSIONS = Set.of(
+            "pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "html", "htm",
+            "png", "jpg", "jpeg", "gif", "bmp", "webp", "md", "txt", "csv");
 
     @Autowired
     private FileStorageService fileStorageService;
@@ -213,11 +221,11 @@ public abstract class MinerUProcessBaseServiceImpl implements FileProcessService
         String extractDir = null;
 
         try {
-            // V1 API 的文件名通过 JSON（UTF-8）传输不会乱码，直接使用原始文件名（需保留扩展名用于文件类型识别）
-            String docTitle = document.getDocTitle();
+            // V1 API 按文件名扩展名识别文件类型，docTitle 是无扩展名的标题，需从 docUrl 补齐
+            String parseFileName = buildParseFileName(document);
 
             // 1. 调用文档解析获取 ZIP 格式响应（V1 API）
-            byte[] zipBytes = parseDocumentToZipV1(docTitle, inputStream); //本地部署
+            byte[] zipBytes = parseDocumentToZipV1(parseFileName, inputStream); //本地部署
 
             // 2. 保存 ZIP 到本地临时目录
             String tempDir = System.getProperty("java.io.tmpdir");
@@ -316,8 +324,9 @@ public abstract class MinerUProcessBaseServiceImpl implements FileProcessService
 
         log.info("找到 Markdown 文件: {}, 图片文件数量: {}", mdFile, imageFiles.size());
 
-        // 上传图片到 MinIO，并建立本地文件名到 MinIO URL 的映射
+        // 上传图片到 MinIO，并建立本地文件名到 MinIO URL、图片字节的映射
         java.util.Map<String, String> imageUrlMap = new java.util.HashMap<>();
+        java.util.Map<String, byte[]> imageBytesMap = new java.util.HashMap<>();
         String baseObjectName = CONVERTED_FILE_DIR + document.getDocTitle() + "/";
 
         for (Path imagePath : imageFiles) {
@@ -327,6 +336,8 @@ public abstract class MinerUProcessBaseServiceImpl implements FileProcessService
             String objectName = baseObjectName + "images/" + imageName;
             String imageUrl = fileStorageService.uploadFile(objectName, imageBytes, contentType);
             imageUrlMap.put(imageName, imageUrl);
+            // 保留图片字节，生成描述时直接传给模型（本地 MinIO 地址外部模型访问不到）
+            imageBytesMap.put(imageName, imageBytes);
             log.info("图片已上传到 MinIO: {} -> {}", imageName, imageUrl);
         }
 
@@ -334,7 +345,7 @@ public abstract class MinerUProcessBaseServiceImpl implements FileProcessService
         String mdContent = Files.readString(mdFile, StandardCharsets.UTF_8);
 
         // 替换 md 中的图片地址为 MinIO 地址，并生成图片描述
-        String processedMdContent = processMarkdownImages(mdContent, imageUrlMap);
+        String processedMdContent = processMarkdownImages(mdContent, imageUrlMap, imageBytesMap);
 
         // 上传处理后的 md 文件到 MinIO
         String mdObjectName = baseObjectName + mdFile.getFileName().toString();
@@ -360,8 +371,11 @@ public abstract class MinerUProcessBaseServiceImpl implements FileProcessService
     /**
      * 处理 Markdown 中的图片标签：替换地址并生成图片描述
      * 匹配格式: ![](xxx.png) 或 ![alt](xxx.png)
+     *
+     * @param imageUrlMap   图片名 -> MinIO URL
+     * @param imageBytesMap 图片名 -> 图片字节（生成描述时直接传给模型）
      */
-    private String processMarkdownImages(String mdContent, java.util.Map<String, String> imageUrlMap) {
+    private String processMarkdownImages(String mdContent, java.util.Map<String, String> imageUrlMap, java.util.Map<String, byte[]> imageBytesMap) {
         // 匹配图片标签的正则表达式: ![alt](path)
         Pattern pattern = Pattern.compile("!\\[(.*?)\\]\\(([^)]+)\\)");
         Matcher matcher = pattern.matcher(mdContent);
@@ -383,8 +397,8 @@ public abstract class MinerUProcessBaseServiceImpl implements FileProcessService
                 continue;
             }
 
-            // 生成图片描述（mock 实现）
-            String imageDescription = generateImageDescription(minioUrl);
+            // 生成图片描述：直接传图片字节（base64 内联给模型），不依赖本地 MinIO 地址可达性
+            String imageDescription = generateImageDescription(imageName, imageBytesMap.get(imageName));
 
             // 构建新的图片标签: ![描述](minio_url)
             String newImageTag = "![" + imageDescription + "](" + minioUrl + ")";
@@ -397,27 +411,44 @@ public abstract class MinerUProcessBaseServiceImpl implements FileProcessService
         return result.toString();
     }
 
-    @Value("${langchain4j.open-ai.chat-model.api-key}")
-    private String chatModelApiKey;
+    /** 图片描述使用的视觉模型配置（必须支持图片输入；未配置 api-key / base-url 时默认复用 chat-model 的） */
+    @Value("${langchain4j.open-ai.vision-model.api-key:${langchain4j.open-ai.chat-model.api-key}}")
+    private String visionModelApiKey;
 
-    @Value("${langchain4j.open-ai.chat-model.base-url}")
-    private String chatModelBaseUrl;
+    @Value("${langchain4j.open-ai.vision-model.base-url:${langchain4j.open-ai.chat-model.base-url}}")
+    private String visionModelBaseUrl;
+
+    @Value("${langchain4j.open-ai.vision-model.model-name:qwen3-vl-plus}")
+    private String visionModelName;
+
+    /** 视觉模型单次请求超时（秒）：langchain4j 默认读超时仅 60s，大图生成描述可能不够 */
+    @Value("${langchain4j.open-ai.vision-model.timeout-seconds:180}")
+    private int visionModelTimeoutSeconds;
 
     /**
      * 生成图片描述
-     * 需要注意的是，如果你用的是外部的模型，这个url需要是公网可以访问的url。否则模型需要能和MinIO进行内网通信。
+     * 图片直接传字节内容（base64 内联）给视觉模型，而不是传 MinIO 地址：
+     * 本地 MinIO 的地址（如 127.0.0.1:9000）外部模型无法访问，传 URL 会调用失败。
+     *
+     * @param imageName  图片文件名，用于推断 MIME 类型
+     * @param imageBytes 图片字节内容
      */
-    public String generateImageDescription(String imageUrl) {
+    public String generateImageDescription(String imageName, byte[] imageBytes) {
         OpenAiChatModel chatModel = OpenAiChatModel.builder()
-                .apiKey(chatModelApiKey)
-                .baseUrl(chatModelBaseUrl)
-                .modelName("text-embedding-v4")
+                .apiKey(visionModelApiKey)
+                .baseUrl(visionModelBaseUrl)
+                .modelName(visionModelName)
+                // 未显式设置时 langchain4j 默认读超时仅 60s，视觉模型描述大图容易超时
+                .timeout(Duration.ofSeconds(visionModelTimeoutSeconds))
                 .temperature(0.7)
                 .logResponses(true)
                 .logRequests(true)
                 .build();
 
-        UserMessage userMessage = UserMessage.from(new TextContent("请描述这张图片的内容，包括场景、对象、布局、颜色、文字信息，直接输出纯文本描述，不要多余说明，不要增加任何特殊符号，特别是换行符"), new ImageContent(imageUrl));
+        // 本地图片字节转 base64 内联传给视觉模型（不依赖模型端访问 MinIO 地址）
+        String base64Data = Base64.getEncoder().encodeToString(imageBytes);
+        ImageContent imageContent = new ImageContent(base64Data, getImageContentType(imageName));
+        UserMessage userMessage = UserMessage.from(new TextContent("请描述这张图片的内容，包括场景、对象、布局、颜色、文字信息，直接输出纯文本描述，不要多余说明，不要增加任何特殊符号，特别是换行符"), imageContent);
         return chatModel.chat(userMessage).aiMessage().text();
     }
 
@@ -830,6 +861,44 @@ public abstract class MinerUProcessBaseServiceImpl implements FileProcessService
         if (lowerName.endsWith(".png")) return "image/png";
         if (lowerName.endsWith(".jpg") || lowerName.endsWith(".jpeg")) return "image/jpeg";
         return "application/octet-stream";
+    }
+
+    /**
+     * 构造传给解析服务的文件名：标题不带扩展名时，从 docUrl 中提取扩展名补齐
+     * MinerU 4.0 按文件名扩展名识别文件类型，无扩展名会返回 "Unsupported file type"
+     */
+    private String buildParseFileName(KnowledgeDocument document) {
+        String docTitle = document.getDocTitle();
+        // 标题已带合法扩展名，直接使用
+        if (extractValidExtension(docTitle) != null) {
+            return docTitle;
+        }
+        // 否则从文档 URL 提取扩展名补齐
+        String extension = extractValidExtension(document.getDocUrl());
+        Assert.hasText(extension, "无法从文档地址中识别文件扩展名: " + document.getDocUrl());
+        return docTitle + "." + extension;
+    }
+
+    /**
+     * 提取已知的文档扩展名（不含点号），无扩展名或非已知类型返回 null；兼容带查询参数的 URL
+     */
+    private String extractValidExtension(String nameOrUrl) {
+        if (nameOrUrl == null) {
+            return null;
+        }
+        // 去掉 URL 上的查询参数
+        String path = nameOrUrl;
+        int queryIndex = path.indexOf('?');
+        if (queryIndex > 0) {
+            path = path.substring(0, queryIndex);
+        }
+        int dotIndex = path.lastIndexOf('.');
+        int slashIndex = path.lastIndexOf('/');
+        if (dotIndex < 0 || dotIndex <= slashIndex || dotIndex == path.length() - 1) {
+            return null;
+        }
+        String extension = path.substring(dotIndex + 1).toLowerCase();
+        return KNOWN_EXTENSIONS.contains(extension) ? extension : null;
     }
 
     /**
