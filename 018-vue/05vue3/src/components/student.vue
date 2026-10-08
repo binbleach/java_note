@@ -8,22 +8,26 @@
     <button @click="checkTel">查看电话</button>
   </div>
 </template>
-
+<!--
+  vue2是选项式API写法：功能拆散在data()、methods、watch里，不便维护和复用
+  vue3是组合式API写法：将功能从data()、methods、watch抽取成一个function，功能独立好维护。（vue3也支持选项式）
+  1、setup()是vue3组合式 API 的入口函数，可以在setup()里定义数据和方法
+-->
 <script lang="ts">
 export default {
   name: "student",
   data(){
     return {
-      d: this.name //1、vue2里的data是可以读到setup返回的那么的（旧可以用新，新不可以用旧）
+      d: this.name //2、vue2里的data()是可以读到setup()返回的数据的（旧可以用新，新不可以用旧）
     }
   },
   setup(){
-    // 2、setup函数里的this是undefined,vue3弱化了this。
+    // 3、setup函数里的this是undefined，vue3弱化了this。不能用this调用vue2里的data()数据
     let name = '黄家宾'
     let age = 25
     let tel = '188....9328'
     function changeName() {
-      name += '对' //3、这里的值不是响应式的，修改也没用，显示并没变
+      name += '对' //4、这里的值不是响应式的，修改也没用，显示并没变
     }
     function addAge(){
       age++
@@ -32,7 +36,7 @@ export default {
       alert(tel)
     }
     return {name,age,changeName,addAge,checkTel}
-    //4、setup的返回值可以是渲染函数，会直接渲染haha，template都不重要了
+    //5、setup()的返回值可以是渲染函数，会直接渲染'哈哈'，<template>都不重要了
     // return function () {return '哈哈'}
   }
 }

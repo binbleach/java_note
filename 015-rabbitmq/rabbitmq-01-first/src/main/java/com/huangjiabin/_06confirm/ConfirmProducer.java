@@ -3,6 +3,7 @@ package com.huangjiabin._06confirm;
 import com.huangjiabin.utils.RabbitMqUtils;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.ConfirmCallback;
+import com.rabbitmq.client.ConfirmListener;
 import com.rabbitmq.client.MessageProperties;
 
 import java.io.IOException;
@@ -105,6 +106,13 @@ public class ConfirmProducer {
 
         //添加监听器
         channel.addConfirmListener(ackCallback, nackCallback);
+        // 另一种写法
+//        channel.addConfirmListener(new ConfirmListener() {
+//            @Override
+//            public void handleAck(long deliveryTag, boolean multiple) {}
+//            @Override
+//            public void handleNack(long deliveryTag, boolean multiple) {}
+//        });
         Long starTIme=System.currentTimeMillis();
         for(int i=0;i<1000;i++){
             String message = "信息"+i;
