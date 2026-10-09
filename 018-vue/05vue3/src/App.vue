@@ -1,14 +1,14 @@
 <template>
-  <Student/>
-  <Student2/>
+  <setup/>
+  <ref/>
 </template>
 
 <script lang="ts">
-import Student from "./components/student.vue";
-import Student2 from "./components/student2.vue";
+import setup from "./components/_01setup.vue";
+import ref from "./components/_02ref.vue";
 
 export default {
-  components: {Student,Student2}
+  components: {setup, ref}
 }
 </script>
 
