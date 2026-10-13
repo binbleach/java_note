@@ -33,25 +33,36 @@
     2）reactive：只能作用于对象类型，会生成Proxy对象。
     注意：
     1）ref需要.value去调用属性，可以设置Volar插件自动添加
-    2）reactive不能直接改对象，可以整体改属性Object.assign(car,newCar)；ref可以：car.value = newCar
-      同样的ref不能：age = ref(9)
+    2）reactive设置的响应式对象不能直接=newCar，会变成非响应式对象，可以Object.assign(car,newCar)
+      ref设置的响应式对象可以：car.value = newCar
+  4、toRefs：可以解构响应式对象
 -->
 <script lang="ts" setup name="随便叫啥">
-  import {ref,reactive} from 'vue'
+  import {ref, reactive, toRefs, toRef} from 'vue'
   defineOptions({ name: '随便叫啥2' })
+  //基本类型 ref
   let name = '黄家宾'
   let age = ref(25)
   function addAge(){
     age.value++ //4、这里的值是响应式的，可以修改，但是要加.value（template不用加.value，模板展示会自动加）
   }
+  //对象类型 reactive
   let car = reactive({brand:'奔驰',price:200000})
   function bargain(){
     car.price -=500
   }
+  //对象类型 ref
   let car2 = ref({brand:'宝马',price:300000})
   function bargain2(){
     car2.value.price -=1000 //5.必须要.value去调用
   }
+  //解构响应式对象
+  let {brand, price} = toRefs(car)
+  console.log(brand, price)
+  price.value++
+  let price2 = toRef(car,'price') //解构单个响应式对象
+  console.log(price2.value)
+  console.log(car.price)
 </script>
 
 <style scoped>
